@@ -8,16 +8,17 @@ import {
   Container,
   Heading,
   Button,
-  ScrollView,
+  FlatList,
+  Box,
+  HStack,
+  Spacer,
 } from 'native-base';
-import ListLoader from './components/ListLoader';
-
-import DictListView from './components/DictListView';
-import {dao} from './olam-db/OlamDao';
+import {dbPathExists, OlamDBItem, typeMap} from './utils/DBHelper';
+import {TouchableOpacity} from 'react-native';
 
 export default function NikhanduLandingScreen() {
   const [query, setQuery] = React.useState('');
-  const [loading] = React.useState(false);
+  const [values, setVals] = React.useState<Array<OlamDBItem>>([]);
   const onSearchHandler = (queryVal: string) => {
     setQuery(queryVal);
   };
@@ -25,6 +26,20 @@ export default function NikhanduLandingScreen() {
   React.useEffect(() => {
     return () => {};
   }, [query]);
+
+  const onPressHandler = () => {
+    dbPathExists(query).then(
+      results => {
+        if (results) {
+          console.log(results);
+          setVals(results);
+        }
+      },
+      () => {
+        setVals([]);
+      },
+    );
+  };
 
   return (
     <NativeBaseProvider>
@@ -51,22 +66,64 @@ export default function NikhanduLandingScreen() {
               onSearchHandler(e);
             }}
             variant="underlined"
-            InputRightElement={
-              <Button
-                onPress={() => {
-                  dao();
-                }}>
-                Search
-              </Button>
-            }
+            InputRightElement={<Button onPress={onPressHandler}>Search</Button>}
           />
         </Center>
 
         <Center bg="#fff" rounded="md" w="100%">
-          {loading ? (
-            <ListLoader />
+          {values.length ? (
+            <>
+              <Container>
+                <Heading>
+                  Results for
+                  <Text color="emerald.500"> {query}</Text>
+                </Heading>
+              </Container>
+              <FlatList
+                width={'90%'}
+                height={'60%'}
+                data={values}
+                renderItem={({item}) => {
+                  let partofSp = typeMap.has(item.part_of_speech || '')
+                    ? typeMap.get(item.part_of_speech || '')
+                    : typeMap.get('unknown');
+
+                  return (
+                    <TouchableOpacity>
+                      <Box
+                        borderBottomWidth="1"
+                        marginTop={5}
+                        borderColor="muted.800"
+                        height={'50px'}>
+                        <HStack justifyContent="space-between">
+                          <VStack>
+                            <Text fontSize="sm" color="coolGray.800" bold>
+                              {item.malayalam_definition}
+                            </Text>
+                            <Text fontSize="xs" color="coolGray.600">
+                              {partofSp}
+                            </Text>
+                          </VStack>
+                          <Spacer />
+                        </HStack>
+                      </Box>
+                    </TouchableOpacity>
+                  );
+                }}
+                keyExtractor={(item, index) =>
+                  (index + '' + item?.part_of_speech || '-') +
+                  item._id +
+                  item.english_word
+                }
+              />
+            </>
           ) : (
-            <ScrollView w="90%">{/* <DictListView /> */}</ScrollView>
+            <Container>
+              <Heading>
+                No results found for
+                <Text color="red.500"> {query}</Text>
+              </Heading>
+            </Container>
           )}
         </Center>
       </VStack>
