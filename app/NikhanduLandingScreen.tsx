@@ -31,7 +31,6 @@ export default function NikhanduLandingScreen() {
     dbPathExists(query).then(
       results => {
         if (results) {
-          console.log(results);
           setVals(results);
         }
       },
@@ -43,7 +42,7 @@ export default function NikhanduLandingScreen() {
 
   return (
     <NativeBaseProvider>
-      <VStack space={4} alignItems="center" w="100%">
+      <VStack space={0} alignItems="center" w="100%">
         <Center h="20" bg="#fff" rounded="md" />
         <Center h="20" bg="#fff" rounded="md">
           <Container>
@@ -80,6 +79,7 @@ export default function NikhanduLandingScreen() {
                 </Heading>
               </Container>
               <FlatList
+                scrollsToTop={true}
                 width={'90%'}
                 height={'60%'}
                 data={values}
@@ -93,8 +93,21 @@ export default function NikhanduLandingScreen() {
                       <Box
                         borderBottomWidth="1"
                         marginTop={5}
-                        borderColor="muted.800"
-                        height={'50px'}>
+                        height={'50px'}
+                        overflow="hidden"
+                        borderColor="coolGray.200"
+                        borderWidth="1"
+                        _dark={{
+                          borderColor: 'coolGray.600',
+                          backgroundColor: 'gray.700',
+                        }}
+                        _web={{
+                          shadow: 2,
+                          borderWidth: 0,
+                        }}
+                        _light={{
+                          backgroundColor: 'gray.50',
+                        }}>
                         <HStack justifyContent="space-between">
                           <VStack>
                             <Text fontSize="sm" color="coolGray.800" bold>

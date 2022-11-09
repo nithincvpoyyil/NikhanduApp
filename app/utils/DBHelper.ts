@@ -1,6 +1,7 @@
 import RNFS from 'react-native-fs';
 import Realm from 'realm';
 import stem from '../stemmer/PorterStemmer';
+import {groupByEnglishWord} from './formatter';
 export type OlamDBItem = {
   _id: number;
   english_word: string;
@@ -24,7 +25,7 @@ export const typeMap = new Map([
   ['idm', 'ഭാഷാശൈലി  :idiom'],
   ['abbr', 'സംക്ഷേപം  :abbreviation'],
   ['auxv', 'പൂരകകൃതി  :auxiliary verb'],
-  ['unknow', ''],
+  ['unknown', ''],
 ]);
 
 const OlamDBSchema = {
@@ -38,7 +39,20 @@ const OlamDBSchema = {
   },
 };
 
-export async function dbPathExists(q: string): Promise<Array<OlamDBItem>> {
+const mapperFunction = (resultItem: OlamDBItem & Realm.Object<unknown>) => {
+  const {_id, english_word, malayalam_definition, part_of_speech} = resultItem;
+  const item: OlamDBItem = {
+    _id,
+    english_word,
+    malayalam_definition,
+    part_of_speech,
+  };
+  return item;
+};
+
+export async function dbPathExists(
+  queryString: string,
+): Promise<Array<OlamDBItem>> {
   Realm.copyBundledRealmFiles();
 
   let bundlePath = RNFS.MainBundlePath + '/olamDBNew.realm';
@@ -50,7 +64,8 @@ export async function dbPathExists(q: string): Promise<Array<OlamDBItem>> {
     schemaVersion: 5,
   });
 
-  let resultExact: Array<OlamDBItem> = [];
+  let similarResults: Array<OlamDBItem> = [];
+  let exactWordResults: Array<OlamDBItem> = [];
 
   try {
     if (!check1 || !check2) {
@@ -61,18 +76,25 @@ export async function dbPathExists(q: string): Promise<Array<OlamDBItem>> {
       schema: [OlamDBSchema],
       schemaVersion: 5,
     });
-    let stemWord = q;
-    resultExact = rdb
-      .objects<OlamDBItem>('OLAM_DB')
-      .filtered('english_word LIKE[c] $0 LIMIT(30)', stemWord, `*${stemWord}*`)
-      .map(i => ({
-        english_word: i.english_word,
-        malayalam_definition: i.malayalam_definition,
-        part_of_speech: i.part_of_speech,
-        _id: i._id,
-      })) as unknown as OlamDBItem[];
+    let query = (queryString || '').trim().toLowerCase();
+    let stemWord = stem(query);
+    let olamDB = rdb.objects<OlamDBItem>('OLAM_DB');
+
+    exactWordResults = olamDB
+      .filtered('english_word ==[c] $0 LIMIT(50)', query)
+      .map(mapperFunction);
+
+    similarResults = olamDB
+      .filtered(
+        'english_word LIKE[c] $0 && english_word !=[c] $1 LIMIT(50)',
+        `*${stemWord}*`,
+        query,
+      )
+      .map(mapperFunction);
     rdb.close();
-    return resultExact;
+    groupByEnglishWord(exactWordResults);
+    groupByEnglishWord(similarResults);
+    return [...exactWordResults, ...similarResults];
   } catch (e) {
     if (e instanceof Error) {
       let error = e as Error;
@@ -80,22 +102,4 @@ export async function dbPathExists(q: string): Promise<Array<OlamDBItem>> {
     }
   }
   return [];
-}
-export async function getRealmInstance(): Promise<Realm> {
-  let mainbundelPath = RNFS.MainBundlePath + '/olam1.realm';
-
-  return new Promise<Realm>(async (resolve, rejects) => {
-    // console.log(mainbundelPath);
-    try {
-      const realm = await Realm.open({
-        path: mainbundelPath,
-        schema: [OlamDBSchema],
-        schemaVersion: 5,
-      });
-      console.log(mainbundelPath);
-      resolve(realm);
-    } catch (error) {
-      rejects(error);
-    }
-  });
 }
