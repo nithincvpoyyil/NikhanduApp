@@ -9,6 +9,11 @@ export type OlamDBItem = {
   malayalam_definition: string;
 };
 
+export type GroupByDictWord = {
+  enList: Set<string>;
+  enMap: Map<string, any>;
+};
+
 export const typeMap = new Map([
   ['n', 'നാമം  :noun'],
   ['v', 'ക്രിയ  :verb'],
@@ -52,7 +57,7 @@ const mapperFunction = (resultItem: OlamDBItem & Realm.Object<unknown>) => {
 
 export async function dbPathExists(
   queryString: string,
-): Promise<Array<OlamDBItem>> {
+): Promise<{exactResults: GroupByDictWord; similarResults: GroupByDictWord}> {
   Realm.copyBundledRealmFiles();
 
   let bundlePath = RNFS.MainBundlePath + '/olamDBNew.realm';
@@ -81,7 +86,7 @@ export async function dbPathExists(
     let olamDB = rdb.objects<OlamDBItem>('OLAM_DB');
 
     exactWordResults = olamDB
-      .filtered('english_word ==[c] $0 LIMIT(50)', query)
+      .filtered('english_word ==[c] $0 LIMIT(30)', query)
       .map(mapperFunction);
 
     similarResults = olamDB
@@ -92,14 +97,20 @@ export async function dbPathExists(
       )
       .map(mapperFunction);
     rdb.close();
-    groupByEnglishWord(exactWordResults);
-    groupByEnglishWord(similarResults);
-    return [...exactWordResults, ...similarResults];
+    let exactResultsGrouped = groupByEnglishWord(exactWordResults);
+    let similarResultsGrouped = groupByEnglishWord(similarResults);
+    return {
+      exactResults: exactResultsGrouped,
+      similarResults: similarResultsGrouped,
+    };
   } catch (e) {
     if (e instanceof Error) {
       let error = e as Error;
       console.log(' | message:', error.message, ' | name:', e.name);
     }
   }
-  return [];
+  return {
+    exactResults: {enList: new Set(), enMap: new Map()},
+    similarResults: {enList: new Set(), enMap: new Map()},
+  };
 }

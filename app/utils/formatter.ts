@@ -1,4 +1,4 @@
-import {OlamDBItem} from './DBHelper';
+import {GroupByDictWord, OlamDBItem} from './DBHelper';
 
 function groupByPartOfSpeech(list: OlamDBItem[]) {
   let groupedByPOfS = new Map<string, Array<OlamDBItem>>();
@@ -16,8 +16,8 @@ function groupByPartOfSpeech(list: OlamDBItem[]) {
   return groupedByPOfS;
 }
 
-export function groupByEnglishWord(list: OlamDBItem[]) {
-  let formattedList = {
+export function groupByEnglishWord(list: OlamDBItem[]): GroupByDictWord {
+  let formattedList: GroupByDictWord = {
     enList: new Set<string>(),
     enMap: new Map(),
   };
