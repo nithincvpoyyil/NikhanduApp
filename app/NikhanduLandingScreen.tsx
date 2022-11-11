@@ -15,7 +15,7 @@ import {
 } from 'native-base';
 import {TouchableOpacity} from 'react-native';
 import {
-  dbPathExists,
+  getResultsFromDB,
   GroupByDictWord,
   OlamDBItem,
   typeMap,
@@ -118,7 +118,7 @@ export default function NikhanduLandingScreen() {
   }, [query]);
 
   const onPressHandler = () => {
-    dbPathExists(query).then(
+    getResultsFromDB(query).then(
       results => {
         console.log('result', results.exactResults.enList.size);
         setExactResults(results.exactResults);

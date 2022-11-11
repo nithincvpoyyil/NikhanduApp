@@ -55,7 +55,7 @@ const mapperFunction = (resultItem: OlamDBItem & Realm.Object<unknown>) => {
   return item;
 };
 
-export async function dbPathExists(
+export async function getResultsFromDB(
   queryString: string,
 ): Promise<{exactResults: GroupByDictWord; similarResults: GroupByDictWord}> {
   Realm.copyBundledRealmFiles();
