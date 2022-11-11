@@ -15,22 +15,22 @@ export type GroupByDictWord = {
 };
 
 export const typeMap = new Map([
-  ['n', 'നാമം  :noun'],
-  ['v', 'ക്രിയ  :verb'],
-  ['a', 'വിശേഷണം  :adjective'],
-  ['adv', 'ക്രിയാവിശേഷണം  :adverb'],
-  ['pron', 'സര്‍വ്വനാമം  :pronoun'],
-  ['propn', 'സംജ്ഞാനാമം  :proper noun'],
-  ['phrv', 'ഉപവാക്യ ക്രിയ  :phrasal verb'],
-  ['conj', 'അവ്യയം  :conjunction'],
-  ['interj', 'വ്യാക്ഷേപകം  :interjection'],
-  ['prep', 'ഉപസര്‍ഗം  :preposition'],
-  ['pfx', 'പൂർവ്വപ്രത്യയം  :prefix'],
-  ['sfx', 'പ്രത്യയം  :suffix'],
-  ['idm', 'ഭാഷാശൈലി  :idiom'],
-  ['abbr', 'സംക്ഷേപം  :abbreviation'],
-  ['auxv', 'പൂരകകൃതി  :auxiliary verb'],
-  ['unknown', ''],
+  ['n', 'നാമം (noun)'],
+  ['v', 'ക്രിയ  (verb)'],
+  ['a', 'വിശേഷണം (adjective)'],
+  ['adv', 'ക്രിയാവിശേഷണം (adverb)'],
+  ['pron', 'സര്‍വ്വനാമം (pronoun)'],
+  ['propn', 'സംജ്ഞാനാമം (proper noun)'],
+  ['phrv', 'ഉപവാക്യ ക്രിയ (phrasal verb)'],
+  ['conj', 'അവ്യയം (conjunction)'],
+  ['interj', 'വ്യാക്ഷേപകം (interjection)'],
+  ['prep', 'ഉപസര്‍ഗം (preposition)'],
+  ['pfx', 'പൂർവ്വപ്രത്യയം (prefix)'],
+  ['sfx', 'പ്രത്യയം (suffix)'],
+  ['idm', 'ഭാഷാശൈലി (idiom)'],
+  ['abbr', 'സംക്ഷേപം (abbreviation)'],
+  ['auxv', 'പൂരകകൃതി (auxiliary verb)'],
+  ['unknown', 'ശബ്‌ദഭേദം ഉൾപ്പെടുത്തിയിട്ടില്ല (part of speech undefined)'],
 ]);
 
 const OlamDBSchema = {
@@ -91,7 +91,7 @@ export async function getResultsFromDB(
 
     similarResults = olamDB
       .filtered(
-        'english_word LIKE[c] $0 && english_word !=[c] $1 LIMIT(50)',
+        'english_word LIKE[c] $0 && english_word !=[c] $1 LIMIT(25)',
         `*${stemWord}*`,
         query,
       )
