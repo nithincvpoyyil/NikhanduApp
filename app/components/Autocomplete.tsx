@@ -9,6 +9,7 @@ export default function AutoComplete(props: {
   const onSearchKeyPressHandler = () => {
     props.onSearchBtnPress(query);
   };
+
   const onSearchHandler = (text: string) => {
     setQuery(text);
     debouncedHandler(text);
@@ -22,15 +23,15 @@ export default function AutoComplete(props: {
   const debouncedHandler = React.useCallback(queryBackendDebounced, []);
 
   const inputRightEl = (
-    <Button onPress={onSearchKeyPressHandler}>
+    <Button onPress={onSearchKeyPressHandler} bg="tranparent" borderWidth={0}>
       <SearchIcon />
     </Button>
   );
   return (
-    <Container>
+    <Container w="100%">
       <Input
         size="2xl"
-        w="90%"
+        w="100%"
         placeholder="Type your english keyword"
         onChangeText={onSearchHandler}
         variant="underlined"

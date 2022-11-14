@@ -23,6 +23,7 @@ import {getResultsFromDB, GroupByDictWord} from './utils/DBHelper';
 import DisplayGroupedData from './components/DisplayGroupedData';
 import SimilarResultsHeading from './components/SimilarResultsHeading';
 import {TouchableHighlight, TouchableOpacity} from 'react-native';
+import AutoComplete from './components/Autocomplete';
 
 const getEmptyDictGrouped = (): GroupByDictWord => ({
   enList: new Set(),
@@ -46,8 +47,8 @@ export default function NikhanduLandingScreen() {
     return () => {};
   }, [query]);
 
-  const onPressHandler = () => {
-    getResultsFromDB(query).then(
+  const onPressHandler = (key: string) => {
+    getResultsFromDB(key).then(
       results => {
         setExactResults(results.exactResults);
         setSimilarResults(results.similarResults);
@@ -82,7 +83,7 @@ export default function NikhanduLandingScreen() {
             {isDark ? (
               <Circle size="40px" bg="primary.400">
                 <SunIcon />
-                <HamburgerIcon/>
+                <HamburgerIcon />
               </Circle>
             ) : (
               <Circle size="40px" bg="secondary.400">
@@ -103,17 +104,8 @@ export default function NikhanduLandingScreen() {
         </Box>
       </VStack>
       <VStack space={1} alignItems="center" w="100%" height={'70%'}>
-        <Center marginTop={'5%'} marginBottom={'5%'}>
-          <Input
-            size="2xl"
-            w="90%"
-            placeholder="Type your english keyword"
-            onChangeText={e => {
-              onSearchHandler(e);
-            }}
-            variant="underlined"
-            InputRightElement={<Button onPress={onPressHandler}> <SearchIcon/></Button>}
-          />
+        <Center w="100%" marginTop={'5%'} marginBottom={'5%'}>
+          <AutoComplete onSearchBtnPress={onPressHandler} />
         </Center>
 
         <ScrollView width={'100%'} scrollEnabled scrollsToTop>
