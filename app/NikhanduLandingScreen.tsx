@@ -8,137 +8,30 @@ import {
   Container,
   Heading,
   Button,
-  Box,
-  HStack,
-  Spacer,
   ScrollView,
+  Spacer,
+  HStack,
+  Box,
+  Circle,
+  CheckIcon,
+  MoonIcon,
+  SunIcon,
+  HamburgerIcon,
+  SearchIcon,
 } from 'native-base';
-import {
-  getResultsFromDB,
-  GroupByDictWord,
-  OlamDBItem,
-  typeMap,
-} from './utils/DBHelper';
+import {getResultsFromDB, GroupByDictWord} from './utils/DBHelper';
+import DisplayGroupedData from './components/DisplayGroupedData';
+import SimilarResultsHeading from './components/SimilarResultsHeading';
+import {TouchableHighlight, TouchableOpacity} from 'react-native';
 
 const getEmptyDictGrouped = (): GroupByDictWord => ({
   enList: new Set(),
   enMap: new Map(),
 });
 
-const getItemNode = (itemList: OlamDBItem[]) => {
-  return (
-    <HStack
-      space={2}
-      padding={'1'}
-      justifyContent="flex-start"
-      flexWrap={'wrap'}
-      width="100%">
-      {itemList.map(item => (
-        <Box
-          paddingTop={'1.5'}
-          paddingRight={'3'}
-          paddingBottom={'1.5'}
-          paddingLeft={'3'}
-          key={item._id}
-          borderBottomWidth="1"
-          marginTop={2}
-          height={'auto'}
-          overflow="hidden"
-          borderColor="coolGray.400"
-          borderRadius={'24px'}
-          borderWidth="1">
-          <Text fontSize="sm" color="coolGray.900" bold>
-            {item.malayalam_definition}
-          </Text>
-        </Box>
-      ))}
-    </HStack>
-  );
-};
-
-const getPartOfSpeech = (key: string) => {
-  return typeMap.has(key || '')
-    ? typeMap.get(key || '')
-    : typeMap.get('unknown');
-};
-
-const renderGroupedItem = (groupedPOfSMap: Map<string, OlamDBItem[]>) => {
-  let items = [];
-  for (let [key, valueList] of groupedPOfSMap) {
-    let list = (
-      <Box
-        key={key}
-        width="100%"
-        borderWidth="1"
-        borderColor="transparent"
-        padding="10px 10px">
-        <Text bold fontSize={'md'}>
-          {getPartOfSpeech(key)}
-        </Text>
-        {getItemNode(valueList)}
-      </Box>
-    );
-    items.push(list);
-  }
-  return items;
-};
-
-const renderGroupedData = (groupedData: GroupByDictWord, isExact: boolean) => {
-  if (groupedData.enList.size === 0) {
-    return null;
-  }
-  const {enList, enMap} = groupedData;
-  const groupedNode = [];
-  let index = 1;
-  let boxStyles = isExact
-    ? {width: '90%'}
-    : {
-        width: '90%',
-        marginTop: '5',
-      };
-  let enWordStyles = isExact
-    ? {fontSize: 'xl', padding: 1.5, bg: 'tertiary.100', bold: true}
-    : {fontSize: 'md', padding: 1, bg: 'info.100', bold: true};
-  let heading = !isExact ? (
-    <Heading
-      adjustsFontSizeToFit
-      marginBottom={'1.5'}
-      marginTop={'3'}
-      color="info.800"
-      padding={'1'}>
-      <Text fontSize={'md'}>സമാനമായ മറ്റ് വാക്കുകൾ</Text>
-      <Spacer />
-    </Heading>
-  ) : null;
-  for (let key of enList) {
-    let enWord = isExact ? key : `${index}. ${key}`;
-    const nodeItem = (
-      <Box
-        key={key}
-        width="100%"
-        borderWidth={'1'}
-        borderColor={'trueGray.200'}
-        marginTop="2"
-        marginBottom="2">
-        <Box>
-          <Text {...enWordStyles}>{enWord}</Text>
-        </Box>
-        {renderGroupedItem(enMap.get(key))}
-      </Box>
-    );
-    groupedNode.push(nodeItem);
-    index++;
-  }
-  return (
-    <Box {...boxStyles}>
-      {heading}
-      {groupedNode}
-    </Box>
-  );
-};
-
 export default function NikhanduLandingScreen() {
   const [query, setQuery] = React.useState('');
+  const [isDark, setDark] = React.useState(false);
   const [exactResults, setExactResults] = React.useState<GroupByDictWord>(
     getEmptyDictGrouped(),
   );
@@ -168,20 +61,49 @@ export default function NikhanduLandingScreen() {
 
   return (
     <NativeBaseProvider>
-      <VStack space={0} alignItems="center" w="100%">
-        <Center h="20" bg="#fff" rounded="md" />
-        <Center h="20" bg="#fff" rounded="md">
-          <Container>
-            <Heading>
-              Malayalam
-              <Text color="emerald.500"> Nikhandu</Text>
-            </Heading>
-            <Text mt="3" fontWeight="medium">
-              Malayalam dictionay based on Olam
-            </Text>
-          </Container>
-        </Center>
-        <Center h="20" bg="#fff" rounded="md">
+      <Box w="100%" h={'8%'} bg="red.200" />
+      <VStack
+        h={'17%'}
+        space={1}
+        alignItems="center"
+        w="100%"
+        bg="red.200"
+        display="flex"
+        justifyContent="center">
+        <HStack
+          w="100%"
+          flexWrap={'wrap'}
+          alignItems={'center'}
+          justifyContent={'flex-end'}>
+          <TouchableOpacity
+            onPress={() => {
+              setDark(!isDark);
+            }}>
+            {isDark ? (
+              <Circle size="40px" bg="primary.400">
+                <SunIcon />
+                <HamburgerIcon/>
+              </Circle>
+            ) : (
+              <Circle size="40px" bg="secondary.400">
+                <MoonIcon />
+              </Circle>
+            )}
+          </TouchableOpacity>
+        </HStack>
+
+        <Box>
+          <Heading>
+            Malayalam
+            <Text color="emerald.500"> Nikhandu</Text>
+          </Heading>
+          <Text mt="3" fontWeight="medium">
+            Malayalam dictionay based on Olam
+          </Text>
+        </Box>
+      </VStack>
+      <VStack space={1} alignItems="center" w="100%" height={'70%'}>
+        <Center marginTop={'5%'} marginBottom={'5%'}>
           <Input
             size="2xl"
             w="90%"
@@ -190,19 +112,40 @@ export default function NikhanduLandingScreen() {
               onSearchHandler(e);
             }}
             variant="underlined"
-            InputRightElement={<Button onPress={onPressHandler}>Search</Button>}
+            InputRightElement={<Button onPress={onPressHandler}> <SearchIcon/></Button>}
           />
         </Center>
-        <Center h="20" rounded="md" width={'100%'} height={'66%'}>
-          <ScrollView width={'100%'} scrollEnabled scrollsToTop>
-            <Center rounded="md" w="100%">
-              {renderGroupedData(exactResults, true)}
-              {renderGroupedData(similarResults, false)}
-            </Center>
-          </ScrollView>
-        </Center>
-        <Center h="20" bg="#fff" rounded="md" />
+
+        <ScrollView width={'100%'} scrollEnabled scrollsToTop>
+          <Center>
+            <DisplayGroupedData
+              groupedData={exactResults}
+              isExactResults={true}
+            />
+            <DisplayGroupedData
+              groupedData={similarResults}
+              isExactResults={false}
+              renderHeading={() => <SimilarResultsHeading />}
+            />
+          </Center>
+          <Center>
+            <Box w="100%" h={'50%'} />
+          </Center>
+        </ScrollView>
       </VStack>
+      <HStack
+        space={5}
+        w="100%"
+        height={'5%'}
+        alignItems={'center'}
+        justifyContent={'center'}
+        borderWidth={1}
+        bg="red.200">
+        <Button>Theme</Button>
+        <Button>Theme</Button>
+        <Button>settings</Button>
+        <MoonIcon />
+      </HStack>
     </NativeBaseProvider>
   );
 }
