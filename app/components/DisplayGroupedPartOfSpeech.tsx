@@ -23,10 +23,9 @@ export function DisplayOlamDBItem(props: {item: OlamDBItem}) {
       overflow="hidden"
       borderColor="coolGray.400"
       borderRadius={'24px'}
-      borderWidth="1">
-      <Text fontSize="sm" color="coolGray.900" bold>
-        {item.malayalam_definition}
-      </Text>
+      borderWidth="1"
+      _text={{fontSize: 'sm', color: 'coolGray.900', bold: true}}>
+      {item.malayalam_definition}
     </Box>
   );
 }

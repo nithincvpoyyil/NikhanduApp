@@ -3,6 +3,7 @@ import {Text, Spacer, Heading} from 'native-base';
 export default function SimilarResultsHeading() {
   return (
     <Heading
+      width={'100%'}
       adjustsFontSizeToFit
       marginBottom={'1.5'}
       marginTop={'3'}

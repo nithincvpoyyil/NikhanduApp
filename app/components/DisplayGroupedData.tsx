@@ -1,7 +1,8 @@
 import * as React from 'react';
-import {Text, Box, Container} from 'native-base';
+import {Box, Container, Fab, SunIcon, Text} from 'native-base';
 import {GroupByDictWord} from '../utils/DBHelper';
 import DisplayGroupedPartOfSpeech from './DisplayGroupedPartOfSpeech';
+import {exactStyles, similarStyles} from './DisplayGroupedDataStyles';
 
 export type DisplayGroupedDataProps = {
   groupedData: GroupByDictWord;
@@ -15,32 +16,25 @@ export default function DisplayGroupedData(props: DisplayGroupedDataProps) {
   const groupedNode = [];
   let index = 1;
   const boxStyles = isExactResults
-    ? {width: '90%'}
-    : {
-        width: '90%',
-        marginTop: '5',
-      };
+    ? exactStyles.boxStyles
+    : similarStyles.boxStyles;
+
   const enWordStyles = isExactResults
-    ? {fontSize: 'xl', padding: 1.5, bg: 'tertiary.100', bold: true}
-    : {fontSize: 'md', padding: 1, bg: 'info.100', bold: true};
+    ? exactStyles.enWordStyles
+    : similarStyles.enWordStyles;
+
+  const enItemStyles = isExactResults
+    ? exactStyles.enItemStyles
+    : similarStyles.enItemStyles;
 
   for (let key of enList) {
-    let enWord = isExactResults ? key : `${index}. ${key}`;
-    const nodeItem = (
-      <Box
-        key={key}
-        width="100%"
-        borderWidth={'1'}
-        borderColor={'trueGray.200'}
-        marginTop="2"
-        marginBottom="2">
-        <Box>
-          <Text {...enWordStyles}>{enWord}</Text>
-        </Box>
+    let enWord = isExactResults ? key : `${index}.  ${key}`;
+    groupedNode.push(
+      <Box key={key} {...enItemStyles}>
+        <Box {...enWordStyles}>{enWord}</Box>
         <DisplayGroupedPartOfSpeech groupedPOfSMap={enMap.get(key)} />
-      </Box>
+      </Box>,
     );
-    groupedNode.push(nodeItem);
     index++;
   }
   const heading = enList.size ? renderHeading() : null;
@@ -48,6 +42,17 @@ export default function DisplayGroupedData(props: DisplayGroupedDataProps) {
     <Container {...boxStyles}>
       {heading}
       {groupedNode}
+      <Box position="relative">
+        <Fab
+          placement="bottom-right"
+          icon={<SunIcon />}
+          label={
+            <Text color="white" fontSize="sm">
+              BUTTON
+            </Text>
+          }
+        />
+      </Box>
     </Container>
   );
 }
