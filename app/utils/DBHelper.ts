@@ -44,6 +44,11 @@ const OlamDBSchema = {
   },
 };
 
+export const getEmptyDictGrouped = (): GroupByDictWord => ({
+  enList: new Set(),
+  enMap: new Map(),
+});
+
 const mapperFunction = (resultItem: OlamDBItem & Realm.Object<unknown>) => {
   const {_id, english_word, malayalam_definition, part_of_speech} = resultItem;
   const item: OlamDBItem = {

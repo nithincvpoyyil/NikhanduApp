@@ -5,28 +5,29 @@ import {
   VStack,
   Center,
   Heading,
-  Button,
   ScrollView,
   HStack,
   Box,
-  Circle,
-  MoonIcon,
-  SunIcon,
-  HamburgerIcon,
 } from 'native-base';
-import {getResultsFromDB, GroupByDictWord} from './utils/DBHelper';
+import {
+  getEmptyDictGrouped,
+  getResultsFromDB,
+  GroupByDictWord,
+} from './utils/DBHelper';
 import DisplayGroupedData from './components/DisplayGroupedData';
 import SimilarResultsHeading from './components/SimilarResultsHeading';
-import {TouchableOpacity} from 'react-native';
 import AutoComplete from './components/Autocomplete';
-
-const getEmptyDictGrouped = (): GroupByDictWord => ({
-  enList: new Set(),
-  enMap: new Map(),
-});
+import {
+  hStack1Props,
+  upperBoxStyleProps,
+  vStack1Props,
+  vStack2Props,
+} from './NikhanduLandingScreenStyles';
 
 export default function NikhanduLandingScreen() {
   const [isDark, setDark] = React.useState(false);
+  const [searchKey, setSearchKey] = React.useState('');
+  const [isResultLoading, setIsResultLoading] = React.useState(false);
   const [exactResults, setExactResults] = React.useState<GroupByDictWord>(
     getEmptyDictGrouped(),
   );
@@ -35,69 +36,64 @@ export default function NikhanduLandingScreen() {
   );
 
   const searchDictionaryForWord = (key: string) => {
+    setSearchKey(key);
+    if (!key) {
+      setExactResults(getEmptyDictGrouped());
+      setSimilarResults(getEmptyDictGrouped());
+      return;
+    }
+
+    if (searchKey === key) {
+      return;
+    }
+    setIsResultLoading(true);
     getResultsFromDB(key).then(
       results => {
         setExactResults(results.exactResults);
         setSimilarResults(results.similarResults);
+        setIsResultLoading(false);
       },
       () => {
         setExactResults(getEmptyDictGrouped());
         setSimilarResults(getEmptyDictGrouped());
+        setIsResultLoading(false);
       },
     );
   };
 
   return (
     <NativeBaseProvider>
-      <Box w="100%" h={'8%'} bg="red.200" />
-      <VStack
-        h={'17%'}
-        space={1}
-        alignItems="center"
-        w="100%"
-        bg="red.200"
-        display="flex"
-        justifyContent="center">
+      <Box {...upperBoxStyleProps} />
+      <VStack {...vStack1Props}>
         <HStack
           w="100%"
           flexWrap={'wrap'}
           alignItems={'center'}
           justifyContent={'flex-end'}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {
               setDark(!isDark);
             }}>
-            {isDark ? (
-              <Circle size="40px" bg="primary.400">
-                <SunIcon />
-                <HamburgerIcon />
-              </Circle>
-            ) : (
-              <Circle size="40px" bg="secondary.400">
-                <MoonIcon />
-              </Circle>
-            )}
-          </TouchableOpacity>
+            <Circle size="40px" bg="transparent" borderWidth={1}>
+              {isDark ? <SunIcon /> : <MoonIcon />}
+            </Circle>
+          </TouchableOpacity> */}
         </HStack>
 
-        <Box>
+        <Center>
           <Heading>
-            Malayalam
-            <Text color="emerald.500"> Nikhandu</Text>
+            <Text size={'2xl'} color="emerald.500">
+              Nikhandu
+            </Text>
           </Heading>
           <Text mt="3" fontWeight="medium">
-            Malayalam dictionay based on Olam
+            Offline English-Malayalam Dictionay
           </Text>
-        </Box>
+        </Center>
       </VStack>
 
-      <VStack
-        space={1}
-        alignItems="center"
-        w="100%"
-        height={'70%'}
-        flexDirection={'column-reverse'}>
-        <ScrollView width={'100%'} scrollEnabled scrollsToTop>
+      <VStack {...vStack2Props}>
+        <ScrollView width={'100%'}>
           <Center>
             <DisplayGroupedData
               groupedData={exactResults}
@@ -114,29 +110,19 @@ export default function NikhanduLandingScreen() {
           </Center>
         </ScrollView>
         <Center
-          borderWidth={1}
           w="100%"
           marginTop={'5%'}
-          marginBottom={'5%'}
+          marginBottom={'6%'}
           marginLeft={0}
           marginRight={0}>
-          <AutoComplete onSearchTextSelected={searchDictionaryForWord} />
+          <AutoComplete
+            onSearchTextSelected={searchDictionaryForWord}
+            isResultLoading={isResultLoading}
+          />
         </Center>
       </VStack>
 
-      <HStack
-        space={5}
-        w="100%"
-        height={'5%'}
-        alignItems={'center'}
-        justifyContent={'center'}
-        borderWidth={1}
-        bg="red.200">
-        <Button>Theme</Button>
-        <Button>Theme</Button>
-        <Button>settings</Button>
-        <MoonIcon />
-      </HStack>
+      <HStack {...hStack1Props} />
     </NativeBaseProvider>
   );
 }

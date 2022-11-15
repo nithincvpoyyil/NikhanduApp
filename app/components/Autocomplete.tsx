@@ -15,10 +15,12 @@ import debounce from '../utils/debounce';
 
 export default function AutoComplete(props: {
   onSearchTextSelected: (query: string) => void;
+  isResultLoading: boolean;
 }) {
   const [query, setQuery] = React.useState('');
   const [isOpen, setIsOpen] = React.useState(false);
   const [suggestions, setSuggestions] = React.useState<Array<string>>([]);
+  const {isResultLoading = false, onSearchTextSelected = () => null} = props;
 
   React.useEffect(() => {
     if (query.length < 2) {
@@ -27,8 +29,8 @@ export default function AutoComplete(props: {
   }, [query]);
 
   const onSearchKeyPressHandler = () => {
-    props.onSearchTextSelected(query);
     setIsOpen(false);
+    onSearchTextSelected(query);
   };
 
   const onSearchHandler = (text: string) => {
@@ -56,8 +58,23 @@ export default function AutoComplete(props: {
   };
 
   const inputRightEl = (
-    <Button onPress={onSearchKeyPressHandler} bg="tranparent" borderWidth={0}>
-      <SearchIcon />
+    <Button
+      onPress={onSearchKeyPressHandler}
+      bg="transparent"
+      borderWidth={0}
+      borderRadius={'50%'}
+      isLoading={isResultLoading}
+      _focus={{
+        bg: 'transparent',
+        borderWidth: 1,
+        borderRadius: '50%',
+        borderColor: 'emerald.500',
+      }}
+      _pressed={{
+        bg: 'transparent',
+      }}
+      _loading={{bg: 'emerald.500'}}>
+      {isResultLoading ? null : <SearchIcon />}
     </Button>
   );
 
@@ -66,16 +83,25 @@ export default function AutoComplete(props: {
       onPress={() => {
         onPressListItem(listItem.item);
       }}>
-      <Box bg={'red.900'} borderBottomWidth="1" borderColor="muted.800">
+      <Box
+        borderBottomWidth="1"
+        borderRadius={1}
+        borderBottomColor={'blue.300'}
+        shadow={'1'}
+        borderColor="muted.800"
+        paddingLeft={2}
+        paddingRight={1}
+        paddingTop={2}
+        paddingBottom={2}>
         <Text>{listItem.item}</Text>
       </Box>
     </TouchableOpacity>
   );
   return (
-    <Container width="100%" position={'relative'} borderWidth={1}>
+    <Container width="100%" position={'relative'}>
       <Input
-        marginTop={'5%'}
-        marginBottom={'5%'}
+        marginTop={'1px'}
+        marginBottom={'1px'}
         marginLeft={0}
         marginRight={0}
         padding={0}
@@ -92,17 +118,24 @@ export default function AutoComplete(props: {
         visible={isOpen}
         initial={{
           opacity: 0,
+          translateY: -10,
         }}
         animate={{
           opacity: 1,
+          translateY: 0,
           transition: {
             duration: 250,
           },
         }}>
         <Box position={'relative'} w="100%">
           <FlatList
+            shadow={'1'}
+            bg={'white'}
             w="100%"
             position={'absolute'}
+            borderLeftWidth={1}
+            borderRightWidth={1}
+            borderColor={'blue.300'}
             data={suggestions}
             renderItem={renderListItem}
             keyExtractor={(item, index) => item + index}

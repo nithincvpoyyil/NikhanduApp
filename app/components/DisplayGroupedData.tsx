@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Text, Box} from 'native-base';
+import {Text, Box, Container} from 'native-base';
 import {GroupByDictWord} from '../utils/DBHelper';
 import DisplayGroupedPartOfSpeech from './DisplayGroupedPartOfSpeech';
 
@@ -45,9 +45,9 @@ export default function DisplayGroupedData(props: DisplayGroupedDataProps) {
   }
   const heading = enList.size ? renderHeading() : null;
   return (
-    <Box {...boxStyles}>
+    <Container {...boxStyles}>
       {heading}
       {groupedNode}
-    </Box>
+    </Container>
   );
 }
