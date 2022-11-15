@@ -2,27 +2,22 @@ import * as React from 'react';
 import {
   NativeBaseProvider,
   Text,
-  Input,
   VStack,
   Center,
-  Container,
   Heading,
   Button,
   ScrollView,
-  Spacer,
   HStack,
   Box,
   Circle,
-  CheckIcon,
   MoonIcon,
   SunIcon,
   HamburgerIcon,
-  SearchIcon,
 } from 'native-base';
 import {getResultsFromDB, GroupByDictWord} from './utils/DBHelper';
 import DisplayGroupedData from './components/DisplayGroupedData';
 import SimilarResultsHeading from './components/SimilarResultsHeading';
-import {TouchableHighlight, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import AutoComplete from './components/Autocomplete';
 
 const getEmptyDictGrouped = (): GroupByDictWord => ({
@@ -31,7 +26,6 @@ const getEmptyDictGrouped = (): GroupByDictWord => ({
 });
 
 export default function NikhanduLandingScreen() {
-  const [query, setQuery] = React.useState('');
   const [isDark, setDark] = React.useState(false);
   const [exactResults, setExactResults] = React.useState<GroupByDictWord>(
     getEmptyDictGrouped(),
@@ -39,15 +33,8 @@ export default function NikhanduLandingScreen() {
   const [similarResults, setSimilarResults] = React.useState<GroupByDictWord>(
     getEmptyDictGrouped(),
   );
-  const onSearchHandler = (queryVal: string) => {
-    setQuery(queryVal);
-  };
 
-  React.useEffect(() => {
-    return () => {};
-  }, [query]);
-
-  const onPressHandler = (key: string) => {
+  const searchDictionaryForWord = (key: string) => {
     getResultsFromDB(key).then(
       results => {
         setExactResults(results.exactResults);
@@ -103,11 +90,13 @@ export default function NikhanduLandingScreen() {
           </Text>
         </Box>
       </VStack>
-      <VStack space={1} alignItems="center" w="100%" height={'70%'}>
-        <Center w="100%" marginTop={'5%'} marginBottom={'5%'}>
-          <AutoComplete onSearchBtnPress={onPressHandler} />
-        </Center>
 
+      <VStack
+        space={1}
+        alignItems="center"
+        w="100%"
+        height={'70%'}
+        flexDirection={'column-reverse'}>
         <ScrollView width={'100%'} scrollEnabled scrollsToTop>
           <Center>
             <DisplayGroupedData
@@ -124,7 +113,17 @@ export default function NikhanduLandingScreen() {
             <Box w="100%" h={'50%'} />
           </Center>
         </ScrollView>
+        <Center
+          borderWidth={1}
+          w="100%"
+          marginTop={'5%'}
+          marginBottom={'5%'}
+          marginLeft={0}
+          marginRight={0}>
+          <AutoComplete onSearchTextSelected={searchDictionaryForWord} />
+        </Center>
       </VStack>
+
       <HStack
         space={5}
         w="100%"

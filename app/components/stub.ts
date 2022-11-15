@@ -1,4 +1,12 @@
-export const data = [
+type Item = {
+  id: string;
+  fullName: string;
+  timeStamp: string;
+  recentText: string;
+  avatarUrl: string;
+};
+
+export const data: Array<Item> = [
   {
     id: 'sssddd-c1b1-46c2-aed5-3ad53abb28ba',
     fullName: 'Aafreen Khan',

@@ -114,3 +114,59 @@ export async function getResultsFromDB(
     similarResults: {enList: new Set(), enMap: new Map()},
   };
 }
+
+export async function getSuggestions(
+  queryString: string,
+): Promise<Set<string>> {
+  Realm.copyBundledRealmFiles();
+
+  let bundlePath = RNFS.MainBundlePath + '/olamDBNew.realm';
+  const check1 = await RNFS.exists(bundlePath);
+
+  let check2 = Realm.exists({
+    path: bundlePath,
+    schema: [OlamDBSchema],
+    schemaVersion: 5,
+  });
+
+  let similarResults: Array<OlamDBItem> = [];
+
+  try {
+    if (!check1 || !check2) {
+      throw new Error();
+    }
+    let rdb = await Realm.open({
+      path: bundlePath,
+      schema: [OlamDBSchema],
+      schemaVersion: 5,
+    });
+    let query = (queryString || '').trim().toLowerCase();
+    let stemWord = stem(query);
+    let olamDB = rdb.objects<OlamDBItem>('OLAM_DB');
+
+    similarResults = olamDB
+      .filtered(
+        'english_word LIKE[c] $0 || english_word ==[c] $1 LIMIT(20)',
+        `*${stemWord}*`,
+        query,
+      )
+      .map(mapperFunction);
+    rdb.close();
+
+    let set = new Set<string>();
+    for (let i = 0; i < similarResults.length; i++) {
+      let enWord = similarResults[i].english_word;
+      if (!set.has(enWord)) {
+        set.add(enWord);
+      }
+    }
+
+    return set;
+  } catch (e) {
+    if (e instanceof Error) {
+      let error = e as Error;
+      console.log(' | message:', error.message, ' | name:', e.name);
+    }
+  }
+  return new Set<string>();
+}
