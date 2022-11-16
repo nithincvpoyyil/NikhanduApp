@@ -62,12 +62,12 @@ export default function AutoComplete(props: {
       onPress={onSearchKeyPressHandler}
       bg="transparent"
       borderWidth={0}
-      borderRadius={'50%'}
+      borderRadius={100}
       isLoading={isResultLoading}
       _focus={{
         bg: 'transparent',
         borderWidth: 1,
-        borderRadius: '50%',
+        borderRadius: 100,
         borderColor: 'emerald.500',
       }}
       _pressed={{

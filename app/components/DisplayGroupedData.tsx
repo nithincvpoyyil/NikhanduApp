@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Box, Container, Fab, SunIcon, Text} from 'native-base';
+import {Box, Container} from 'native-base';
 import {GroupByDictWord} from '../utils/DBHelper';
 import DisplayGroupedPartOfSpeech from './DisplayGroupedPartOfSpeech';
 import {exactStyles, similarStyles} from './DisplayGroupedDataStyles';
@@ -42,17 +42,6 @@ export default function DisplayGroupedData(props: DisplayGroupedDataProps) {
     <Container {...boxStyles}>
       {heading}
       {groupedNode}
-      <Box position="relative">
-        <Fab
-          placement="bottom-right"
-          icon={<SunIcon />}
-          label={
-            <Text color="white" fontSize="sm">
-              BUTTON
-            </Text>
-          }
-        />
-      </Box>
     </Container>
   );
 }

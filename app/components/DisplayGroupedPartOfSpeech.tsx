@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Text, HStack, Box} from 'native-base';
+import {Text, HStack, Box, Badge} from 'native-base';
 import {OlamDBItem, typeMap} from '../utils/DBHelper';
 
 const getPartOfSpeech = (key: string) => {
