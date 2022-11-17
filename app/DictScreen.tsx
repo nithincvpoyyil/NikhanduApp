@@ -33,11 +33,15 @@ export default function DictScreen() {
     getEmptyDictGrouped(),
   );
 
+  const clearResults = () => {
+    setExactResults(getEmptyDictGrouped());
+    setSimilarResults(getEmptyDictGrouped());
+  };
+
   const searchDictionaryForWord = (key: string) => {
     setSearchKey(key);
-    if (!key) {
-      setExactResults(getEmptyDictGrouped());
-      setSimilarResults(getEmptyDictGrouped());
+    if (!key || key.length < 2) {
+      clearResults();
       return;
     }
 
@@ -58,7 +62,6 @@ export default function DictScreen() {
       },
     );
   };
-
 
   return (
     <>
@@ -110,6 +113,7 @@ export default function DictScreen() {
           <AutoComplete
             onSearchTextSelected={searchDictionaryForWord}
             isResultLoading={isResultLoading}
+            onQueryInvalid={clearResults}
           />
         </Center>
       </VStack>

@@ -1,31 +1,54 @@
 import {
   Box,
-  Button,
   Container,
   FlatList,
+  IconButton,
   Input,
   PresenceTransition,
   SearchIcon,
+  Spinner,
   Text,
 } from 'native-base';
 import * as React from 'react';
 import {ListRenderItemInfo, TouchableOpacity} from 'react-native';
 import {getSuggestions} from '../utils/DBHelper';
 import debounce from '../utils/debounce';
+import {
+  inputIconBtnStyles,
+  inputStyles,
+  suggestionListItemStyles,
+  suggestionListStyles,
+} from './AutocompleteStyles';
 
 export default function AutoComplete(props: {
   onSearchTextSelected: (query: string) => void;
   isResultLoading: boolean;
+  onQueryInvalid?: () => void;
 }) {
   const [query, setQuery] = React.useState('');
   const [isOpen, setIsOpen] = React.useState(false);
   const [suggestions, setSuggestions] = React.useState<Array<string>>([]);
-  const {isResultLoading = false, onSearchTextSelected = () => null} = props;
+  const {
+    isResultLoading = false,
+    onSearchTextSelected = () => null,
+    onQueryInvalid = () => null,
+  } = props;
+  const [isInputFocused, setIsInputFocused] = React.useState(false);
+
+  const onFocus = () => {
+    setIsInputFocused(true);
+  };
+
+  const onBlur = () => {
+    setIsInputFocused(false);
+  };
 
   React.useEffect(() => {
     if (query.length < 2) {
       setIsOpen(false);
+      onQueryInvalid();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   const onSearchKeyPressHandler = () => {
@@ -57,25 +80,23 @@ export default function AutoComplete(props: {
     setQuery(suggestion);
   };
 
-  const inputRightEl = (
-    <Button
+  const inputRightEl = !isResultLoading ? (
+    <IconButton
       onPress={onSearchKeyPressHandler}
-      bg="transparent"
-      borderWidth={0}
-      borderRadius={100}
-      isLoading={isResultLoading}
-      _focus={{
-        bg: 'transparent',
-        borderWidth: 1,
-        borderRadius: 100,
-        borderColor: 'emerald.500',
+      icon={<SearchIcon />}
+      isDisabled={isResultLoading}
+      _icon={{
+        size: 'xl',
+        color: isInputFocused ? 'teal.700' : 'coolGray.500',
       }}
-      _pressed={{
-        bg: 'transparent',
-      }}
-      _loading={{bg: 'emerald.500'}}>
-      {isResultLoading ? null : <SearchIcon />}
-    </Button>
+      {...inputIconBtnStyles}
+    />
+  ) : (
+    <Spinner
+      size="lg"
+      accessibilityLabel="Loading search results"
+      color="teal.700"
+    />
   );
 
   const renderListItem = (listItem: ListRenderItemInfo<string>) => (
@@ -83,16 +104,8 @@ export default function AutoComplete(props: {
       onPress={() => {
         onPressListItem(listItem.item);
       }}>
-      <Box
-        borderBottomWidth="1"
-        borderRadius={1}
-        borderBottomColor={'blue.300'}
-        shadow={'1'}
-        borderColor="muted.800"
-        paddingLeft={2}
-        paddingRight={1}
-        paddingTop={2}
-        paddingBottom={2}>
+      <Box {...suggestionListItemStyles}>
+        <SearchIcon marginLeft={1} marginRight={2} />
         <Text>{listItem.item}</Text>
       </Box>
     </TouchableOpacity>
@@ -100,18 +113,15 @@ export default function AutoComplete(props: {
   return (
     <Container width="100%" position={'relative'}>
       <Input
-        marginTop={'1px'}
-        marginBottom={'1px'}
-        marginLeft={0}
-        marginRight={0}
-        padding={0}
-        size="2xl"
-        w="100%"
-        placeholder="Type your english keyword"
+        placeholder="find your word..."
         onChangeText={onSearchHandler}
-        variant="underlined"
+        variant="unstyled"
         InputRightElement={inputRightEl}
         value={query}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        {...inputStyles}
+        isDisabled={isResultLoading}
       />
 
       <PresenceTransition
@@ -127,19 +137,15 @@ export default function AutoComplete(props: {
             duration: 250,
           },
         }}>
-        <Box position={'relative'} w="100%">
-          <FlatList
-            shadow={'1'}
-            bg={'white'}
-            w="100%"
-            position={'absolute'}
-            borderLeftWidth={1}
-            borderRightWidth={1}
-            borderColor={'blue.300'}
-            data={suggestions}
-            renderItem={renderListItem}
-            keyExtractor={(item, index) => item + index}
-          />
+        <Box position={'relative'} w="100%" shadow={5}>
+          {suggestions.length ? (
+            <FlatList
+              data={suggestions}
+              renderItem={renderListItem}
+              keyExtractor={(item, index) => item + index}
+              {...suggestionListStyles}
+            />
+          ) : null}
         </Box>
       </PresenceTransition>
     </Container>
