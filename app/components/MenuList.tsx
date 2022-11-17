@@ -12,7 +12,7 @@ import {
 } from 'native-base';
 import {getData} from '../utils/DataStore';
 
-const DARK_MODE_FLAG = 'dark-mode-flag-value';
+const DARK_MODE_FLAG = '@dark-mode-flag-value';
 
 export const MenuList = (props: {onInfoBtnClick: () => void}) => {
   const {onInfoBtnClick = () => null} = props;

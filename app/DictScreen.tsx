@@ -67,17 +67,9 @@ export default function DictScreen() {
     <>
       <Box {...upperBoxStyleProps} />
       <VStack {...vStack1Props}>
-        <HStack
-          w="100%"
-          flexWrap={'wrap'}
-          alignItems={'center'}
-          justifyContent={'flex-end'}>
-          {/*  */}
-        </HStack>
-
         <Center>
           <Heading>
-            <Text size={'2xl'} color="emerald.500">
+            <Text size={'2xl'} color="emerald.300">
               Nikhandu
             </Text>
           </Heading>
