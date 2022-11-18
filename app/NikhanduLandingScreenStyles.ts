@@ -8,7 +8,6 @@ export const upperBoxStyleProps: InterfaceBoxProps = {
 };
 
 export const vStack1Props: InterfaceVStackProps = {
-  h: '17%',
   space: 1,
   alignItems: 'center',
   w: '100%',
@@ -19,7 +18,7 @@ export const vStack2Props: InterfaceVStackProps = {
   space: 1,
   alignItems: 'center',
   w: '100%',
-  height: '70%',
+  height: '80%',
   flexDirection: 'column-reverse',
 };
 export const hStack1Props: InterfaceHStackProps = {
