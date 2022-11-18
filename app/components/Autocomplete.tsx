@@ -24,6 +24,7 @@ export default function AutoComplete(props: {
   onSearchTextSelected: (query: string) => void;
   isResultLoading: boolean;
   onQueryInvalid?: () => void;
+  onInputFocus?: () => void;
 }) {
   const [query, setQuery] = React.useState('');
   const [isOpen, setIsOpen] = React.useState(false);
@@ -32,10 +33,12 @@ export default function AutoComplete(props: {
     isResultLoading = false,
     onSearchTextSelected = () => null,
     onQueryInvalid = () => null,
+    onInputFocus = () => null,
   } = props;
   const [isInputFocused, setIsInputFocused] = React.useState(false);
 
   const onFocus = () => {
+    onInputFocus();
     setIsInputFocused(true);
   };
 

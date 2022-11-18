@@ -21,6 +21,7 @@ export default function DictScreen() {
   const [searchKey, setSearchKey] = React.useState('');
   const [isResultLoading, setIsResultLoading] = React.useState(false);
   const [isFinished, setIsFinished] = React.useState(false);
+  const [animationDone, setAnimationDone] = React.useState(false);
 
   const [exactResults, setExactResults] = React.useState<GroupByDictWord>(
     getEmptyDictGrouped(),
@@ -38,36 +39,38 @@ export default function DictScreen() {
     outputRange: ['0%', '100%'],
   });
 
-  const handleAnimation = () => {
-    Animated.timing(textVisibilityTransition, {
-      toValue: 0,
-      duration: 600,
-      easing: Easing.ease,
-      useNativeDriver: false,
-    }).start(({finished}) => {
-      setIsFinished(finished);
-    });
-
-    Animated.timing(sizeTranslation, {
-      toValue: 60,
-      duration: 500,
-      easing: Easing.ease,
-      useNativeDriver: false,
-    }).start(() => {
-      Animated.timing(hTransition, {
-        toValue: 10,
-        duration: 1000,
+  const doAnimation = () => {
+    if (!animationDone) {
+      setAnimationDone(true);
+      Animated.timing(textVisibilityTransition, {
+        toValue: 0,
+        duration: 600,
         easing: Easing.ease,
-        useNativeDriver: true,
-      }).start(() => {
-        Animated.timing(transitionFromZero, {
-          toValue: 1,
-          duration: 500,
-          easing: Easing.ease,
-          useNativeDriver: false,
-        }).start(() => {});
+        useNativeDriver: false,
+      }).start(({finished}) => {
+        setIsFinished(finished);
       });
-    });
+      Animated.timing(sizeTranslation, {
+        toValue: 60,
+        duration: 500,
+        easing: Easing.ease,
+        useNativeDriver: false,
+      }).start(() => {
+        Animated.timing(hTransition, {
+          toValue: 10,
+          duration: 1000,
+          easing: Easing.ease,
+          useNativeDriver: true,
+        }).start(() => {
+          Animated.timing(transitionFromZero, {
+            toValue: 1,
+            duration: 500,
+            easing: Easing.ease,
+            useNativeDriver: false,
+          }).start(() => {});
+        });
+      });
+    }
   };
 
   const clearResults = () => {
@@ -76,7 +79,6 @@ export default function DictScreen() {
   };
 
   const searchDictionaryForWord = (key: string) => {
-    handleAnimation();
     setSearchKey(key);
     if (!key || key.length < 2) {
       clearResults();
@@ -100,9 +102,6 @@ export default function DictScreen() {
       },
     );
   };
-  React.useEffect(() => {
-    console.log(percentageTransition, 'percentageTransition');
-  }, [percentageTransition]);
 
   return (
     <>
@@ -159,6 +158,7 @@ export default function DictScreen() {
             onSearchTextSelected={searchDictionaryForWord}
             isResultLoading={isResultLoading}
             onQueryInvalid={clearResults}
+            onInputFocus={doAnimation}
           />
         </Center>
       </VStack>
