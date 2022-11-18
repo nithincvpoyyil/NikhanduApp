@@ -7,7 +7,7 @@ export default function SimilarResultsHeading() {
       adjustsFontSizeToFit
       marginBottom={'1.5'}
       marginTop={'3'}
-      color="info.800"
+      color="darkBlue.700"
       padding={'1'}>
       <Text fontSize={'md'}>സമാനമായ മറ്റ് വാക്കുകൾ</Text>
       <Spacer />

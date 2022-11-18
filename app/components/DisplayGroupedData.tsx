@@ -3,6 +3,7 @@ import {Box, Container} from 'native-base';
 import {GroupByDictWord} from '../utils/DBHelper';
 import DisplayGroupedPartOfSpeech from './DisplayGroupedPartOfSpeech';
 import {exactStyles, similarStyles} from './DisplayGroupedDataStyles';
+import DictItemCard from './DictItemCard';
 
 export type DisplayGroupedDataProps = {
   groupedData: GroupByDictWord;
@@ -19,21 +20,15 @@ export default function DisplayGroupedData(props: DisplayGroupedDataProps) {
     ? exactStyles.boxStyles
     : similarStyles.boxStyles;
 
-  const enWordStyles = isExactResults
-    ? exactStyles.enWordStyles
-    : similarStyles.enWordStyles;
-
-  const enItemStyles = isExactResults
-    ? exactStyles.enItemStyles
-    : similarStyles.enItemStyles;
-
   for (let key of enList) {
     let enWord = isExactResults ? key : `${index}.  ${key}`;
     groupedNode.push(
-      <Box key={key} {...enItemStyles}>
-        <Box {...enWordStyles}>{enWord}</Box>
-        <DisplayGroupedPartOfSpeech groupedPOfSMap={enMap.get(key)} />
-      </Box>,
+      <DictItemCard key={key} enWord={enWord}>
+        <DisplayGroupedPartOfSpeech
+          groupedPOfSMap={enMap.get(key)}
+          isExactResults={isExactResults}
+        />
+      </DictItemCard>,
     );
     index++;
   }

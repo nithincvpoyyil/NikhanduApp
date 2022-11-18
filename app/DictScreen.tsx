@@ -1,5 +1,13 @@
 import * as React from 'react';
-import {VStack, Center, ScrollView, HStack, Box, Text} from 'native-base';
+import {
+  VStack,
+  Center,
+  ScrollView,
+  HStack,
+  Box,
+  Text,
+  WarningOutlineIcon,
+} from 'native-base';
 import {
   getEmptyDictGrouped,
   getResultsFromDB,
@@ -39,23 +47,38 @@ export default function DictScreen() {
     outputRange: ['0%', '100%'],
   });
 
+  const animatedViewStyles = {
+    height: sizeTranslation,
+    width: sizeTranslation,
+    margin: 10,
+    transform: [
+      {
+        scale: transitionFromZero.interpolate({
+          inputRange: [0, 0.5, 1],
+          outputRange: [1, 0.8, 1],
+        }),
+      },
+    ],
+  };
+
   const doAnimation = () => {
     if (!animationDone) {
       setAnimationDone(true);
-      Animated.timing(textVisibilityTransition, {
-        toValue: 0,
-        duration: 600,
-        easing: Easing.ease,
-        useNativeDriver: false,
-      }).start(({finished}) => {
+      Animated.parallel([
+        Animated.timing(textVisibilityTransition, {
+          toValue: 0,
+          duration: 600,
+          easing: Easing.ease,
+          useNativeDriver: false,
+        }),
+        Animated.timing(sizeTranslation, {
+          toValue: 60,
+          duration: 500,
+          easing: Easing.ease,
+          useNativeDriver: false,
+        }),
+      ]).start(({finished}) => {
         setIsFinished(finished);
-      });
-      Animated.timing(sizeTranslation, {
-        toValue: 60,
-        duration: 500,
-        easing: Easing.ease,
-        useNativeDriver: false,
-      }).start(() => {
         Animated.timing(hTransition, {
           toValue: 10,
           duration: 1000,
@@ -103,6 +126,51 @@ export default function DictScreen() {
     );
   };
 
+  const resultNode =
+    similarResults.enList.size || exactResults.enList.size ? (
+      <ScrollView width={'100%'}>
+        <Center>
+          <DisplayGroupedData
+            groupedData={exactResults}
+            isExactResults={true}
+          />
+          <DisplayGroupedData
+            groupedData={similarResults}
+            isExactResults={false}
+            renderHeading={() => <SimilarResultsHeading />}
+          />
+        </Center>
+        <Center>
+          <Box w="100%" h={'50%'} />
+        </Center>
+      </ScrollView>
+    ) : (
+      <ScrollView width={'100%'}>
+        <HStack
+          m={5}
+          borderWidth={1}
+          rounded={10}
+          alignItems={'center'}
+          borderColor="coolGray.300"
+          shadow="3"
+          bg="yellow.100"
+          p="5">
+          <WarningOutlineIcon size="lg" mr={2} color="yellow.600" />
+          <Text
+            color="coolGray.800"
+            mt="0"
+            mb="3"
+            fontWeight="medium"
+            fontSize="xl"
+            numberOfLines={2}
+            accessibilityLabel="No results found">
+              
+            നിങ്ങൾ തിരഞ്ഞ വാക്ക് നിഘണ്ടുവിൽ കാണുന്നില്ല
+          </Text>
+        </HStack>
+      </ScrollView>
+    );
+
   return (
     <>
       <Box {...upperBoxStyleProps} />
@@ -113,41 +181,21 @@ export default function DictScreen() {
           borderRadius={100}
           source={LogoImage}
           resizeMode="contain"
-          style={{
-            height: sizeTranslation,
-            width: sizeTranslation,
-            transform: [
-              {
-                scale: transitionFromZero.interpolate({
-                  inputRange: [0, 0.5, 1],
-                  outputRange: [1, 0.9, 1],
-                }),
-              },
-            ],
-          }}
+          style={{...animatedViewStyles}}
         />
         {!isFinished ? (
-          <Animated.Text>Offline English-Malayalam Dictionay</Animated.Text>
+          <Animated.Text
+            style={{
+              opacity: textVisibilityTransition,
+              transform: [{scale: textVisibilityTransition}],
+            }}>
+            Offline English-Malayalam Dictionay
+          </Animated.Text>
         ) : null}
       </Animated.View>
 
       <VStack {...vStack2Props}>
-        <ScrollView width={'100%'}>
-          <Center>
-            <DisplayGroupedData
-              groupedData={exactResults}
-              isExactResults={true}
-            />
-            <DisplayGroupedData
-              groupedData={similarResults}
-              isExactResults={false}
-              renderHeading={() => <SimilarResultsHeading />}
-            />
-          </Center>
-          <Center>
-            <Box w="100%" h={'50%'} />
-          </Center>
-        </ScrollView>
+        {resultNode}
         <Center
           w="100%"
           marginTop={'5%'}
