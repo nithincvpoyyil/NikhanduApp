@@ -60,6 +60,9 @@ export default function AutoComplete(props: {
   };
 
   const onSearchHandler = (text: string) => {
+    if (text.length > 200) {
+      return;
+    }
     setQuery(text);
     debouncedOnSearchHandler(text);
   };

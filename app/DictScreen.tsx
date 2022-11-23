@@ -1,13 +1,5 @@
 import * as React from 'react';
-import {
-  VStack,
-  Center,
-  ScrollView,
-  HStack,
-  Box,
-  Text,
-  WarningOutlineIcon,
-} from 'native-base';
+import {VStack, Center, ScrollView, HStack, Box, Flex} from 'native-base';
 import {
   getEmptyDictGrouped,
   getResultsFromDB,
@@ -23,13 +15,16 @@ import {
   vStack2Props,
 } from './NikhanduLandingScreenStyles';
 import {Animated, Easing} from 'react-native';
+import {NoItemCard} from './components/NoItemCard';
 const LogoImage = require('../app/assets/images/LandingLogo.png');
 
 export default function DictScreen() {
   const [searchKey, setSearchKey] = React.useState('');
-  const [isResultLoading, setIsResultLoading] = React.useState(false);
-  const [isFinished, setIsFinished] = React.useState(false);
-  const [animationDone, setAnimationDone] = React.useState(false);
+  const [isResultLoadingState, setIsResultLoadingState] = React.useState<
+    'init' | 'loading' | 'loaded' | 'error'
+  >('init');
+  const [isAnimationFinished, setIsAnimationFinished] = React.useState(false);
+  const [isAnimated, setIsAnimated] = React.useState(false);
 
   const [exactResults, setExactResults] = React.useState<GroupByDictWord>(
     getEmptyDictGrouped(),
@@ -37,6 +32,8 @@ export default function DictScreen() {
   const [similarResults, setSimilarResults] = React.useState<GroupByDictWord>(
     getEmptyDictGrouped(),
   );
+
+  const [uuid, setUUID] = React.useState<number>(Date.now());
 
   const sizeTranslation = React.useRef(new Animated.Value(120)).current;
   const transitionFromZero = React.useRef(new Animated.Value(0)).current;
@@ -62,8 +59,8 @@ export default function DictScreen() {
   };
 
   const doAnimation = () => {
-    if (!animationDone) {
-      setAnimationDone(true);
+    if (!isAnimated) {
+      setIsAnimated(true);
       Animated.parallel([
         Animated.timing(textVisibilityTransition, {
           toValue: 0,
@@ -78,7 +75,7 @@ export default function DictScreen() {
           useNativeDriver: false,
         }),
       ]).start(({finished}) => {
-        setIsFinished(finished);
+        setIsAnimationFinished(finished);
         Animated.timing(hTransition, {
           toValue: 10,
           duration: 1000,
@@ -101,6 +98,13 @@ export default function DictScreen() {
     setSimilarResults(getEmptyDictGrouped());
   };
 
+  const resetScreen = () => {
+    clearResults();
+    setIsResultLoadingState('init');
+    setSearchKey('');
+    setUUID(Date.now());
+  };
+
   const searchDictionaryForWord = (key: string) => {
     setSearchKey(key);
     if (!key || key.length < 2) {
@@ -111,24 +115,38 @@ export default function DictScreen() {
     if (searchKey === key) {
       return;
     }
-    setIsResultLoading(true);
+    setIsResultLoadingState('loading');
     getResultsFromDB(key).then(
       results => {
         setExactResults(results.exactResults);
         setSimilarResults(results.similarResults);
-        setIsResultLoading(false);
+        setIsResultLoadingState('loaded');
       },
       () => {
         setExactResults(getEmptyDictGrouped());
         setSimilarResults(getEmptyDictGrouped());
-        setIsResultLoading(false);
+        setIsResultLoadingState('error');
       },
     );
   };
 
-  const resultNode =
-    similarResults.enList.size || exactResults.enList.size ? (
-      <ScrollView width={'100%'}>
+  const handleOnPressOfNoResultCardCloseBtn = () => {
+    resetScreen();
+  };
+
+  let resultNode = <Flex width={'90%'} flexGrow={1} />;
+  if (similarResults.enList.size || exactResults.enList.size) {
+    resultNode = (
+      <ScrollView
+        width={'100%'}
+        flexGrow={1}
+        zoomScale={2}
+        paddingTop={'5%'}
+        paddingBottom={'20%'}
+        scrollsToTop={true}
+        showsVerticalScrollIndicator={true}
+        borderTopWidth={2}
+        borderTopColor={'coolGray.50'}>
         <Center>
           <DisplayGroupedData
             groupedData={exactResults}
@@ -144,35 +162,41 @@ export default function DictScreen() {
           <Box w="100%" h={'50%'} />
         </Center>
       </ScrollView>
-    ) : (
-      <ScrollView width={'100%'}>
-        <HStack
-          m={5}
-          borderWidth={1}
-          rounded={10}
-          alignItems={'center'}
-          borderColor="coolGray.300"
-          shadow="3"
-          bg="yellow.100"
-          p="5">
-          <WarningOutlineIcon size="lg" mr={2} color="yellow.600" />
-          <Text
-            color="coolGray.800"
-            mt="0"
-            mb="3"
-            fontWeight="medium"
-            fontSize="xl"
-            numberOfLines={2}
-            accessibilityLabel="No results found">
-              
-            നിങ്ങൾ തിരഞ്ഞ വാക്ക് നിഘണ്ടുവിൽ കാണുന്നില്ല
-          </Text>
-        </HStack>
-      </ScrollView>
     );
+  }
+
+  if (
+    isResultLoadingState === 'loaded' &&
+    similarResults.enList.size === 0 &&
+    exactResults.enList.size === 0
+  ) {
+    resultNode = (
+      <Flex width={'90%'} flexGrow={1}>
+        <NoItemCard
+          isError={false}
+          handleOnPress={handleOnPressOfNoResultCardCloseBtn}
+        />
+      </Flex>
+    );
+  }
+
+  if (
+    isResultLoadingState === 'error' &&
+    similarResults.enList.size === 0 &&
+    exactResults.enList.size === 0
+  ) {
+    resultNode = (
+      <Flex width={'90%'} flexGrow={1}>
+        <NoItemCard
+          isError={true}
+          handleOnPress={handleOnPressOfNoResultCardCloseBtn}
+        />
+      </Flex>
+    );
+  }
 
   return (
-    <>
+    <Flex h={'100%'} w={'100%'}>
       <Box {...upperBoxStyleProps} />
       <Animated.View {...vStack1Props} h={percentageTransition}>
         <Animated.Image
@@ -183,7 +207,7 @@ export default function DictScreen() {
           resizeMode="contain"
           style={{...animatedViewStyles}}
         />
-        {!isFinished ? (
+        {!isAnimationFinished ? (
           <Animated.Text
             style={{
               opacity: textVisibilityTransition,
@@ -203,8 +227,9 @@ export default function DictScreen() {
           marginLeft={0}
           marginRight={0}>
           <AutoComplete
+            key={uuid}
             onSearchTextSelected={searchDictionaryForWord}
-            isResultLoading={isResultLoading}
+            isResultLoading={isResultLoadingState === 'loading'}
             onQueryInvalid={clearResults}
             onInputFocus={doAnimation}
           />
@@ -212,6 +237,6 @@ export default function DictScreen() {
       </VStack>
 
       <HStack {...hStack1Props} />
-    </>
+    </Flex>
   );
 }

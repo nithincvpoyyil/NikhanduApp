@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Box, Container} from 'native-base';
+import {Container} from 'native-base';
 import {GroupByDictWord} from '../utils/DBHelper';
 import DisplayGroupedPartOfSpeech from './DisplayGroupedPartOfSpeech';
 import {exactStyles, similarStyles} from './DisplayGroupedDataStyles';

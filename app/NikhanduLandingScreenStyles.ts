@@ -5,10 +5,10 @@ import {InterfaceVStackProps} from 'native-base/lib/typescript/components/primit
 export const upperBoxStyleProps: InterfaceBoxProps = {
   h: '8%',
   w: '100%',
+  flexBasis: '8%',
 };
 
 export const vStack1Props: InterfaceVStackProps = {
-  space: 1,
   alignItems: 'center',
   w: '100%',
   display: 'flex',
@@ -18,8 +18,9 @@ export const vStack2Props: InterfaceVStackProps = {
   space: 1,
   alignItems: 'center',
   w: '100%',
-  height: '80%',
   flexDirection: 'column-reverse',
+  flexGrow: 1,
+  flexBasis: '65%',
 };
 export const hStack1Props: InterfaceHStackProps = {
   space: 5,
