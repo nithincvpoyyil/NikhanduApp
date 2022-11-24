@@ -8,19 +8,23 @@ export const MenuList = (props: {onPress: () => void}) => {
       placement="bottom-right"
       label={
         <IconButton
-          shadow={3}
+          accessibilityLabel={'close message and search again'}
+          borderWidth={2}
+          borderRadius={100}
+          borderColor={'coolGray.600'}
           variant="outline"
           rounded="full"
           size="lg"
+          shadow={3}
           onPress={props.onPress}
-          bg="emerald.500"
-          icon={<ThreeDotsIcon color="white" key="dark" />}
-          _pressed={{bg: 'emerald.400'}}
-          borderWidth={0}
+          bg="light.50"
+          icon={<ThreeDotsIcon />}
+          _icon={{size: 'xl', color: 'coolGray.800'}}
+          _pressed={{backgroundColor: '#ffa'}}
+          _focus={{backgroundColor: '#ffa'}}
           key="open-close-icon"
         />
       }
-      _pressed={{bg: 'transparent'}}
     />
   );
 };

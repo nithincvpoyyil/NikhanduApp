@@ -9,14 +9,13 @@ import {
   Flex,
   CloseIcon,
   IconButton,
-  SunIcon,
-  MoonIcon,
-  HamburgerIcon,
-  HStack,
+  Link,
 } from 'native-base';
 import {InterfaceVStackProps} from 'native-base/lib/typescript/components/primitives/Stack/VStack';
 import AnimatedSlideUp from './components/AnimatedSlideUp';
 import {DeviceLightMode} from './types';
+import LightMode from './components/LightMode';
+import TextAnimator from './components/TextAnimator';
 
 export const vStackProps: InterfaceVStackProps = {
   space: 5,
@@ -49,97 +48,96 @@ export default function InfoScreen({
     }
   };
   return (
-    <Center h={'100%'} w={'100%'} borderWidth={5} borderColor={'#e0e'}>
+    <Center h={'100%'} w={'100%'} bg="#ffa">
       <AnimatedSlideUp
         {...animatedSlideUpProps}
         animDirection={animDirection}
         onAnimationFinish={onAnimationFinish}>
         <Flex
-          bg="#333"
-          borderWidth={0}
+          bg="#ffa"
           safeArea={true}
           width={'100%'}
-          alignItems="flex-end"
-          justifyContent={'center'}>
+          alignItems="center"
+          justifyContent={'space-between'}
+          flexDir="row">
+          <Box m={2} borderBottomWidth={2} pt={2} pl={4} pr={4} pb={1}>
+            <Heading>
+              <Text fontSize="3xl">Settings</Text>
+            </Heading>
+          </Box>
           <IconButton
             mr={5}
-            borderWidth={1}
-            borderColor="light.50"
+            borderWidth={2}
+            borderColor="coolGray.800"
             borderRadius={100}
             shadow="3"
             accessibilityLabel={'close message and search again'}
-            _icon={{size: 'xl', color: 'light.500'}}
-            bg="white"
+            bg="transparent"
             icon={<CloseIcon />}
             onPress={handleOnPress}
+            _icon={{size: 'xl', color: 'coolGray.800'}}
+            _pressed={{_icon: {color: 'coolGray.900'}, bg: 'white'}}
           />
         </Flex>
-        <Flex borderWidth={1} flexGrow={1}>
-          <ScrollView>
-            <VStack {...vStackProps}>
-              <HStack>
-                <IconButton
-                  mr={5}
-                  borderColor="light.500"
-                  borderRadius={100}
-                  shadow="3"
-                  _icon={{size: 'xl', color: 'light.500'}}
-                  bg="white"
-                  icon={<SunIcon color={'darkBlue.500'} key="moon" />}
-                  onPress={() => {
-                    changeAppLightMode('light');
+        <Flex
+          flexGrow={1}
+          width={'90%'}
+          marginLeft={'5%'}
+          pl={1}
+          pr={1}
+          pt={'3%'}
+          pb={'3%'}>
+          <Center>
+            <ScrollView>
+              <VStack {...vStackProps}>
+                <LightMode
+                  currentMode="device"
+                  changeAppLightMode={changeAppLightMode}
+                />
+                <Box mb={1} mt={5} borderWidth={2} pt={2} pl={4} pr={4} pb={2}>
+                  <Text fontSize="2xl">About</Text>
+                </Box>
+
+                <Text fontSize="md" lineHeight={'xl'} shadow={0}>
+                  This app is based on Olam's growing crowd sourced
+                  English-Malayalam dictionary dataset with over 125,000
+                  Malayalam definitions for more than 58,000 English words.
+                </Text>
+
+                <TextAnimator
+                  content={`വളരുന്ന, സ്വതന്ത്രവും തുറന്നതുമായ, രണ്ടു ലക്ഷത്തിൽപ്പരം രേഖകളുള്ള ഒരു ഇംഗ്ലീഷ്-മലയാളം നിഘണ്ടു സമുച്ചയം.`}
+                  duration={1000}
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  textStyle={{
+                    fontSize: 15,
+                    paddingTop: 8,
                   }}
+                  wrapperStyle={{justifyContent: 'flex-start'}}
                 />
 
-                <IconButton
-                  mr={5}
-                  borderColor="light.500"
-                  borderRadius={100}
-                  shadow="3"
-                  _icon={{size: 'xl', color: 'light.500'}}
-                  bg="white"
-                  icon={<MoonIcon color={'darkBlue.500'} key="moon" />}
-                  onPress={() => {
-                    changeAppLightMode('dark');
-                  }}
-                />
+                <VStack w={'100%'}>
+                  <Text fontSize="lg" bold>
+                    Links
+                  </Text>
 
-                <IconButton
-                  mr={5}
-                  borderColor="light.500"
-                  borderRadius={100}
-                  shadow="3"
-                  _icon={{size: 'xl', color: 'light.500'}}
-                  bg="white"
-                  icon={<HamburgerIcon color={'darkBlue.500'} key="moon" />}
-                  onPress={() => {
-                    changeAppLightMode('device');
-                  }}
-                />
-              </HStack>
-              <Box mt={5} mb={5} borderWidth={2} >
-                <Heading>
-                  <Text fontSize="5xl">Extra Large</Text>
-                </Heading>
-              </Box>
-              <Text fontSize="md">
-                The quick brown fox jumps over the lazy dog" is an
-                English-language pangram—a sentence that contains all of the
-                letters of the English alphabet. Owing to its existence, Chakra
-                was created. The quick brown fox jumps over the lazy dog" is an
-                English-language pangram—a sentence that contains all of the
-                letters of the English alphabet. Owing to its existence, Chakra
-                was created. The quick brown fox jumps over the lazy dog" is an
-                English-language pangram—a sentence that contains all of the
-                letters of the English alphabet. Owing to its existence, Chakra
-                was created.
-                <Text highlight>Highlighted</Text>
-              </Text>
-            </VStack>
-          </ScrollView>
+                  <Link
+                    mb={2}
+                    mt={1}
+                    pt={1}
+                    pl={0}
+                    pr={1}
+                    pb={1}
+                    _text={{fontSize: 'sm', color: 'coolGray.800'}}
+                    href="https://olam.in/open/enml/">
+                    Olam en-ml dictionary dataset
+                  </Link>
+                </VStack>
+              </VStack>
+            </ScrollView>
+          </Center>
         </Flex>
 
-        <Flex safeArea={true} bg="#333" />
+        <Flex safeArea={true} bg="#ffa" />
       </AnimatedSlideUp>
     </Center>
   );
