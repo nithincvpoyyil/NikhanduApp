@@ -26,6 +26,11 @@ export const vStackProps: InterfaceVStackProps = {
 
 const animatedSlideUpProps = {style: {width: '100%', height: '100%'}};
 
+const malayalamtext =
+  'വളരുന്ന, സ്വതന്ത്രവും തുറന്നതുമായ, രണ്ടു ലക്ഷത്തിൽപ്പരം രേഖകളുള്ള ഒരു ഇംഗ്ലീഷ്-മലയാളം നിഘണ്ടു സമുച്ചയം.';
+const enText =
+  "This app is based on Olam's growing crowd sourced English-Malayalam dictionary dataset with over 125,000 Malayalam definitions for more than 58,000 English words.";
+
 export default function InfoScreen({
   onPressCloseBtn,
   changeAppLightMode,
@@ -98,20 +103,27 @@ export default function InfoScreen({
                   <Text fontSize="2xl">About</Text>
                 </Box>
 
-                <Text fontSize="md" lineHeight={'xl'} shadow={0}>
-                  This app is based on Olam's growing crowd sourced
-                  English-Malayalam dictionary dataset with over 125,000
-                  Malayalam definitions for more than 58,000 English words.
-                </Text>
-
                 <TextAnimator
-                  content={`വളരുന്ന, സ്വതന്ത്രവും തുറന്നതുമായ, രണ്ടു ലക്ഷത്തിൽപ്പരം രേഖകളുള്ള ഒരു ഇംഗ്ലീഷ്-മലയാളം നിഘണ്ടു സമുച്ചയം.`}
-                  duration={1000}
+                  content={enText}
+                  duration={500}
                   // eslint-disable-next-line react-native/no-inline-styles
                   textStyle={{
-                    fontSize: 15,
+                    fontSize: 16,
                     paddingTop: 8,
                   }}
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  wrapperStyle={{justifyContent: 'flex-start'}}
+                />
+
+                <TextAnimator
+                  content={malayalamtext}
+                  duration={1200}
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  textStyle={{
+                    fontSize: 16,
+                    paddingTop: 8,
+                  }}
+                  // eslint-disable-next-line react-native/no-inline-styles
                   wrapperStyle={{justifyContent: 'flex-start'}}
                 />
 
