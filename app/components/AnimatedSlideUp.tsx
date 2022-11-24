@@ -7,6 +7,7 @@ type Props = {
   duration?: number;
   startWhen?: boolean;
   animDirection?: animDirection;
+  outputRange?: number;
   onAnimationFinish?: () => void;
 };
 type State = {
@@ -27,6 +28,7 @@ export default class AnimatedSlideUp extends Component<
   static defaultProps = {
     duration: 300,
     onAnimationFinish: () => null,
+    outputRange: 1000,
   };
 
   componentDidMount() {
@@ -68,7 +70,7 @@ export default class AnimatedSlideUp extends Component<
             {
               translateY: animatedValue.interpolate({
                 inputRange: [0, 1],
-                outputRange: [1000, 0],
+                outputRange: [this.props.outputRange || 1000, 0],
               }),
             },
             {

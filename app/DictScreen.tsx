@@ -44,6 +44,8 @@ export default function DictScreen() {
     outputRange: ['0%', '100%'],
   });
 
+  const bgStyle = isAnimationFinished ? {backgroundColor: '#ffa'} : {};
+
   const animatedViewStyles = {
     height: sizeTranslation,
     width: sizeTranslation,
@@ -171,7 +173,7 @@ export default function DictScreen() {
     exactResults.enList.size === 0
   ) {
     resultNode = (
-      <Flex width={'90%'} flexGrow={1}>
+      <Flex width={'90%'} flexGrow={1} pt={10}>
         <NoItemCard
           isError={false}
           handleOnPress={handleOnPressOfNoResultCardCloseBtn}
@@ -186,7 +188,7 @@ export default function DictScreen() {
     exactResults.enList.size === 0
   ) {
     resultNode = (
-      <Flex width={'90%'} flexGrow={1}>
+      <Flex width={'90%'} flexGrow={1} pt={10}>
         <NoItemCard
           isError={true}
           handleOnPress={handleOnPressOfNoResultCardCloseBtn}
@@ -197,8 +199,8 @@ export default function DictScreen() {
 
   return (
     <Flex h={'100%'} w={'100%'}>
-      <Box {...upperBoxStyleProps} />
-      <Animated.View {...vStack1Props} h={percentageTransition}>
+      <Box {...upperBoxStyleProps} {...bgStyle} />
+      <Animated.View {...vStack1Props} {...bgStyle} h={percentageTransition}>
         <Animated.Image
           alt={'Alternate Text'}
           borderWidth={1}
@@ -222,10 +224,11 @@ export default function DictScreen() {
         {resultNode}
         <Center
           w="100%"
-          marginTop={'5%'}
-          marginBottom={'6%'}
+          paddingTop={'5%'}
+          paddingBottom={'5%'}
           marginLeft={0}
-          marginRight={0}>
+          marginRight={0}
+          {...bgStyle}>
           <AutoComplete
             key={uuid}
             onSearchTextSelected={searchDictionaryForWord}

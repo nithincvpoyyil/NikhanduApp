@@ -1,14 +1,6 @@
 import * as React from 'react';
-import {
-  VStack,
-  Text,
-  WarningOutlineIcon,
-  CloseIcon,
-  IconButton,
-  HStack,
-  WarningTwoIcon,
-  Box,
-} from 'native-base';
+import {Text, CloseIcon, IconButton, HStack, Box} from 'native-base';
+import AnimatedSlideUp from './AnimatedSlideUp';
 
 export function NoItemCard({
   handleOnPress,
@@ -40,48 +32,50 @@ export function NoItemCard({
       };
 
   return (
-    <Box
-      position={'relative'}
-      borderWidth={1}
-      pl={2}
-      pr={2}
-      pt={3}
-      pb={3}
-      rounded={10}
-      alignItems={'center'}
-      borderColor={styles.borderColor}
-      shadow="3"
-      borderLeftWidth={10}
-      bg={styles.bg}>
-      <HStack
-        justifyContent={'space-between'}
-        alignItems={'flex-start'}
-        width="100%">
-        <Text
-          color="coolGray.500"
-          paddingTop={0}
-          paddingBottom={1}
-          paddingRight={0}
-          paddingLeft={1}
-          fontWeight="medium"
-          fontSize="md"
-          accessibilityLabel={styles.iconAccessibilityLabel}>
-          {styles.text}
-        </Text>
-        <IconButton
-          borderWidth={1}
-          borderColor="light.50"
-          bg={styles.iconBg}
-          borderRadius={100}
-          shadow="3"
-          accessibilityLabel={'close message and search again'}
-          _icon={{size: 'md', color: 'light.50'}}
-          _pressed={{bg: styles.iconPressed}}
-          _focus={{bg: styles.iconFocused}}
-          icon={<CloseIcon />}
-          onPress={handleOnPress}
-        />
-      </HStack>
-    </Box>
+    <AnimatedSlideUp duration={500} outputRange={10}>
+      <Box
+        position={'relative'}
+        borderWidth={1}
+        pl={2}
+        pr={2}
+        pt={3}
+        pb={3}
+        rounded={10}
+        alignItems={'center'}
+        borderColor={styles.borderColor}
+        shadow="3"
+        borderLeftWidth={10}
+        bg={styles.bg}>
+        <HStack
+          justifyContent={'space-between'}
+          alignItems={'flex-start'}
+          width="100%">
+          <Text
+            color="coolGray.500"
+            paddingTop={0}
+            paddingBottom={1}
+            paddingRight={0}
+            paddingLeft={1}
+            fontWeight="medium"
+            fontSize="md"
+            accessibilityLabel={styles.iconAccessibilityLabel}>
+            {styles.text}
+          </Text>
+          <IconButton
+            borderWidth={1}
+            borderColor="light.50"
+            bg={styles.iconBg}
+            borderRadius={100}
+            shadow="3"
+            accessibilityLabel={'close message and search again'}
+            _icon={{size: 'md', color: 'light.50'}}
+            _pressed={{bg: styles.iconPressed}}
+            _focus={{bg: styles.iconFocused}}
+            icon={<CloseIcon />}
+            onPress={handleOnPress}
+          />
+        </HStack>
+      </Box>
+    </AnimatedSlideUp>
   );
 }

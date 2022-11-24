@@ -13,12 +13,7 @@ import * as React from 'react';
 import {ListRenderItemInfo, TouchableOpacity} from 'react-native';
 import {getSuggestions} from '../utils/DBHelper';
 import debounce from '../utils/debounce';
-import {
-  inputIconBtnStyles,
-  inputStyles,
-  suggestionListItemStyles,
-  suggestionListStyles,
-} from './AutocompleteStyles';
+import {getStyles} from './AutocompleteStyles';
 
 export default function AutoComplete(props: {
   onSearchTextSelected: (query: string) => void;
@@ -53,6 +48,13 @@ export default function AutoComplete(props: {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
+
+  const {
+    inputIconBtnStyles,
+    inputStyles,
+    suggestionListItemStyles,
+    suggestionListStyles,
+  } = getStyles({isInputFocused, isResultLoading});
 
   const onSearchKeyPressHandler = () => {
     setIsOpen(false);
@@ -93,7 +95,7 @@ export default function AutoComplete(props: {
       isDisabled={isResultLoading}
       _icon={{
         size: 'xl',
-        color: isInputFocused ? 'teal.700' : 'coolGray.500',
+        color: isInputFocused ? 'coolGray.800' : 'coolGray.600',
       }}
       {...inputIconBtnStyles}
     />
@@ -101,7 +103,7 @@ export default function AutoComplete(props: {
     <Spinner
       size="lg"
       accessibilityLabel="Loading search results"
-      color="teal.700"
+      color="coolGray.800"
     />
   );
 
