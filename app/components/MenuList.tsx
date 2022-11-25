@@ -5,7 +5,9 @@ export const MenuList = (props: {onPress: () => void}) => {
   return (
     <Fab
       bg={'transparent'}
-      placement="bottom-right"
+      placement={'bottom-right'}
+      _pressed={{bg: 'transparent'}}
+      _focus={{bg: 'transparent'}}
       label={
         <IconButton
           accessibilityLabel={'close message and search again'}

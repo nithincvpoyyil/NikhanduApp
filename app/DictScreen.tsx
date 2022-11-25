@@ -59,11 +59,10 @@ export default function DictScreen() {
       },
     ],
   };
-
   const doAnimation = () => {
     if (!isAnimated) {
       setIsAnimated(true);
-      Animated.parallel([
+      Animated.sequence([
         Animated.timing(textVisibilityTransition, {
           toValue: 0,
           duration: 600,
@@ -76,21 +75,22 @@ export default function DictScreen() {
           easing: Easing.ease,
           useNativeDriver: false,
         }),
-      ]).start(({finished}) => {
-        setIsAnimationFinished(finished);
-        Animated.timing(hTransition, {
-          toValue: 10,
-          duration: 1000,
-          easing: Easing.ease,
-          useNativeDriver: true,
-        }).start(() => {
+      ]).start(() => {
+        setIsAnimationFinished(true);
+        Animated.sequence([
+          Animated.timing(hTransition, {
+            toValue: 10,
+            duration: 1000,
+            easing: Easing.quad,
+            useNativeDriver: true,
+          }),
           Animated.timing(transitionFromZero, {
             toValue: 1,
             duration: 500,
-            easing: Easing.ease,
+            easing: Easing.circle,
             useNativeDriver: false,
-          }).start(() => {});
-        });
+          }),
+        ]).start();
       });
     }
   };
