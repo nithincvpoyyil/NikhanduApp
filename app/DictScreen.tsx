@@ -14,7 +14,7 @@ import {
   vStack1Props,
   vStack2Props,
 } from './NikhanduLandingScreenStyles';
-import {Animated, Easing} from 'react-native';
+import {Animated, Easing, StyleSheet} from 'react-native';
 import {NoItemCard} from './components/NoItemCard';
 const LogoImage = require('../app/assets/images/LandingLogo.png');
 
@@ -36,10 +36,15 @@ export default function DictScreen() {
   const [uuid, setUUID] = React.useState<number>(Date.now());
 
   const sizeTranslation = React.useRef(new Animated.Value(120)).current;
+  const paddingAnimation = React.useRef(new Animated.Value(5)).current;
   const transitionFromZero = React.useRef(new Animated.Value(0)).current;
   const hTransition = React.useRef(new Animated.Value(17)).current;
   const textVisibilityTransition = React.useRef(new Animated.Value(1)).current;
   const percentageTransition = hTransition.interpolate({
+    inputRange: [0, 100],
+    outputRange: ['0%', '100%'],
+  });
+  const paddingTransition = paddingAnimation.interpolate({
     inputRange: [0, 100],
     outputRange: ['0%', '100%'],
   });
@@ -62,19 +67,28 @@ export default function DictScreen() {
   const doAnimation = () => {
     if (!isAnimated) {
       setIsAnimated(true);
-      Animated.sequence([
-        Animated.timing(textVisibilityTransition, {
-          toValue: 0,
-          duration: 600,
-          easing: Easing.ease,
+
+      Animated.parallel([
+        Animated.timing(paddingAnimation, {
+          toValue: 2,
+          duration: 200,
+          easing: Easing.exp,
           useNativeDriver: false,
         }),
-        Animated.timing(sizeTranslation, {
-          toValue: 60,
-          duration: 500,
-          easing: Easing.ease,
-          useNativeDriver: false,
-        }),
+        Animated.sequence([
+          Animated.timing(textVisibilityTransition, {
+            toValue: 0,
+            duration: 600,
+            easing: Easing.ease,
+            useNativeDriver: false,
+          }),
+          Animated.timing(sizeTranslation, {
+            toValue: 40,
+            duration: 500,
+            easing: Easing.ease,
+            useNativeDriver: false,
+          }),
+        ]),
       ]).start(() => {
         setIsAnimationFinished(true);
         Animated.sequence([
@@ -143,12 +157,11 @@ export default function DictScreen() {
         width={'100%'}
         flexGrow={1}
         zoomScale={2}
-        paddingTop={'5%'}
+        paddingTop={'6%'}
         paddingBottom={'20%'}
         scrollsToTop={true}
         showsVerticalScrollIndicator={true}
-        borderTopWidth={2}
-        borderTopColor={'coolGray.50'}>
+        borderTopWidth={0}>
         <Center>
           <DisplayGroupedData
             groupedData={exactResults}
@@ -222,13 +235,15 @@ export default function DictScreen() {
 
       <VStack {...vStack2Props}>
         {resultNode}
-        <Center
-          w="100%"
-          paddingTop={'5%'}
-          paddingBottom={'5%'}
-          marginLeft={0}
-          marginRight={0}
-          {...bgStyle}>
+        <Animated.View
+          style={[
+            styles.inputContainer,
+            {
+              paddingTop: paddingTransition,
+              paddingBottom: paddingTransition,
+              ...bgStyle,
+            },
+          ]}>
           <AutoComplete
             key={uuid}
             onSearchTextSelected={searchDictionaryForWord}
@@ -236,10 +251,22 @@ export default function DictScreen() {
             onQueryInvalid={clearResults}
             onInputFocus={doAnimation}
           />
-        </Center>
+        </Animated.View>
       </VStack>
 
       <HStack {...hStack1Props} />
     </Flex>
   );
 }
+
+const styles = StyleSheet.create({
+  inputContainer: {
+    width: '100%',
+    marginLeft: 0,
+    marginRight: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ffa',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
