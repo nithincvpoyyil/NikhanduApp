@@ -15,22 +15,20 @@ export default function DisplayGroupedData(props: DisplayGroupedDataProps) {
   const {groupedData, isExactResults, renderHeading = () => null} = props;
   const {enList, enMap} = groupedData;
   const groupedNode = [];
-  let index = 1;
   const boxStyles = isExactResults
     ? exactStyles.boxStyles
     : similarStyles.boxStyles;
 
   for (let key of enList) {
-    let enWord = isExactResults ? key : `${index}.  ${key}`;
+    let enWord = key;
     groupedNode.push(
-      <DictItemCard key={key} enWord={enWord}>
+      <DictItemCard key={key} enWord={enWord} isExactResults={isExactResults}>
         <DisplayGroupedPartOfSpeech
           groupedPOfSMap={enMap.get(key)}
           isExactResults={isExactResults}
         />
       </DictItemCard>,
     );
-    index++;
   }
   const heading = enList.size ? renderHeading() : null;
   return (
