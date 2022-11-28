@@ -37,7 +37,7 @@ export default function DictItemCard(
         pt={1}
         pb={1}>
         <Text
-          pl={1}
+          pl={2}
           pr={2}
           bg="#ffb"
           color="coolGray.800"
@@ -50,11 +50,17 @@ export default function DictItemCard(
 
         {mlPhonetics ? (
           <>
-            <Text color="coolGray.800" fontSize="2xl" p={1}>
-              .
-            </Text>
+            <Box
+              ml={2}
+              mr={2}
+              w={1.5}
+              h={1.5}
+              bw={1}
+              bg={'coolGray.600'}
+              borderColor="coolGray.600"
+              style={{transform: [{rotate: '45deg'}]}} />
             <Text
-              pl={1}
+              pl={2}
               pr={2}
               bg="#ffb"
               color="coolGray.800"
