@@ -372,6 +372,10 @@ PODS:
     - React-perflogger (= 0.70.3)
   - RealmJS (11.0.0):
     - React
+  - RNCAsyncStorage (1.17.11):
+    - React-Core
+  - RNCClipboard (1.11.1):
+    - React-Core
   - RNFS (2.20.0):
     - React-Core
   - RNSVG (12.1.1):
@@ -442,6 +446,8 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - RealmJS (from `../node_modules/realm`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNCClipboard (from `../node_modules/@react-native-clipboard/clipboard`)"
   - RNFS (from `../node_modules/react-native-fs`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -535,6 +541,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   RealmJS:
     :path: "../node_modules/realm"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNCClipboard:
+    :path: "../node_modules/@react-native-clipboard/clipboard"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNSVG:
@@ -591,6 +601,8 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: e9b1f9310158a1e265bcdfdfd8c62d6174b947a2
   ReactCommon: 01064177e66d652192c661de899b1076da962fd9
   RealmJS: 55a0d0d600a0da7d5f0cf42ecbabcd09708c7601
+  RNCAsyncStorage: 8616bd5a58af409453ea4e1b246521bb76578d60
+  RNCClipboard: 2834e1c4af68697089cdd455ee4a4cdd198fa7dd
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNSVG: 551acb6562324b1d52a4e0758f7ca0ec234e278f
   SocketRocket: fccef3f9c5cedea1353a9ef6ada904fde10d6608
