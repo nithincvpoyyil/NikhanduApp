@@ -123,7 +123,7 @@ export default function AutoComplete(props: {
   };
 
   return (
-    <Container width="100%" position={'relative'}>
+    <Container position={'relative'}>
       {ifSuggestionsPresent ? (
         <TouchableOpacity style={styles.overlay} onPress={onOverlayClick} />
       ) : null}

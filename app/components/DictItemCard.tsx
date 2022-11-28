@@ -10,24 +10,33 @@ export const vStackProps: InterfaceVStackProps = {
 };
 
 export default function DictItemCard(
-  props: React.PropsWithChildren<{enWord: string; isExactResults: boolean}>,
+  props: React.PropsWithChildren<{
+    enWord: string;
+    mlPhonetics: string;
+    isExactResults: boolean;
+  }>,
 ) {
-  const {enWord, isExactResults} = props;
+  const {enWord, mlPhonetics} = props;
   return (
     <Box
+      width={'96%'}
+      maxWidth="100%"
       mb={5}
-      w={'100%'}
-      maxWidth={'500px'}
+      ml="2%"
       borderWidth="1"
-      borderColor={isExactResults ? 'emerald.500' : 'coolGray.400'}
+      borderColor={'coolGray.100'}
       shadow="3"
-      bg="coolGray.100"
+      bg="white"
       p="5"
       rounded="8">
-      <Flex direction="row">
+      <Flex
+        direction="row"
+        wrap="wrap"
+        alignItems={'center'}
+        justifyContent={'flex-start'}
+        pt={1}
+        pb={1}>
         <Text
-          pt={1}
-          pb={1}
           pl={1}
           pr={2}
           bg="#ffb"
@@ -38,6 +47,25 @@ export default function DictItemCard(
           fontSize="2xl">
           {enWord}
         </Text>
+
+        {mlPhonetics ? (
+          <>
+            <Text color="coolGray.800" fontSize="2xl" p={1}>
+              .
+            </Text>
+            <Text
+              pl={1}
+              pr={2}
+              bg="#ffb"
+              color="coolGray.800"
+              mt="0"
+              mb="3"
+              fontWeight="medium"
+              fontSize="2xl">
+              {mlPhonetics}
+            </Text>
+          </>
+        ) : null}
       </Flex>
       {props.children}
     </Box>

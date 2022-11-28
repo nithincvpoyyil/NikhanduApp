@@ -11,7 +11,7 @@ const getPartOfSpeech = (key: string) => {
 export function DisplayOlamDBItem(props: {item: OlamDBItem}) {
   const {item} = props;
   return (
-    <Box
+    <Box  
       paddingTop={'1.5'}
       paddingRight={'3'}
       paddingBottom={'1.5'}
@@ -24,8 +24,8 @@ export function DisplayOlamDBItem(props: {item: OlamDBItem}) {
       borderColor="coolGray.400"
       borderRadius={'24px'}
       borderWidth="1"
-      bg={'light.50'}>
-      <Text fontSize="sm" color="coolGray.700" selectable>
+      bg={'white'}>
+      <Text fontSize="sm" color="coolGray.800" selectable>
         {item.malayalam_definition}
       </Text>
     </Box>
