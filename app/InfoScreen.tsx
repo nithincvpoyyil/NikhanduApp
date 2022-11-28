@@ -97,20 +97,8 @@ export default function InfoScreen({
               </Box>
 
               <TextAnimator
-                content={malayalamText2}
-                duration={800}
-                // eslint-disable-next-line react-native/no-inline-styles
-                textStyle={{
-                  fontSize: 16,
-                  paddingTop: 8,
-                }}
-                // eslint-disable-next-line react-native/no-inline-styles
-                wrapperStyle={{justifyContent: 'flex-start'}}
-              />
-
-              <TextAnimator
                 content={malayalamtext1}
-                duration={100}
+                duration={500}
                 // eslint-disable-next-line react-native/no-inline-styles
                 textStyle={{
                   fontSize: 16,
@@ -122,7 +110,7 @@ export default function InfoScreen({
 
               <TextAnimator
                 content={enText}
-                duration={100}
+                duration={500}
                 // eslint-disable-next-line react-native/no-inline-styles
                 textStyle={{
                   fontSize: 16,
