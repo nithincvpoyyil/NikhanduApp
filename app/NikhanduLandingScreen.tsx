@@ -12,7 +12,7 @@ export default function NikhanduLandingScreen() {
   const [currentScreen, setCurrentScreen] = React.useState<'info' | 'dict'>(
     'dict',
   );
-  const [_, setIsDeviceMode] = React.useState<DeviceLightMode>('dark');
+  const [deviceMode, setIsDeviceMode] = React.useState<DeviceLightMode>('dark');
 
   const onPressCloseBtn = () => {
     setCurrentScreen('dict');

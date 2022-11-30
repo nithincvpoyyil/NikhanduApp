@@ -114,12 +114,7 @@ export async function getResultsFromDB(
       exactResults: exactResultsGrouped,
       similarResults: similarResultsGrouped,
     };
-  } catch (e) {
-    if (e instanceof Error) {
-      let error = e as Error;
-      console.log(' | message:', error.message, ' | name:', e.name);
-    }
-  }
+  } catch (e) {}
   return {
     exactResults: {enList: new Set(), enMap: new Map()},
     similarResults: {enList: new Set(), enMap: new Map()},
@@ -174,12 +169,7 @@ export async function getSuggestions(
       }
     }
     return set;
-  } catch (e) {
-    if (e instanceof Error) {
-      let error = e as Error;
-      console.log(' | message:', error.message, ' | name:', e.name);
-    }
-  }
+  } catch (e) {}
   return new Set<string>();
 }
 
@@ -226,11 +216,6 @@ export async function healthCheck(): Promise<any> {
       resultsCount,
     };
   } catch (e) {
-    if (e instanceof Error) {
-      let error = e as Error;
-      console.log(' | message:', error.message, ' | name:', e.name);
-    }
-
     return {
       bundlePath,
       error: true,
