@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {GroupByDictWord} from '../utils/DBHelper';
+import {GroupByDictWord} from '../../utils/DBHelper';
 import DisplayGroupedPartOfSpeech from './DisplayGroupedPartOfSpeech';
 import DictItemCard from './DictItemCard';
-import {Phonetics} from '../utils/Phonetics';
+import {Phonetics} from '../../utils/Phonetics';
 
 export type DisplayGroupedDataProps = {
   groupedData: GroupByDictWord;

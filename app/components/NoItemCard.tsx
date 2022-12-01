@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Text, CloseIcon, IconButton, HStack, Box} from 'native-base';
-import AnimatedSlideUp from './AnimatedSlideUp';
+import AnimatedSlideUp from "./animatedComponents/AnimatedSlideUp";
 
 export function NoItemCard({
   handleOnPress,

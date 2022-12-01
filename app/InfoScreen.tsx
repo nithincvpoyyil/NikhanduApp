@@ -12,9 +12,9 @@ import {
   Link,
 } from 'native-base';
 import {InterfaceVStackProps} from 'native-base/lib/typescript/components/primitives/Stack/VStack';
-import AnimatedSlideUp from './components/AnimatedSlideUp';
+import AnimatedSlideUp from './components/animatedComponents/AnimatedSlideUp';
 import {DeviceLightMode} from './types';
-import TextAnimator from './components/TextAnimator';
+import TextAnimator from './components/animatedComponents/TextAnimator';
 import {enText, links, malayalamtext1} from './utils/textConstants';
 export const vStackProps: InterfaceVStackProps = {
   space: 5,

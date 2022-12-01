@@ -8,11 +8,14 @@ import {
   SearchIcon,
   Spinner,
   Text,
+  theme,
 } from 'native-base';
 import * as React from 'react';
 import {ListRenderItemInfo, StyleSheet, TouchableOpacity} from 'react-native';
-import {getSuggestions} from '../utils/DBHelper';
-import debounce from '../utils/debounce';
+import {getSuggestions} from '../../utils/DBHelper';
+import debounce from '../../utils/debounce';
+import {getTheme} from '../../utils/getTheme';
+
 import {getStyles} from './AutocompleteStyles';
 
 export default function AutoComplete(props: {
@@ -30,6 +33,8 @@ export default function AutoComplete(props: {
     onInputFocus = () => null,
   } = props;
   const [isInputFocused, setIsInputFocused] = React.useState(false);
+
+  const theme = getTheme();
 
   const onFocus = () => {
     onInputFocus();
@@ -112,8 +117,8 @@ export default function AutoComplete(props: {
         onPressListItem(listItem.item);
       }}>
       <Box {...suggestionListItemStyles}>
-        <SearchIcon marginLeft={1} marginRight={2} color="coolGray.800" />
-        <Text>{listItem.item}</Text>
+        <SearchIcon marginLeft={1} marginRight={2} color={theme.darkColor1} />
+        <Text color={theme.darkColor1}>{listItem.item}</Text>
       </Box>
     </TouchableOpacity>
   );
@@ -170,10 +175,10 @@ var styles = StyleSheet.create({
   overlay: {
     position: 'absolute',
     left: '-100%',
-    top: -100,
+    top: -200,
     opacity: 0.3,
-    backgroundColor: '#fff',
+    backgroundColor: 'transprent',
     width: '400%',
-    height: 4000,
+    height: 5000,
   },
 });

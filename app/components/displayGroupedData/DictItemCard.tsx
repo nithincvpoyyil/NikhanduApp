@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Box, Flex, Text} from 'native-base';
 import {InterfaceVStackProps} from 'native-base/lib/typescript/components/primitives/Stack/VStack';
+import {getTheme} from '../../utils/getTheme';
 
 export const vStackProps: InterfaceVStackProps = {
   space: 5,
@@ -17,6 +18,8 @@ export default function DictItemCard(
   }>,
 ) {
   const {enWord, mlPhonetics} = props;
+
+  const theme = getTheme();
   return (
     <Box
       width={'96%'}
@@ -24,7 +27,7 @@ export default function DictItemCard(
       mb={5}
       ml="2%"
       borderWidth="1"
-      borderColor={'coolGray.100'}
+      borderColor={theme.lightBG}
       shadow="3"
       bg="white"
       p="5"
@@ -39,8 +42,8 @@ export default function DictItemCard(
         <Text
           pl={2}
           pr={2}
-          bg="#ffb"
-          color="coolGray.800"
+          bg={theme.primaryBG}
+          color={theme.primaryText}
           mt="0"
           mb="3"
           fontWeight="medium"
@@ -56,14 +59,15 @@ export default function DictItemCard(
               w={1.5}
               h={1.5}
               bw={1}
-              bg={'coolGray.600'}
-              borderColor="coolGray.600"
-              style={{transform: [{rotate: '45deg'}]}} />
+              bg={theme.primaryBG}
+              borderColor={theme.primaryBG}
+              style={{transform: [{rotate: '45deg'}]}}
+            />
             <Text
               pl={2}
               pr={2}
-              bg="#ffb"
-              color="coolGray.800"
+              bg={theme.primaryBG}
+              color={theme.primaryText}
               mt="0"
               mb="3"
               fontWeight="medium"
