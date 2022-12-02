@@ -34,7 +34,7 @@ export default function LightMode() {
 
   return (
     <VStack alignItems={'flex-start'} justifyContent="flex-start" m={2}>
-      <Text color={themeObject.primaryText} fontSize="sm" m={10}>
+      <Text color={themeObject.primaryText} fontSize="sm" mt={1} mb={5}>
         <Text bold>Change app theme</Text>
       </Text>
       <HStack alignItems={'center'} justifyContent="flex-start">
@@ -51,7 +51,7 @@ export default function LightMode() {
               borderRadius={100}>
               <IconButton
                 borderColor={itemTheme.secondryBG}
-                bg={'#fff'}
+                bg={itemTheme.secondaryText}
                 borderRadius={100}
                 collapsable={true}
                 _icon={{size: 'md'}}
