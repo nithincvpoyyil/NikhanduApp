@@ -11,6 +11,7 @@ import * as React from 'react';
 import {ListRenderItemInfo, StyleSheet, TouchableOpacity} from 'react-native';
 import {getSuggestions} from '../../utils/DBHelper';
 import debounce from '../../utils/debounce';
+import {useThemeObject} from '../../utils/getTheme';
 
 import {getStyles} from './AutocompleteStyles';
 import SuggestedListItem from './SuggestedListItem';
@@ -33,7 +34,7 @@ export default function AutoComplete(props: {
   const [loading, setLoading] = React.useState<boolean>(isResultLoading);
   const [isInputFocused, setIsInputFocused] = React.useState(false);
   const [uuid] = React.useState<number>(Date.now());
-
+  const theme = useThemeObject();
   React.useEffect(() => {
     setLoading(isResultLoading);
   }, [isResultLoading]);
@@ -86,12 +87,13 @@ export default function AutoComplete(props: {
     props.onSearchTextSelected(suggestion);
   };
   const ifSuggestionsPresent = !!suggestions.length;
+
   const {
     inputIconBtnStyles,
     inputStyles,
     suggestionListItemStyles,
     suggestionListStyles,
-  } = getStyles({isInputFocused, isResultLoading, ifSuggestionsPresent});
+  } = getStyles({isInputFocused, isResultLoading, ifSuggestionsPresent, theme});
 
   const inputRightLogo = (
     <IconButton

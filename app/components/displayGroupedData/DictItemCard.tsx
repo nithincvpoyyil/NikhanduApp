@@ -29,7 +29,7 @@ export default function DictItemCard(
       borderWidth="1"
       borderColor={theme.lightBG}
       shadow="3"
-      bg="white"
+      bg={theme.lightColor1}
       p="5"
       rounded="8">
       <Flex

@@ -18,6 +18,7 @@ import TextAnimator from './components/animatedComponents/TextAnimator';
 import {enText, links} from './utils/textConstants';
 import {useThemeObject} from './utils/getTheme';
 import {StyleSheet} from 'react-native';
+import LightMode from './components/LightMode';
 export const vStackProps: InterfaceVStackProps = {
   space: 5,
   alignItems: 'center',
@@ -94,6 +95,7 @@ export default function InfoScreen({
           />
         </Flex>
         <Flex flexGrow={1} width={'100%'} pl={'5%'} pr={'5%'}>
+          <LightMode />
           <ScrollView horizontal={false} width="100%">
             <VStack {...vStackProps}>
               <Box

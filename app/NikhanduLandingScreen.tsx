@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {NativeBaseProvider, Box, Fab} from 'native-base';
+import {NativeBaseProvider, Box} from 'native-base';
 import {MenuList} from './components/MenuList';
 import DictScreen from './DictScreen';
 import InfoScreen from './InfoScreen';
@@ -10,7 +10,7 @@ export default function NikhanduLandingScreen() {
     'dict',
   );
   const [theme, setTheme] = React.useState<ThemeKey>('default');
-  const [themeFromStore] = useStoreTheme(theme);
+  const [themeFromStore, setThemeToStore] = useStoreTheme(theme);
 
   const onPressCloseBtn = () => {
     setCurrentScreen('dict');
@@ -21,11 +21,18 @@ export default function NikhanduLandingScreen() {
 
   React.useEffect(() => {
     setTheme(themeFromStore);
+   
   }, [themeFromStore]);
+
+  // sync code for both context and store
+  const updateTheme = (themeVal: ThemeKey) => {
+    setTheme(themeVal);
+    setThemeToStore(themeVal);
+  };
 
   return (
     <NativeBaseProvider>
-      <ThemeContext.Provider value={{theme: theme, setTheme}}>
+      <ThemeContext.Provider value={{theme: theme, setTheme: updateTheme}}>
         <Box zIndex={100}>
           {currentScreen === 'dict' ? <MenuList onPress={onPressMenu} /> : null}
         </Box>

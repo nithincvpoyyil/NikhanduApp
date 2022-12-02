@@ -24,13 +24,13 @@ export const MenuList = (props: {onPress: () => void}) => {
           size="lg"
           shadow={3}
           onPress={props.onPress}
-          bg={theme.whiteColor1}
+          bg={theme.primaryBG}
           collapsable={true}
           icon={<ThreeDotsIcon key={uuid} />}
-          _icon={{size: 'xl', color: theme.primaryBG}}
+          _icon={{size: 'xl', color: theme.primaryText}}
           _pressed={{
-            backgroundColor: theme.primaryBG,
-            _icon: {color: theme.whiteColor1},
+            backgroundColor: theme.primaryText,
+            _icon: {color: theme.primaryBG},
           }}
           _focus={{
             backgroundColor: theme.primaryBG,

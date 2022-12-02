@@ -6,10 +6,12 @@ import {
   SunIcon,
   MoonIcon,
   HamburgerIcon,
+  VStack,
   HStack,
 } from 'native-base';
 import {InterfaceVStackProps} from 'native-base/lib/typescript/components/primitives/Stack/VStack';
-import {DeviceLightMode} from '../types';
+import {ThemeKey} from '../types';
+import {ThemeContext, themes, useThemeObject} from '../utils/getTheme';
 
 export const vStackProps: InterfaceVStackProps = {
   space: 5,
@@ -18,70 +20,56 @@ export const vStackProps: InterfaceVStackProps = {
   height: '100%',
 };
 
-export default function LightMode({
-  currentMode,
-  changeAppLightMode,
-}: {
-  currentMode: DeviceLightMode;
-  changeAppLightMode: (mode: DeviceLightMode) => void;
-}) {
+export default function LightMode() {
+  const themeList: Array<ThemeKey> = [
+    'default',
+    'green',
+    'yellow',
+    'powersave',
+    'indigo',
+    'white',
+  ];
+  const {theme, setTheme} = React.useContext(ThemeContext);
+  const themeObject = useThemeObject();
+
   return (
-    <HStack alignItems={'center'} justifyContent="flex-start" m={2}>
-      <Box flex={1}>
-        <Text color="coolGray.600" fontSize="sm">
-          <Text bold>Light</Text>/<Text bold>Dark</Text>/
-          <Text bold>Device</Text> theme:
-        </Text>
-      </Box>
-      <IconButton
-        mr={2}
-        borderColor="coolGray.800"
-        borderRadius={100}
-        shadow="3"
-        borderWidth={1}
-        _icon={{size: 'md'}}
-        bg={currentMode !== 'light' ? '#ffa' : 'coolGray.700'}
-        icon={
-          <SunIcon color={currentMode !== 'light' ? 'coolGray.700' : '#ffa'} />
-        }
-        onPress={() => {
-          changeAppLightMode('light');
-        }}
-      />
-
-      <IconButton
-        mr={2}
-        borderColor="coolGray.800"
-        borderRadius={100}
-        borderWidth={1}
-        shadow="3"
-        _icon={{size: 'md'}}
-        bg={currentMode !== 'dark' ? '#ffa' : 'coolGray.700'}
-        icon={
-          <MoonIcon color={currentMode !== 'dark' ? 'coolGray.700' : '#ffa'} />
-        }
-        onPress={() => {
-          changeAppLightMode('dark');
-        }}
-      />
-
-      <IconButton
-        mr={2}
-        borderColor="coolGray.800"
-        borderRadius={100}
-        borderWidth={1}
-        shadow="3"
-        _icon={{size: 'md'}}
-        bg={currentMode !== 'device' ? '#ffa' : 'coolGray.700'}
-        icon={
-          <HamburgerIcon
-            color={currentMode !== 'device' ? 'coolGray.700' : '#ffa'}
-          />
-        }
-        onPress={() => {
-          changeAppLightMode('device');
-        }}
-      />
-    </HStack>
+    <VStack alignItems={'flex-start'} justifyContent="flex-start" m={2}>
+      <Text color={themeObject.primaryText} fontSize="sm" m={10}>
+        <Text bold>Change app theme</Text>
+      </Text>
+      <HStack alignItems={'center'} justifyContent="flex-start">
+        {themeList.map(themeItem => {
+          const itemTheme = themes[themeItem];
+          const isSelected = theme === themeItem;
+          return (
+            <Box
+              key={themeItem}
+              borderWidth={isSelected ? 2 : 0}
+              borderColor={themeObject.primaryText}
+              p={1}
+              m={1}
+              borderRadius={100}>
+              <IconButton
+                borderColor={itemTheme.secondryBG}
+                bg={'#fff'}
+                borderRadius={100}
+                collapsable={true}
+                _icon={{size: 'md'}}
+                icon={
+                  <MoonIcon
+                    color={
+                      isSelected ? itemTheme.primaryBG : itemTheme.secondryBG
+                    }
+                  />
+                }
+                onPress={() => {
+                  setTheme(themeItem);
+                }}
+              />
+            </Box>
+          );
+        })}
+      </HStack>
+    </VStack>
   );
 }
