@@ -109,7 +109,7 @@ export default function AnimatedUpperSection(props: Props) {
               }),
             },
           ]}>
-          Offline English-Malayalam Dictionay
+          Offline English-Malayalam Dictionary
         </Animated.Text>
       </Animated.View>
 
