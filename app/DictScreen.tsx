@@ -59,8 +59,6 @@ export default function DictScreen() {
   };
 
   const searchDictionaryForWord = (key: string) => {
-    console.log(key);
-
     if (!key || key.length < 2) {
       clearResults();
       return;
