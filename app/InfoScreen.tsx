@@ -115,11 +115,11 @@ export default function InfoScreen({
               <TextAnimator
                 content={enText}
                 duration={200}
-                textStyle={{...styles.text, color: theme.lightBG}}
+                textStyle={{...styles.text, color: theme.primaryText}}
                 wrapperStyle={styles.wrapper}
               />
             </VStack>
-            <Text fontSize="lg" bold mt={10} color={theme.lightBG}>
+            <Text fontSize="lg" bold mt={10} color={theme.primaryText}>
               Links
             </Text>
             <VStack>
@@ -132,7 +132,7 @@ export default function InfoScreen({
                   pl={0}
                   pr={1}
                   pb={1}
-                  _text={{fontSize: 'sm', color: theme.lightBG}}>
+                  _text={{fontSize: 'sm', color: theme.primaryText}}>
                   {i.key}
                 </Link>
               ))}

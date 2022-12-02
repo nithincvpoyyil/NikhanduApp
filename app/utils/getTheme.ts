@@ -1,15 +1,8 @@
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {Theme} from '../types';
+import {Theme, ThemeKey} from '../types';
 import {getData, setData} from './DataStore';
 
 const themeStoreKey = '@NikhanduAppTheme';
-export type ThemeKey =
-  | 'default'
-  | 'green'
-  | 'yellow'
-  | 'powersave'
-  | 'indigo'
-  | 'white';
 export const themes: Record<ThemeKey, Theme> = {
   default: {
     primaryBG: '#376AED',
@@ -24,7 +17,6 @@ export const themes: Record<ThemeKey, Theme> = {
     darkColor2: '#2151CD',
     lightColor1: '#ffffff',
     lightColor2: '#ffffff',
-    whiteColor1: '#ffffff',
   },
   indigo: {
     primaryBG: '#083D77',
@@ -39,7 +31,6 @@ export const themes: Record<ThemeKey, Theme> = {
     darkColor2: '#1261A5',
     lightColor1: '#ffffff',
     lightColor2: '#ffffff',
-    whiteColor1: '#ffffff',
   },
   green: {
     primaryBG: '#339989',
@@ -54,7 +45,6 @@ export const themes: Record<ThemeKey, Theme> = {
     darkColor2: '#56B38C',
     lightColor1: '#ffffff',
     lightColor2: '#ffffff',
-    whiteColor1: '#ffffff',
   },
   yellow: {
     primaryBG: '#FFAD0A',
@@ -69,7 +59,6 @@ export const themes: Record<ThemeKey, Theme> = {
     darkColor2: '#063B4B',
     lightColor1: '#ffffff',
     lightColor2: '#ffffff',
-    whiteColor1: '#ffffff',
   },
   white: {
     primaryBG: '#f9f9f9',
@@ -84,7 +73,6 @@ export const themes: Record<ThemeKey, Theme> = {
     darkColor2: '#063B4B',
     lightColor1: '#ffffff',
     lightColor2: '#ffffff',
-    whiteColor1: '#ffffff',
   },
   powersave: {
     primaryBG: '#376AED',
@@ -99,7 +87,6 @@ export const themes: Record<ThemeKey, Theme> = {
     darkColor2: '#2151CD',
     lightColor1: '#ffffff',
     lightColor2: '#ffffff',
-    whiteColor1: '#ffffff',
   },
 };
 

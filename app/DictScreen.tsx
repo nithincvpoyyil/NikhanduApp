@@ -10,7 +10,7 @@ import DisplayGroupedData from './components/displayGroupedData/DisplayGroupedDa
 import SimilarResultsHeading from './components/SimilarResultsHeading';
 import {hStack1Props, vStack2Props} from './NikhanduLandingScreenStyles';
 import {NoItemCard} from './components/NoItemCard';
-import { useThemeObject} from './utils/getTheme';
+import {useThemeObject} from './utils/getTheme';
 import AnimatedUpperSection from './components/animatedComponents/AnimatedUpperSection';
 import {LoadState} from './types';
 

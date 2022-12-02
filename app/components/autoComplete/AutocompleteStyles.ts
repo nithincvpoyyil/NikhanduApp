@@ -32,10 +32,10 @@ export function getStyles(args: Args) {
     paddingBottom: 3,
     borderWidth: 1,
     borderLeftWidth: 1,
-    borderColor: theme.secondryBG,
     size: '2xl',
     w: '100%',
     variant: 'unstyled',
+    borderColor: theme.secondryBG,
     bg: theme.secondryBG,
     placeholderTextColor: theme.secondaryText,
     _focus: {
@@ -49,21 +49,24 @@ export function getStyles(args: Args) {
 
   const inputIconBtnStyles: IIconButtonProps = {
     size: 'md',
-    bg: 'transparent',
+    bg: theme.searchIconBG || 'transparent',
     borderWidth: 0,
     borderRadius: 100,
     _icon: {
       collapsable: true,
-      color: theme.primaryBG,
+      color: theme.searchIconColor || theme.secondaryText,
     },
     _pressed: {
       bg: theme.primaryBG,
       _icon: {
-        color: theme.secondryBG,
+        color: theme.primaryText,
       },
     },
     _focus: {
       bg: theme.primaryBG,
+      _icon: {
+        color: theme.primaryText,
+      },
     },
   };
 

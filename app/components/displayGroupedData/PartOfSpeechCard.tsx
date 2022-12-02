@@ -25,7 +25,7 @@ export function DisplayOlamDBItem(props: {item: OlamDBItem}) {
       borderColor={theme.primaryBG}
       borderRadius={'24px'}
       borderWidth="1"
-      bg={theme.whiteColor1}>
+      bg={theme.lightColor1}>
       <Text fontSize="sm" color={theme.darkColor1} selectable>
         {item.malayalam_definition}
       </Text>

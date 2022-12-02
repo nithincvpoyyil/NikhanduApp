@@ -21,7 +21,6 @@ export default function NikhanduLandingScreen() {
 
   React.useEffect(() => {
     setTheme(themeFromStore);
-   
   }, [themeFromStore]);
 
   // sync code for both context and store
