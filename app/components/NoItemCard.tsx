@@ -34,6 +34,8 @@ const getText = (isError: boolean, theme: Theme) => {
 export function NoItemCard({handleOnPress, isError = false}: Props) {
   const theme = getTheme();
   const styles = getText(isError, theme);
+  const [uuid] = React.useState<number>(Date.now());
+
   return (
     <AnimatedSlideUp duration={800} outputRange={20}>
       <Box
@@ -80,7 +82,7 @@ export function NoItemCard({handleOnPress, isError = false}: Props) {
               bg: theme.primaryText,
               _icon: {color: theme.primaryBG},
             }}
-            icon={<CloseIcon />}
+            icon={<CloseIcon key={uuid} />}
             onPress={handleOnPress}
           />
         </HStack>

@@ -72,7 +72,6 @@ export default function DictScreen() {
     setIsResultLoadingState('loading');
     getResultsFromDB(key).then(
       results => {
-        console.log(results.exactResults.enList.size);
         setExactResults(results.exactResults);
         setSimilarResults(results.similarResults);
         setIsResultLoadingState('loaded');

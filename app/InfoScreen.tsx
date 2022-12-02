@@ -36,6 +36,7 @@ export default function InfoScreen({
   const [animDirection, setAnimDirection] = React.useState<
     'forward' | 'reverse'
   >('forward');
+  const [uuid] = React.useState<number>(Date.now());
 
   const handleOnPress = () => {
     setAnimDirection('reverse');
@@ -86,7 +87,7 @@ export default function InfoScreen({
             accessibilityLabel={'close settings'}
             accessibilityHint={'close settings goto home screen'}
             bg={theme.primaryText}
-            icon={<CloseIcon />}
+            icon={<CloseIcon key={uuid} />}
             onPress={handleOnPress}
             _icon={{size: 'md', color: theme.primaryBG}}
             _pressed={{_icon: {color: theme.primaryText}, bg: theme.primaryBG}}
@@ -111,7 +112,7 @@ export default function InfoScreen({
 
               <TextAnimator
                 content={enText}
-                duration={100}
+                duration={200}
                 textStyle={{...styles.text, color: theme.lightBG}}
                 wrapperStyle={styles.wrapper}
               />

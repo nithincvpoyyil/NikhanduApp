@@ -32,6 +32,7 @@ export default function AutoComplete(props: {
   const [suggestions, setSuggestions] = React.useState<Array<string>>([]);
   const [loading, setLoading] = React.useState<boolean>(isResultLoading);
   const [isInputFocused, setIsInputFocused] = React.useState(false);
+  const [uuid] = React.useState<number>(Date.now());
 
   React.useEffect(() => {
     setLoading(isResultLoading);
@@ -95,7 +96,7 @@ export default function AutoComplete(props: {
   const inputRightLogo = (
     <IconButton
       onPress={onSearchKeyPressHandler}
-      icon={<SearchIcon />}
+      icon={<SearchIcon key={uuid} />}
       isDisabled={isResultLoading}
       {...inputIconBtnStyles}
     />
