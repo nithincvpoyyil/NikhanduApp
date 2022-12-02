@@ -44,21 +44,24 @@ export default function PartOfSpeechCard(props: {
     <Box
       width="100%"
       borderWidth={1}
-      borderColor={theme.secondryBG}
+      borderColor={theme.darkColor2}
       mt={2}
       mb={4}
       borderTopLeftRadius={10}
       borderTopRightRadius={10}
       borderBottomLeftRadius={10}
-      borderBottomRightRadius={10}>
-      <HStack mb={1}>
+      borderBottomRightRadius={10}
+      overflow="hidden">
+      <HStack mb={1} mt={1}>
         <Badge
-          bgColor={theme.darkColor2}
+          borderWidth={0}
+          backgroundColor={theme.lightBG}
           _text={{
-            color: theme.whiteColor1,
-            fontSize: 'sm',
+            color: theme.darkColor1,
+            fontSize: 'md',
+            bold: true,
           }}
-          variant="solid"
+          variant="outline"
           rounded="5">
           {getPartOfSpeech(partOfSpeech)}
         </Badge>

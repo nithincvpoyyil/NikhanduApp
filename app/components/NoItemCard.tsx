@@ -1,24 +1,24 @@
 import * as React from 'react';
 import {Text, CloseIcon, IconButton, HStack, Box} from 'native-base';
-import AnimatedSlideUp from "./animatedComponents/AnimatedSlideUp";
-
-export function NoItemCard({
-  handleOnPress,
-  isError = false,
-}: {
+import AnimatedSlideUp from './animatedComponents/AnimatedSlideUp';
+import {getTheme} from '../utils/getTheme';
+import {Theme} from '../types';
+type Props = {
   handleOnPress: () => void;
   isError?: boolean;
-}) {
-  const styles = !isError
+};
+
+const getText = (isError: boolean, theme: Theme) => {
+  return !isError
     ? {
-        bg: 'warning.100',
-        iconBg: 'warning.600',
-        iconPressed: 'warning.400',
-        iconFocused: 'warning.300',
+        bg: theme.lightBG,
+        iconBg: theme.lightBG,
+        iconPressed: theme.primaryBG,
+        iconFocused: theme.primaryBG,
         iconAccessibilityLabel:
           'No results found. Please check words are speeled correctly.',
         text: 'നിങ്ങൾ തിരഞ്ഞ വാക്ക് നിഘണ്ടുവിൽ കാണുന്നില്ല. വാക്കുകൾ ശരിയായി എഴുതിയിട്ടുണ്ടെന്ന് ദയവായി ഉറപ്പാക്കുക.',
-        borderColor: 'warning.500',
+        borderColor: theme.lightBG,
       }
     : {
         bg: 'error.50',
@@ -30,47 +30,56 @@ export function NoItemCard({
         text: 'ഞങ്ങളോട് ക്ഷമിക്കൂ, ചില സാങ്കേതിക പ്രശ്‌നങ്ങൾ കാരണം, ആപ്പിന് ഫലങ്ങൾ കണ്ടെത്താൻ കഴിയുന്നില്ല.\nദയവായി വീണ്ടും ശ്രമിക്കുക.',
         borderColor: 'error.500',
       };
-
+};
+export function NoItemCard({handleOnPress, isError = false}: Props) {
+  const theme = getTheme();
+  const styles = getText(isError, theme);
   return (
-    <AnimatedSlideUp duration={500} outputRange={10}>
+    <AnimatedSlideUp duration={800} outputRange={20}>
       <Box
         position={'relative'}
         borderWidth={1}
-        pl={2}
+        pl={3}
         pr={2}
         pt={3}
         pb={3}
         rounded={10}
         alignItems={'center'}
-        borderColor={styles.borderColor}
+        borderColor={theme.lightBG}
         shadow="3"
-        borderLeftWidth={10}
-        bg={styles.bg}>
+        bg={theme.lightBG}>
         <HStack
-          justifyContent={'space-between'}
+          justifyContent={'center'}
           alignItems={'flex-start'}
-          width="100%">
+          pl={5}
+          pr={5}
+          pt={1}
+          pb={1}>
           <Text
-            color="coolGray.500"
-            paddingTop={0}
-            paddingBottom={1}
-            paddingRight={0}
-            paddingLeft={1}
+            accessibilityLabel={styles.iconAccessibilityLabel}
+            color={theme.darkColor1}
+            flexGrow={1}
+            p={2}
             fontWeight="medium"
-            fontSize="md"
-            accessibilityLabel={styles.iconAccessibilityLabel}>
+            fontSize="md">
             {styles.text}
           </Text>
           <IconButton
+            accessibilityLabel={'close message and search again'}
             borderWidth={1}
-            borderColor="light.50"
-            bg={styles.iconBg}
+            borderColor={theme.primaryBG}
+            bg={theme.primaryBG}
             borderRadius={100}
             shadow="3"
-            accessibilityLabel={'close message and search again'}
-            _icon={{size: 'md', color: 'light.50'}}
-            _pressed={{bg: styles.iconPressed}}
-            _focus={{bg: styles.iconFocused}}
+            _icon={{size: 'md', color: theme.primaryText}}
+            _pressed={{
+              bg: theme.primaryText,
+              _icon: {color: theme.primaryBG},
+            }}
+            _focus={{
+              bg: theme.primaryText,
+              _icon: {color: theme.primaryBG},
+            }}
             icon={<CloseIcon />}
             onPress={handleOnPress}
           />

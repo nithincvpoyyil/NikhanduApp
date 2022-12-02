@@ -15,7 +15,9 @@ import {InterfaceVStackProps} from 'native-base/lib/typescript/components/primit
 import AnimatedSlideUp from './components/animatedComponents/AnimatedSlideUp';
 import {DeviceLightMode} from './types';
 import TextAnimator from './components/animatedComponents/TextAnimator';
-import {enText, links, malayalamtext1} from './utils/textConstants';
+import {enText, links} from './utils/textConstants';
+import {getTheme} from './utils/getTheme';
+import {StyleSheet} from 'react-native';
 export const vStackProps: InterfaceVStackProps = {
   space: 5,
   alignItems: 'center',
@@ -46,83 +48,88 @@ export default function InfoScreen({
     }
   };
 
+  const theme = getTheme();
+
   return (
-    <Center bg="#ffa">
+    <Center bg={theme.primaryBG}>
       <AnimatedSlideUp
         {...animatedSlideUpProps}
         animDirection={animDirection}
         onAnimationFinish={onAnimationFinish}>
         <Flex
-          bg="#ffa"
+          bg={theme.primaryBG}
           safeArea={true}
           width={'100%'}
           alignItems="center"
           justifyContent={'space-between'}
           flexDir="row">
-          <Box m={2} borderBottomWidth={2} pt={2} pl={4} pr={4} pb={1}>
+          <Box
+            m={2}
+            borderBottomWidth={2}
+            borderBottomColor={theme.primaryText}
+            pt={2}
+            pl={4}
+            pr={4}
+            pb={1}>
             <Heading>
-              <Text fontSize="3xl">Settings</Text>
+              <Text color={theme.primaryText} fontSize="3xl">
+                Settings
+              </Text>
             </Heading>
           </Box>
           <IconButton
             mr={5}
             borderWidth={2}
-            borderColor="coolGray.800"
+            borderColor={theme.primaryText}
             borderRadius={100}
-            shadow="3"
-            accessibilityLabel={'close message and search again'}
-            bg="transparent"
+            collapsable={true}
+            accessibilityLabel={'close settings'}
+            accessibilityHint={'close settings goto home screen'}
+            bg={theme.primaryText}
             icon={<CloseIcon />}
             onPress={handleOnPress}
-            _icon={{size: 'xl', color: 'coolGray.800'}}
-            _pressed={{_icon: {color: 'coolGray.900'}, bg: 'white'}}
+            _icon={{size: 'md', color: theme.primaryBG}}
+            _pressed={{_icon: {color: theme.primaryText}, bg: theme.primaryBG}}
           />
         </Flex>
         <Flex flexGrow={1} width={'100%'} pl={'5%'} pr={'5%'}>
           <ScrollView horizontal={false} width="100%">
             <VStack {...vStackProps}>
-              <Box mb={1} mt={5} borderWidth={2} pt={2} pl={4} pr={4} pb={2}>
-                <Text fontSize="2xl">About</Text>
+              <Box
+                mb={1}
+                mt={5}
+                borderWidth={2}
+                pt={2}
+                pl={4}
+                pr={4}
+                pb={2}
+                borderColor={theme.primaryText}>
+                <Text color={theme.primaryText} fontSize="2xl">
+                  About
+                </Text>
               </Box>
-
-              <TextAnimator
-                content={malayalamtext1}
-                duration={100}
-                // eslint-disable-next-line react-native/no-inline-styles
-                textStyle={{
-                  fontSize: 16,
-                  paddingTop: 8,
-                }}
-                // eslint-disable-next-line react-native/no-inline-styles
-                wrapperStyle={{justifyContent: 'flex-start'}}
-              />
 
               <TextAnimator
                 content={enText}
                 duration={100}
-                // eslint-disable-next-line react-native/no-inline-styles
-                textStyle={{
-                  fontSize: 16,
-                  paddingTop: 8,
-                }}
-                // eslint-disable-next-line react-native/no-inline-styles
-                wrapperStyle={{justifyContent: 'flex-start'}}
+                textStyle={{...styles.text, color: theme.lightBG}}
+                wrapperStyle={styles.wrapper}
               />
             </VStack>
-            <Text fontSize="lg" bold mt={3}>
+            <Text fontSize="lg" bold mt={10} color={theme.lightBG}>
               Links
             </Text>
             <VStack>
               {links.map(i => (
                 <Link
                   key={i.key}
+                  href={`${i.link}`}
                   mb={1}
                   pt={1}
-                  pl={1}
+                  pl={0}
                   pr={1}
                   pb={1}
-                  _text={{fontSize: 'sm', color: 'coolGray.800'}}
-                  href={`${i.link}`}>
+                  _text={{fontSize: 'sm', color: theme.lightBG}}>
                   {i.key}
                 </Link>
               ))}
@@ -134,3 +141,13 @@ export default function InfoScreen({
     </Center>
   );
 }
+
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 16,
+    paddingTop: 8,
+  },
+  wrapper: {
+    justifyContent: 'flex-start',
+  },
+});

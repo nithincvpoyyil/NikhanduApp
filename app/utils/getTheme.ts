@@ -1,4 +1,6 @@
-export const lightTheme = {
+import {Theme} from '../types';
+
+export const lightTheme: Theme = {
   primaryBG: '#376AED',
   primaryText: '#ffffff',
   secondryBG: '#E6EAF1',
@@ -17,6 +19,6 @@ export const darkTheme = {
   secondaryText: '#4b5563',
 };
 
-export function getTheme() {
+export function getTheme(): Theme {
   return lightTheme;
 }

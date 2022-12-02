@@ -6,11 +6,13 @@ export default function SimilarResultsHeading() {
   return (
     <Heading
       adjustsFontSizeToFit
-      marginBottom={'1.5'}
-      marginTop={'3'}
-      color={theme.darkColor1}
-      padding={'1'}>
-      <Text fontSize={'xl'}>സമാനമായ മറ്റ് വാക്കുകൾ</Text>
+      color={theme.primaryText}
+      marginBottom={5}
+      marginTop={5}
+      padding={1}
+      bg={theme.primaryBG}
+      textAlign="center">
+      <Text>സമാനമായ മറ്റ് വാക്കുകൾ</Text>
       <Spacer />
     </Heading>
   );
