@@ -4,44 +4,50 @@ import {Animated, Easing, StyleSheet} from 'react-native';
 import {getTheme} from '../../utils/getTheme';
 import {vStack1Props} from '../../NikhanduLandingScreenStyles';
 import AutoComplete from '../autoComplete/Autocomplete';
+import {LoadState} from '../../types';
 
 const LogoImage = require('../../assets/images/LandingLogo.png');
-
-export default function AnimatedUpperSection(props: {
-  isResultLoadingState: 'init' | 'loading' | 'loaded' | 'error';
+type Props = {
+  isResultLoadingState: LoadState;
   searchDictionaryForWord: (query: string) => void;
   clearResults: () => void;
-}) {
-  const {isResultLoadingState, clearResults, searchDictionaryForWord} = props;
-  const [isAnimationFinished, setIsAnimationFinished] = React.useState(false);
+  onAnimationDidFinish?: () => void;
+  onHeightAnimationDidFinish?: () => void;
+};
+export default function AnimatedUpperSection(props: Props) {
+  const {
+    isResultLoadingState,
+    clearResults,
+    searchDictionaryForWord,
+    onAnimationDidFinish = () => {},
+    onHeightAnimationDidFinish = () => {},
+  } = props;
   const [isAnimated, setIsAnimated] = React.useState(false);
-
   const iconSizeTransition = React.useRef(new Animated.Value(120)).current;
   const inputPaddingTransition = React.useRef(new Animated.Value(5)).current;
   const fromZeroTransition = React.useRef(new Animated.Value(0)).current;
-  const heightTransition = React.useRef(new Animated.Value(17)).current;
   const textVisibilityTransition = React.useRef(new Animated.Value(1)).current;
 
   const theme = getTheme();
-  const bgStyle = isAnimationFinished ? {backgroundColor: theme.primaryBG} : {};
+  const bgStyle = {backgroundColor: theme.primaryBG};
 
   const animatedViewStyles = {
     height: iconSizeTransition,
     width: iconSizeTransition,
-    margin: 10,
+    margin: 1,
     transform: [
       {
         scale: fromZeroTransition.interpolate({
           inputRange: [0, 0.5, 1],
-          outputRange: [1, 0.8, 1],
+          outputRange: [1, 1, 1],
         }),
       },
     ],
   };
+
   const doAnimation = () => {
     if (!isAnimated) {
       setIsAnimated(true);
-
       Animated.parallel([
         Animated.timing(inputPaddingTransition, {
           toValue: 5,
@@ -64,36 +70,27 @@ export default function AnimatedUpperSection(props: {
           }),
         ]),
       ]).start(() => {
-        setIsAnimationFinished(true);
+        onHeightAnimationDidFinish();
         Animated.sequence([
-          Animated.timing(heightTransition, {
-            toValue: 10,
-            duration: 1000,
-            easing: Easing.quad,
-            useNativeDriver: true,
-          }),
           Animated.timing(fromZeroTransition, {
             toValue: 1,
             duration: 500,
             easing: Easing.circle,
             useNativeDriver: false,
           }),
-        ]).start();
+        ]).start(() => {
+          onAnimationDidFinish();
+        });
       });
     }
   };
 
-  const h = heightTransition.interpolate({
-    inputRange: [0, 100],
-    outputRange: ['0%', '100%'],
-  });
-
   return (
     <Flex w={'100%'} zIndex={200}>
       <Box {...bgStyle} safeArea={true} />
-      <Animated.View {...vStack1Props} h={h} borderWidth={1} style={[bgStyle]}>
+      <Animated.View {...vStack1Props} style={[bgStyle]}>
         <Animated.Image
-          alt={'image logo'}
+          alt={'nikhandu app logo'}
           borderRadius={100}
           source={LogoImage}
           resizeMode="contain"
@@ -101,11 +98,17 @@ export default function AnimatedUpperSection(props: {
           borderWidth={1}
         />
         <Animated.Text
-          style={{
-            opacity: textVisibilityTransition,
-            transform: [{scale: textVisibilityTransition}],
-            color: theme.primaryText,
-          }}>
+          style={[
+            {
+              opacity: textVisibilityTransition,
+              transform: [{scale: textVisibilityTransition}],
+              color: theme.primaryText,
+              margin: textVisibilityTransition.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 10],
+              }),
+            },
+          ]}>
           Offline English-Malayalam Dictionay
         </Animated.Text>
       </Animated.View>

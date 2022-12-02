@@ -20,12 +20,12 @@ import {hStack1Props, vStack2Props} from './NikhanduLandingScreenStyles';
 import {NoItemCard} from './components/NoItemCard';
 import {getTheme} from './utils/getTheme';
 import AnimatedUpperSection from './components/animatedComponents/AnimatedUpperSection';
+import {LoadState} from './types';
 
 export default function DictScreen() {
   const [searchKey, setSearchKey] = React.useState('');
-  const [isResultLoadingState, setIsResultLoadingState] = React.useState<
-    'init' | 'loading' | 'loaded' | 'error'
-  >('init');
+  const [isResultLoadingState, setIsResultLoadingState] =
+    React.useState<LoadState>('init');
 
   const [exactResults, setExactResults] = React.useState<GroupByDictWord>(
     getEmptyDictGrouped(),
@@ -34,13 +34,19 @@ export default function DictScreen() {
     getEmptyDictGrouped(),
   );
   const [uuid, setUUID] = React.useState<number>(Date.now());
+  const [animationFinished, setAnimationFinished] =
+    React.useState<boolean>(false);
 
   const theme = getTheme();
-
   const containerBGColor = theme.primaryBG;
-  const bottomBGColor = theme.secondryBG;
+  const bottomBGColor =
+    animationFinished &&
+    (similarResults.enList.size || exactResults.enList.size)
+      ? theme.secondryBG
+      : theme.primaryBG;
 
   const clearResults = () => {
+    setIsResultLoadingState('init');
     setExactResults(getEmptyDictGrouped());
     setSimilarResults(getEmptyDictGrouped());
   };
@@ -85,7 +91,11 @@ export default function DictScreen() {
     resetScreen();
   };
 
-  let resultNode = <Flex width={'90%'} flexGrow={1} />;
+  const onHeightAnimationDidFinish = () => {
+    setAnimationFinished(true);
+  };
+
+  let resultNode = <Flex width={'90%'} flexGrow={1} flexShrink={1} />;
   if (similarResults.enList.size || exactResults.enList.size) {
     resultNode = (
       <Container
@@ -153,6 +163,7 @@ export default function DictScreen() {
         clearResults={clearResults}
         isResultLoadingState={isResultLoadingState}
         searchDictionaryForWord={searchDictionaryForWord}
+        onHeightAnimationDidFinish={onHeightAnimationDidFinish}
       />
       <VStack
         {...vStack2Props}

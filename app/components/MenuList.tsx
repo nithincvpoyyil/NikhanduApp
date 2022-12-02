@@ -4,7 +4,7 @@ import {getTheme} from '../utils/getTheme';
 
 export const MenuList = (props: {onPress: () => void}) => {
   const theme = getTheme();
-  const [uuid, setUUID] = React.useState<number>(Date.now());
+  const [uuid] = React.useState<number>(Date.now());
 
   return (
     <Fab
@@ -14,7 +14,8 @@ export const MenuList = (props: {onPress: () => void}) => {
       _focus={{bg: 'transparent'}}
       label={
         <IconButton
-          accessibilityLabel={'close message and search again'}
+          accessibilityLabel={'open settings'}
+          accessibilityHint="tap settings button to see settings screen"
           borderWidth={2}
           borderRadius={100}
           borderColor={'transparent'}
@@ -24,6 +25,7 @@ export const MenuList = (props: {onPress: () => void}) => {
           shadow={3}
           onPress={props.onPress}
           bg={theme.whiteColor1}
+          collapsable={true}
           icon={<ThreeDotsIcon key={uuid} />}
           _icon={{size: 'xl', color: theme.primaryBG}}
           _pressed={{

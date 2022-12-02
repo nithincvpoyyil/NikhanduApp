@@ -6,17 +6,14 @@ import {
   Input,
   PresenceTransition,
   SearchIcon,
-  Spinner,
-  Text,
-  theme,
 } from 'native-base';
 import * as React from 'react';
 import {ListRenderItemInfo, StyleSheet, TouchableOpacity} from 'react-native';
 import {getSuggestions} from '../../utils/DBHelper';
 import debounce from '../../utils/debounce';
-import {getTheme} from '../../utils/getTheme';
 
 import {getStyles} from './AutocompleteStyles';
+import SuggestedListItem from './SuggestedListItem';
 
 export default function AutoComplete(props: {
   onSearchTextSelected: (query: string) => void;
@@ -24,17 +21,21 @@ export default function AutoComplete(props: {
   onQueryInvalid?: () => void;
   onInputFocus?: () => void;
 }) {
-  const [query, setQuery] = React.useState('');
-  const [suggestions, setSuggestions] = React.useState<Array<string>>([]);
   const {
     isResultLoading = false,
     onSearchTextSelected = () => null,
     onQueryInvalid = () => null,
     onInputFocus = () => null,
   } = props;
+
+  const [query, setQuery] = React.useState('');
+  const [suggestions, setSuggestions] = React.useState<Array<string>>([]);
+  const [loading, setLoading] = React.useState<boolean>(isResultLoading);
   const [isInputFocused, setIsInputFocused] = React.useState(false);
 
-  const theme = getTheme();
+  React.useEffect(() => {
+    setLoading(isResultLoading);
+  }, [isResultLoading]);
 
   const onFocus = () => {
     onInputFocus();
@@ -84,7 +85,6 @@ export default function AutoComplete(props: {
     props.onSearchTextSelected(suggestion);
   };
   const ifSuggestionsPresent = !!suggestions.length;
-
   const {
     inputIconBtnStyles,
     inputStyles,
@@ -92,35 +92,23 @@ export default function AutoComplete(props: {
     suggestionListStyles,
   } = getStyles({isInputFocused, isResultLoading, ifSuggestionsPresent});
 
-  const inputRightEl = !isResultLoading ? (
+  const inputRightLogo = (
     <IconButton
       onPress={onSearchKeyPressHandler}
       icon={<SearchIcon />}
       isDisabled={isResultLoading}
-      _icon={{
-        size: 'xl',
-        color: isInputFocused ? 'coolGray.800' : 'coolGray.600',
-      }}
       {...inputIconBtnStyles}
     />
-  ) : (
-    <Spinner
-      size="lg"
-      accessibilityLabel="Loading search results"
-      color="coolGray.800"
-    />
   );
-
-  const renderListItem = (listItem: ListRenderItemInfo<string>) => (
-    <TouchableOpacity
-      onPress={() => {
-        onPressListItem(listItem.item);
-      }}>
-      <Box {...suggestionListItemStyles}>
-        <SearchIcon marginLeft={1} marginRight={2} color={theme.darkColor1} />
-        <Text color={theme.darkColor1}>{listItem.item}</Text>
-      </Box>
-    </TouchableOpacity>
+  const renderListItem = React.useCallback(
+    (listItem: ListRenderItemInfo<string>) => (
+      <SuggestedListItem
+        listItem={listItem}
+        listStyle={suggestionListItemStyles}
+        onPressListItem={onPressListItem}
+      />
+    ),
+    [],
   );
 
   const onOverlayClick = () => {
@@ -136,7 +124,7 @@ export default function AutoComplete(props: {
         placeholder="find your word..."
         onChangeText={onSearchHandler}
         variant="unstyled"
-        InputRightElement={inputRightEl}
+        InputRightElement={inputRightLogo}
         value={query}
         onFocus={onFocus}
         onBlur={onBlur}
@@ -157,8 +145,9 @@ export default function AutoComplete(props: {
               duration: 250,
             },
           }}>
-          <Box position={'relative'} w="100%" shadow={5}>
+          <Box position={'relative'} w="99.8%" shadow={2}>
             <FlatList
+              scrollEnabled={false}
               data={suggestions}
               renderItem={renderListItem}
               keyExtractor={(item, index) => item + index}

@@ -69,7 +69,7 @@ export function getStyles(args: Args) {
 
   const suggestionListStyles: Partial<IFlatListProps<string>> = {
     shadow: 0,
-    bg: 'transparent',
+    bg: theme.secondryBG,
     w: '99.9%',
     position: 'absolute',
     borderTopWidth: 0,
