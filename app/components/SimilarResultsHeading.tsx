@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {Text, Spacer, Heading} from 'native-base';
-import {getTheme} from '../utils/getTheme';
+import {useThemeObject} from '../utils/getTheme';
 export default function SimilarResultsHeading() {
-  const theme = getTheme();
+  const theme = useThemeObject();
   return (
     <Heading
       adjustsFontSizeToFit

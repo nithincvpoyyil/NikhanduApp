@@ -16,7 +16,7 @@ import AnimatedSlideUp from './components/animatedComponents/AnimatedSlideUp';
 import {DeviceLightMode} from './types';
 import TextAnimator from './components/animatedComponents/TextAnimator';
 import {enText, links} from './utils/textConstants';
-import {getTheme} from './utils/getTheme';
+import {useThemeObject} from './utils/getTheme';
 import {StyleSheet} from 'react-native';
 export const vStackProps: InterfaceVStackProps = {
   space: 5,
@@ -49,7 +49,7 @@ export default function InfoScreen({
     }
   };
 
-  const theme = getTheme();
+  const theme = useThemeObject();
 
   return (
     <Center bg={theme.primaryBG}>

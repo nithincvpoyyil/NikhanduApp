@@ -1,13 +1,5 @@
 import * as React from 'react';
-import {
-  VStack,
-  ScrollView,
-  HStack,
-  Flex,
-  Container,
-  View,
-  Text,
-} from 'native-base';
+import {VStack, ScrollView, HStack, Flex, Container, View} from 'native-base';
 
 import {
   getEmptyDictGrouped,
@@ -18,7 +10,7 @@ import DisplayGroupedData from './components/displayGroupedData/DisplayGroupedDa
 import SimilarResultsHeading from './components/SimilarResultsHeading';
 import {hStack1Props, vStack2Props} from './NikhanduLandingScreenStyles';
 import {NoItemCard} from './components/NoItemCard';
-import {getTheme} from './utils/getTheme';
+import { useThemeObject} from './utils/getTheme';
 import AnimatedUpperSection from './components/animatedComponents/AnimatedUpperSection';
 import {LoadState} from './types';
 
@@ -37,7 +29,7 @@ export default function DictScreen() {
   const [animationFinished, setAnimationFinished] =
     React.useState<boolean>(false);
 
-  const theme = getTheme();
+  const theme = useThemeObject();
   const containerBGColor = theme.primaryBG;
   const bottomBGColor =
     animationFinished &&

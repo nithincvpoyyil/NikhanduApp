@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {Fab, IconButton, ThreeDotsIcon} from 'native-base';
-import {getTheme} from '../utils/getTheme';
+import {useThemeObject} from '../utils/getTheme';
 
 export const MenuList = (props: {onPress: () => void}) => {
-  const theme = getTheme();
+  const theme = useThemeObject();
   const [uuid] = React.useState<number>(Date.now());
 
   return (

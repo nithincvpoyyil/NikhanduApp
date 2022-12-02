@@ -1,6 +1,6 @@
 import {IBoxProps, IIconButtonProps, IInputProps} from 'native-base';
 import {IFlatListProps} from 'native-base/lib/typescript/components/basic/FlatList';
-import {getTheme} from '../../utils/getTheme';
+import {useThemeObject} from '../../utils/getTheme';
 
 type Args = {
   isInputFocused: boolean;
@@ -10,7 +10,7 @@ type Args = {
 
 export function getStyles(args: Args) {
   const {ifSuggestionsPresent} = args;
-  const theme = getTheme();
+  const theme = useThemeObject();
 
   const inputBorderStyles = ifSuggestionsPresent
     ? {

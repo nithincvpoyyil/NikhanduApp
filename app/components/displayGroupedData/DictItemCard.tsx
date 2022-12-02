@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Box, Flex, Text} from 'native-base';
 import {InterfaceVStackProps} from 'native-base/lib/typescript/components/primitives/Stack/VStack';
-import {getTheme} from '../../utils/getTheme';
+import {useThemeObject} from '../../utils/getTheme';
 
 export const vStackProps: InterfaceVStackProps = {
   space: 5,
@@ -19,7 +19,7 @@ export default function DictItemCard(
 ) {
   const {enWord, mlPhonetics} = props;
 
-  const theme = getTheme();
+  const theme = useThemeObject();
   return (
     <Box
       width={'96%'}

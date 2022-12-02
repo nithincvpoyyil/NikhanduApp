@@ -1,24 +1,59 @@
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {Theme} from '../types';
+import {getData, setData} from './DataStore';
 
-export const lightTheme: Theme = {
-  primaryBG: '#376AED',
-  primaryText: '#ffffff',
-  secondryBG: '#E6EAF1',
-  secondaryText: '#4b5563',
-  lightBG: '#f9fafb',
-  lightText: '#1f2937',
-  darkColor1: '#0D253C',
-  darkColor2: '#2151CD',
-  whiteColor1: '#ffffff',
+const themeStoreKey = '@NikhanduAppTheme';
+const ThemeKeys = <const>['default'];
+export type ThemeKey = typeof ThemeKeys[number];
+export const themes: Record<ThemeKey, Theme> = {
+  default: {
+    primaryBG: '#376AED',
+    primaryText: '#ffffff',
+    secondryBG: '#E6EAF1',
+    secondaryText: '#4b5563',
+    lightBG: '#f9fafb',
+    lightText: '#1f2937',
+    darkColor1: '#0D253C',
+    darkColor2: '#2151CD',
+    whiteColor1: '#ffffff',
+  },
 };
 
-export const darkTheme = {
-  primaryBG: '#f5386b',
-  secondryBG: '#fbfbfb',
-  primaryText: '#1f2937',
-  secondaryText: '#4b5563',
-};
+export function getTheme(themeKey?: ThemeKey): Theme {
+  if (themeKey) {
+    return themes[themeKey];
+  }
+  return themes.default;
+}
 
-export function getTheme(): Theme {
-  return lightTheme;
+export const ThemeContext = React.createContext<{
+  theme: ThemeKey;
+  setTheme: (theme: ThemeKey) => void;
+}>({
+  theme: 'default',
+  setTheme: () => null,
+});
+
+export function useStoreTheme(
+  initTheme: ThemeKey,
+): [ThemeKey, (key: ThemeKey) => void] {
+  const [theme, setTheme] = useState<ThemeKey>(initTheme);
+  useEffect(() => {
+    getData(themeStoreKey).then(themeFromStore => {
+      if (themeFromStore) {
+        setTheme(themeFromStore as ThemeKey);
+      }
+    });
+  }, []);
+
+  const setThemeToStore = useCallback((themeValue: ThemeKey) => {
+    setData(themeStoreKey, themeValue);
+  }, []);
+
+  return [theme, setThemeToStore];
+}
+
+export function useThemeObject(): Theme {
+  const {theme} = useContext(ThemeContext);
+  return getTheme(theme);
 }

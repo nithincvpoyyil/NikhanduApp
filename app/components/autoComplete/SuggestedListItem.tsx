@@ -1,7 +1,7 @@
 import {Box, IBoxProps, SearchIcon, Text} from 'native-base';
 import * as React from 'react';
 import {ListRenderItemInfo, TouchableOpacity} from 'react-native';
-import {getTheme} from '../../utils/getTheme';
+import {useThemeObject} from '../../utils/getTheme';
 
 export default function SuggestedListItem({
   listItem,
@@ -12,7 +12,7 @@ export default function SuggestedListItem({
   onPressListItem: (item: string) => void;
   listStyle: IBoxProps;
 }) {
-  const theme = getTheme();
+  const theme = useThemeObject();
 
   const onPressItem = () => {
     onPressListItem(listItem.item);

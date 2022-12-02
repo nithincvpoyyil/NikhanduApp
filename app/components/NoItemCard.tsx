@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Text, CloseIcon, IconButton, HStack, Box} from 'native-base';
 import AnimatedSlideUp from './animatedComponents/AnimatedSlideUp';
-import {getTheme} from '../utils/getTheme';
+import {useThemeObject} from '../utils/getTheme';
 import {Theme} from '../types';
 type Props = {
   handleOnPress: () => void;
@@ -32,7 +32,7 @@ const getText = (isError: boolean, theme: Theme) => {
       };
 };
 export function NoItemCard({handleOnPress, isError = false}: Props) {
-  const theme = getTheme();
+  const theme = useThemeObject();
   const styles = getText(isError, theme);
   const [uuid] = React.useState<number>(Date.now());
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Text, HStack, Box, Badge, Flex} from 'native-base';
 import {OlamDBItem, typeMap} from '../../utils/DBHelper';
-import {getTheme} from '../../utils/getTheme';
+import {useThemeObject} from '../../utils/getTheme';
 
 const getPartOfSpeech = (key: string) => {
   return typeMap.has(key || '')
@@ -11,7 +11,7 @@ const getPartOfSpeech = (key: string) => {
 
 export function DisplayOlamDBItem(props: {item: OlamDBItem}) {
   const {item} = props;
-  const theme = getTheme();
+  const theme = useThemeObject();
   return (
     <Box
       paddingTop={'1'}
@@ -39,7 +39,7 @@ export default function PartOfSpeechCard(props: {
   isExactResults: boolean;
 }) {
   const {partOfSpeech, items} = props;
-  const theme = getTheme();
+  const theme = useThemeObject();
   return (
     <Box
       width="100%"

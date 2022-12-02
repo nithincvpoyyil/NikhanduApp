@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Box, Flex} from 'native-base';
 import {Animated, Easing, StyleSheet} from 'react-native';
-import {getTheme} from '../../utils/getTheme';
+import {useThemeObject} from '../../utils/getTheme';
 import {vStack1Props} from '../../NikhanduLandingScreenStyles';
 import AutoComplete from '../autoComplete/Autocomplete';
 import {LoadState} from '../../types';
@@ -28,7 +28,7 @@ export default function AnimatedUpperSection(props: Props) {
   const fromZeroTransition = React.useRef(new Animated.Value(0)).current;
   const textVisibilityTransition = React.useRef(new Animated.Value(1)).current;
 
-  const theme = getTheme();
+  const theme = useThemeObject();
   const bgStyle = {backgroundColor: theme.primaryBG};
 
   const animatedViewStyles = {
