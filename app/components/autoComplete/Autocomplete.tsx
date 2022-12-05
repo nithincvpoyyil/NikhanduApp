@@ -36,7 +36,6 @@ export default function AutoComplete(props: {
   const [uuid] = React.useState<number>(Date.now());
   const theme = useThemeObject();
 
-  console.log('log->', resultLoadingState);
   const isLoading = resultLoadingState === 'loading';
 
   const onFocus = () => {
@@ -100,10 +99,11 @@ export default function AutoComplete(props: {
     theme,
   });
 
+  const inputNode = <SearchIcon key={uuid} />;
   const inputRightLogo = (
     <IconButton
       onPress={onSearchKeyPressHandler}
-      icon={<SearchIcon key={uuid} />}
+      icon={inputNode}
       isDisabled={isLoading}
       {...inputIconBtnStyles}
     />
