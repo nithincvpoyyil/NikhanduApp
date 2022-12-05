@@ -36,11 +36,15 @@ export function getStyles(args: Args) {
     variant: 'unstyled',
     borderColor: theme.secondryBG,
     bg: theme.secondryBG,
-    placeholderTextColor: theme.secondaryText,
+    placeholderTextColor: `${theme.secondaryText}dd`,
     _focus: {
       borderColor: theme.primaryBG,
-      placeholderTextColor: theme.secondaryText,
       backgroundColor: theme.secondryBG,
+      placeholderTextColor: `${theme.secondaryText}80`,
+      _input: {color: theme.secondaryText},
+    },
+    _disabled: {
+      _input: {color: `${theme.secondaryText}80`},
     },
     ...inputBorderStyles,
   };
