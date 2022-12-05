@@ -7,8 +7,8 @@ const enText =
 
 const links = [
   {key: 'Olam en-ml dictionary dataset', link: 'https://olam.in/open/enml/'},
-  {key: 'Authors & contributors', link: 'https://olam.in/open/enml/'},
-  {key: 'Source code', link: 'https://olam.in/open/enml/'},
+  {key: 'Authors & contributors', link: 'https://github.com/nithincvpoyyil'},
+  {key: 'Source code', link: 'https://github.com/nithincvpoyyil/nikhanduapp'},
 ];
 
 export {malayalamText2, malayalamtext1, enText, links};
