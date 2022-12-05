@@ -20,8 +20,12 @@ export default function SuggestedListItem({
   return (
     <TouchableOpacity onPress={onPressItem}>
       <Box {...listStyle}>
-        <SearchIcon marginLeft={1} marginRight={2} color={theme.darkColor1} />
-        <Text color={theme.darkColor1}>{listItem.item}</Text>
+        <SearchIcon
+          marginLeft={1}
+          marginRight={2}
+          color={theme.secondaryText}
+        />
+        <Text color={theme.secondaryText}>{listItem.item}</Text>
       </Box>
     </TouchableOpacity>
   );

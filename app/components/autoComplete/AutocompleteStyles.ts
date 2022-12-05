@@ -88,6 +88,7 @@ export function getStyles(args: Args) {
     borderBottomWidth: 1,
     borderRadius: 1,
     borderBottomColor: theme.secondryBG,
+    bg: theme.secondryBG,
     paddingLeft: 2,
     paddingRight: 1,
     paddingTop: 2,
@@ -96,7 +97,6 @@ export function getStyles(args: Args) {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    bg: theme.secondryBG,
   };
 
   return {

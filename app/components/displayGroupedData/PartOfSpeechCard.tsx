@@ -22,11 +22,11 @@ export function DisplayOlamDBItem(props: {item: OlamDBItem}) {
       borderBottomWidth="1"
       margin={1}
       overflow="hidden"
-      borderColor={theme.primaryBG}
+      borderColor={`${theme.darkColor1}80`}
       borderRadius={'24px'}
       borderWidth="1"
       bg={theme.lightColor1}>
-      <Text fontSize="sm" color={theme.darkColor1} selectable>
+      <Text fontSize="sm" color={theme.tertiaryText} selectable>
         {item.malayalam_definition}
       </Text>
     </Box>
@@ -44,7 +44,7 @@ export default function PartOfSpeechCard(props: {
     <Box
       width="100%"
       borderWidth={1}
-      borderColor={theme.darkColor2}
+      borderColor={`${theme.darkColor2}80`}
       mt={2}
       mb={4}
       borderTopLeftRadius={10}
@@ -52,12 +52,12 @@ export default function PartOfSpeechCard(props: {
       borderBottomLeftRadius={10}
       borderBottomRightRadius={10}
       overflow="hidden">
-      <HStack mb={1} mt={1}>
+      <HStack mb={2}>
         <Badge
           borderWidth={0}
-          backgroundColor={theme.lightBG}
+          backgroundColor={theme.lightColor2}
           _text={{
-            color: theme.darkColor1,
+            color: theme.darkColor2,
             fontSize: 'md',
             bold: true,
           }}

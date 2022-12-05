@@ -27,9 +27,9 @@ export default function DictItemCard(
       mb={5}
       ml="2%"
       borderWidth="1"
-      borderColor={theme.lightBG}
+      borderColor={theme.tertiaryBG}
+      bg={theme.tertiaryBG}
       shadow="3"
-      bg={theme.lightColor1}
       p="5"
       rounded="8">
       <Flex
@@ -42,8 +42,8 @@ export default function DictItemCard(
         <Text
           pl={2}
           pr={2}
-          bg={theme.primaryBG}
-          color={theme.primaryText}
+          bg={theme.darkColor1}
+          color={theme.lightColor1}
           mt="0"
           mb="3"
           fontWeight="medium"
@@ -58,16 +58,16 @@ export default function DictItemCard(
               mr={2}
               w={1.5}
               h={1.5}
-              bw={1}
-              bg={theme.primaryBG}
-              borderColor={theme.primaryBG}
+              borderWidth={1}
+              bg={theme.darkColor1}
+              borderColor={theme.darkColor1}
               style={{transform: [{rotate: '45deg'}]}}
             />
             <Text
               pl={2}
               pr={2}
-              bg={theme.primaryBG}
-              color={theme.primaryText}
+              bg={theme.darkColor1}
+              color={theme.lightColor1}
               mt="0"
               mb="3"
               fontWeight="medium"

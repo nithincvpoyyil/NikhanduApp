@@ -13,8 +13,6 @@ export type Theme = {
   darkColor2: string;
   lightColor1: string;
   lightColor2: string;
-  lightBG: string;
-  lightText: string;
 };
 
 export type ThemeKey =

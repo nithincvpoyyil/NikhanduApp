@@ -11,14 +11,14 @@ type Props = {
 const getText = (isError: boolean, theme: Theme) => {
   return !isError
     ? {
-        bg: theme.lightBG,
-        iconBg: theme.lightBG,
-        iconPressed: theme.primaryBG,
-        iconFocused: theme.primaryBG,
+        bg: theme.lightColor1,
+        iconBg: theme.lightColor1,
+        iconPressed: theme.darkColor1,
+        iconFocused: theme.darkColor1,
         iconAccessibilityLabel:
           'No results found. Please check words are speeled correctly.',
         text: 'നിങ്ങൾ തിരഞ്ഞ വാക്ക് നിഘണ്ടുവിൽ കാണുന്നില്ല. വാക്കുകൾ ശരിയായി എഴുതിയിട്ടുണ്ടെന്ന് ദയവായി ഉറപ്പാക്കുക.',
-        borderColor: theme.lightBG,
+        borderColor: theme.lightColor1,
       }
     : {
         bg: 'error.50',
@@ -47,9 +47,9 @@ export function NoItemCard({handleOnPress, isError = false}: Props) {
         pb={3}
         rounded={10}
         alignItems={'center'}
-        borderColor={theme.lightBG}
-        shadow="3"
-        bg={theme.lightBG}>
+        borderColor={theme.tertiaryBG}
+        bg={theme.tertiaryBG}
+        shadow="3">
         <HStack
           justifyContent={'center'}
           alignItems={'flex-start'}
@@ -59,7 +59,7 @@ export function NoItemCard({handleOnPress, isError = false}: Props) {
           pb={1}>
           <Text
             accessibilityLabel={styles.iconAccessibilityLabel}
-            color={theme.darkColor1}
+            color={theme.tertiaryText}
             flexGrow={1}
             p={2}
             fontWeight="medium"
@@ -69,18 +69,18 @@ export function NoItemCard({handleOnPress, isError = false}: Props) {
           <IconButton
             accessibilityLabel={'close message and search again'}
             borderWidth={1}
-            borderColor={theme.primaryBG}
-            bg={theme.primaryBG}
+            borderColor={theme.tertiaryBG}
+            bg={theme.tertiaryBG}
             borderRadius={100}
             shadow="3"
-            _icon={{size: 'md', color: theme.primaryText}}
+            _icon={{size: 'md', color: theme.tertiaryText}}
             _pressed={{
-              bg: theme.primaryText,
-              _icon: {color: theme.primaryBG},
+              bg: theme.tertiaryText,
+              _icon: {color: theme.tertiaryBG},
             }}
             _focus={{
-              bg: theme.primaryText,
-              _icon: {color: theme.primaryBG},
+              bg: theme.tertiaryText,
+              _icon: {color: theme.tertiaryBG},
             }}
             icon={<CloseIcon key={uuid} />}
             onPress={handleOnPress}

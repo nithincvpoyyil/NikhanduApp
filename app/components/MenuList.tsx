@@ -42,8 +42,8 @@ export const MenuList = (props: {onPress: () => void}) => {
             _icon: {color: theme.primaryBG},
           }}
           _focus={{
-            backgroundColor: theme.primaryBG,
-            _icon: {color: theme.lightColor1},
+            backgroundColor: theme.primaryText,
+            _icon: {color: theme.primaryBG},
           }}
           key="open-close-icon"
         />

@@ -30,12 +30,14 @@ export default function DictScreen() {
     React.useState<boolean>(false);
 
   const theme = useThemeObject();
-  const containerBGColor = theme.primaryBG;
-  const bottomBGColor =
+
+  const isResultLoaded =
     animationFinished &&
-    (similarResults.enList.size || exactResults.enList.size)
-      ? theme.secondryBG
-      : theme.primaryBG;
+    (similarResults.enList.size || exactResults.enList.size);
+  const containerBGColor = theme.primaryBG;
+  const resultViewBGColor = isResultLoaded
+    ? theme.lightColor1
+    : theme.primaryBG;
 
   const clearResults = () => {
     setIsResultLoadingState('init');
@@ -88,6 +90,7 @@ export default function DictScreen() {
   if (similarResults.enList.size || exactResults.enList.size) {
     resultNode = (
       <Container
+        bg="transparent"
         position={'relative'}
         alignItems="center"
         justifyContent="center">
@@ -158,10 +161,10 @@ export default function DictScreen() {
         {...vStack2Props}
         borderTopLeftRadius={25}
         borderTopRightRadius={25}
-        bg={bottomBGColor}>
+        bg={resultViewBGColor}>
         {resultNode}
       </VStack>
-      <HStack {...hStack1Props} bg={bottomBGColor} safeArea />
+      <HStack {...hStack1Props} bg={resultViewBGColor} safeArea />
     </Flex>
   );
 }
