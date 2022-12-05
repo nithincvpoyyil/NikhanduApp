@@ -110,6 +110,13 @@ export async function getResultsFromDB(
     rdb.close();
     let exactResultsGrouped = groupByEnglishWord(exactWordResults);
     let similarResultsGrouped = groupByEnglishWord(similarResults);
+    // delay code
+    // await new Promise(res => {
+    //   setTimeout(() => {
+    //     res(true);
+    //   }, 4000);
+    // });
+
     return {
       exactResults: exactResultsGrouped,
       similarResults: similarResultsGrouped,

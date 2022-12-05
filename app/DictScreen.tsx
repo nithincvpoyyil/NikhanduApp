@@ -47,7 +47,6 @@ export default function DictScreen() {
 
   const resetScreen = () => {
     clearResults();
-    setIsResultLoadingState('init');
     setSearchKey('');
     setUUID(Date.now());
   };
