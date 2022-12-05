@@ -130,7 +130,7 @@ export default function AnimatedUpperSection(props: Props) {
         ]}>
         <AutoComplete
           onSearchTextSelected={searchDictionaryForWord}
-          isResultLoading={isResultLoadingState === 'loading'}
+          resultLoadingState={isResultLoadingState}
           onQueryInvalid={clearResults}
           onInputFocus={doAnimation}
         />
