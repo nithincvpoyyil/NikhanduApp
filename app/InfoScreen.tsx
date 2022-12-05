@@ -79,19 +79,39 @@ export default function InfoScreen({
               </Text>
             </Heading>
           </Box>
+
           <IconButton
             mr={5}
-            borderWidth={2}
-            borderColor={theme.primaryText}
-            borderRadius={100}
-            collapsable={true}
             accessibilityLabel={'close settings'}
             accessibilityHint={'close settings goto home screen'}
-            bg={theme.primaryText}
-            icon={<CloseIcon key={uuid} />}
+            borderWidth={2}
+            borderRadius={100}
+            borderColor={'transparent'}
+            variant="outline"
+            rounded="full"
+            size="lg"
+            shadow={0}
+            style={[
+              styles.shadowProp,
+              {
+                shadowColor: theme.primaryText,
+                borderColor: `${theme.primaryText}4d`, //0.5 opacity
+              },
+            ]}
             onPress={handleOnPress}
-            _icon={{size: 'md', color: theme.primaryBG}}
-            _pressed={{_icon: {color: theme.primaryText}, bg: theme.primaryBG}}
+            bg={theme.primaryBG}
+            collapsable={true}
+            icon={<CloseIcon key={uuid} />}
+            _icon={{size: 'xl', color: theme.primaryText}}
+            _pressed={{
+              backgroundColor: theme.primaryText,
+              _icon: {color: theme.primaryBG},
+            }}
+            _focus={{
+              backgroundColor: theme.primaryBG,
+              _icon: {color: theme.lightColor1},
+            }}
+            key="open-close-icon"
           />
         </Flex>
         <Flex flexGrow={1} width={'100%'} pl={'5%'} pr={'5%'}>
@@ -152,5 +172,11 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     justifyContent: 'flex-start',
+  },
+  shadowProp: {
+    shadowOffset: {width: 1, height: 1},
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    borderWidth: 0.5,
   },
 });

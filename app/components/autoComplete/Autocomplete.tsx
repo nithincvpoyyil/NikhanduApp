@@ -139,7 +139,7 @@ export default function AutoComplete(props: {
           visible={true}
           initial={{
             opacity: 0,
-            translateY: -10,
+            translateY: -20,
           }}
           animate={{
             opacity: 1,
@@ -148,7 +148,7 @@ export default function AutoComplete(props: {
               duration: 250,
             },
           }}>
-          <Box position={'relative'} w="99.8%" shadow={2}>
+          <Box position={'relative'} w="100%" shadow={0}>
             <FlatList
               scrollEnabled={false}
               data={suggestions}

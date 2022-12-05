@@ -6,7 +6,7 @@ export const upperBoxStyleProps: InterfaceBoxProps = {
   h: '15%',
   w: '100%',
   flexBasis: '8%',
-  flexShrink:0,
+  flexShrink: 0,
 };
 
 export const vStack1Props: InterfaceVStackProps = {
@@ -15,6 +15,7 @@ export const vStack1Props: InterfaceVStackProps = {
   display: 'flex',
   justifyContent: 'center',
 };
+
 export const vStack2Props: InterfaceVStackProps = {
   space: 1,
   alignItems: 'center',

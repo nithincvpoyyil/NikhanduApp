@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {Fab, IconButton, ThreeDotsIcon} from 'native-base';
+import {StyleSheet} from 'react-native';
 import {useThemeObject} from '../utils/getTheme';
 
 export const MenuList = (props: {onPress: () => void}) => {
@@ -12,6 +13,7 @@ export const MenuList = (props: {onPress: () => void}) => {
       placement={'bottom-right'}
       _pressed={{bg: 'transparent'}}
       _focus={{bg: 'transparent'}}
+      shadow={0}
       label={
         <IconButton
           accessibilityLabel={'open settings'}
@@ -22,7 +24,14 @@ export const MenuList = (props: {onPress: () => void}) => {
           variant="outline"
           rounded="full"
           size="lg"
-          shadow={3}
+          shadow={0}
+          style={[
+            styles.shadowProp,
+            {
+              shadowColor: theme.primaryText,
+              borderColor: `${theme.primaryText}4D`, //0.5 opacity
+            },
+          ]}
           onPress={props.onPress}
           bg={theme.primaryBG}
           collapsable={true}
@@ -42,3 +51,12 @@ export const MenuList = (props: {onPress: () => void}) => {
     />
   );
 };
+
+const styles = StyleSheet.create({
+  shadowProp: {
+    shadowOffset: {width: 1, height: 1},
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
+    borderWidth: 1,
+  },
+});

@@ -156,9 +156,8 @@ export default function DictScreen() {
       />
       <VStack
         {...vStack2Props}
-        shadow={3}
-        borderTopLeftRadius={20}
-        borderTopRightRadius={20}
+        borderTopLeftRadius={25}
+        borderTopRightRadius={25}
         bg={bottomBGColor}>
         {resultNode}
       </VStack>

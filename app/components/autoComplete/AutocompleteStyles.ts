@@ -31,7 +31,6 @@ export function getStyles(args: Args) {
     paddingTop: 3,
     paddingBottom: 3,
     borderWidth: 1,
-    borderLeftWidth: 1,
     size: '2xl',
     w: '100%',
     variant: 'unstyled',
@@ -39,7 +38,6 @@ export function getStyles(args: Args) {
     bg: theme.secondryBG,
     placeholderTextColor: theme.secondaryText,
     _focus: {
-      borderWidth: 1,
       borderColor: theme.primaryBG,
       placeholderTextColor: theme.secondaryText,
       backgroundColor: theme.secondryBG,
@@ -49,7 +47,7 @@ export function getStyles(args: Args) {
 
   const inputIconBtnStyles: IIconButtonProps = {
     size: 'md',
-    bg: theme.searchIconBG || 'transparent',
+    bg: theme.searchIconBG || theme.secondryBG,
     borderWidth: 0,
     borderRadius: 100,
     _icon: {
@@ -57,33 +55,33 @@ export function getStyles(args: Args) {
       color: theme.searchIconColor || theme.secondaryText,
     },
     _pressed: {
-      bg: theme.primaryBG,
+      bg: theme.searchIconColor || theme.secondaryText,
       _icon: {
-        color: theme.primaryText,
+        color: theme.searchIconBG || theme.secondryBG,
       },
     },
     _focus: {
-      bg: theme.primaryBG,
+      bg: theme.searchIconColor || theme.secondaryText,
       _icon: {
-        color: theme.primaryText,
+        color: theme.searchIconBG || theme.secondryBG,
       },
     },
   };
 
   const suggestionListStyles: Partial<IFlatListProps<string>> = {
-    shadow: 0,
     bg: theme.secondryBG,
-    w: '99.9%',
-    position: 'absolute',
+    borderColor: theme.secondryBG,
     borderTopWidth: 0,
     borderLeftWidth: 1,
     borderRightWidth: 1,
     borderBottomWidth: 1,
-    borderColor: theme.secondryBG,
     borderTopLeftRadius: 1,
     borderTopRightRadius: 1,
     borderBottomRightRadius: 20,
     borderBottomLeftRadius: 20,
+    position: 'absolute',
+    shadow: 0,
+    w: '100%',
   };
 
   const suggestionListItemStyles: IBoxProps = {

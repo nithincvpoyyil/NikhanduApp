@@ -1,17 +1,9 @@
 import * as React from 'react';
-import {
-  Box,
-  Text,
-  IconButton,
-  SunIcon,
-  MoonIcon,
-  HamburgerIcon,
-  VStack,
-  HStack,
-} from 'native-base';
+import {Box, Text, IconButton, VStack, HStack, SunIcon} from 'native-base';
 import {InterfaceVStackProps} from 'native-base/lib/typescript/components/primitives/Stack/VStack';
 import {ThemeKey} from '../types';
-import {ThemeContext, themes, useThemeObject} from '../utils/getTheme';
+import {ThemeContext, useThemeObject} from '../utils/getTheme';
+import {themes} from '../utils/themes';
 
 export const vStackProps: InterfaceVStackProps = {
   space: 5,
@@ -35,7 +27,8 @@ export default function LightMode() {
   return (
     <VStack alignItems={'flex-start'} justifyContent="flex-start" m={2}>
       <Text color={themeObject.primaryText} fontSize="sm" mt={1} mb={5}>
-        <Text bold>Change app theme</Text>
+        <Text bold>Change app theme : </Text>
+        {theme === 'default' ? 'default blue' : theme}
       </Text>
       <HStack alignItems={'center'} justifyContent="flex-start">
         {themeList.map(themeItem => {
@@ -44,24 +37,18 @@ export default function LightMode() {
           return (
             <Box
               key={themeItem}
-              borderWidth={isSelected ? 2 : 0}
-              borderColor={themeObject.primaryText}
+              borderWidth={isSelected ? 3 : 0}
+              borderColor={isSelected ? themeObject.primaryText : 'transparent'}
               p={1}
               m={1}
               borderRadius={100}>
               <IconButton
                 borderColor={itemTheme.secondryBG}
-                bg={itemTheme.secondaryText}
+                bg={itemTheme.primaryBG}
                 borderRadius={100}
                 collapsable={true}
                 _icon={{size: 'md'}}
-                icon={
-                  <MoonIcon
-                    color={
-                      isSelected ? itemTheme.primaryBG : itemTheme.secondryBG
-                    }
-                  />
-                }
+                icon={<SunIcon color={itemTheme.primaryText} />}
                 onPress={() => {
                   setTheme(themeItem);
                 }}
