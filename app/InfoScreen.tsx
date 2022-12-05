@@ -10,23 +10,18 @@ import {
   CloseIcon,
   IconButton,
   Link,
-  HStack,
 } from 'native-base';
 import {InterfaceVStackProps} from 'native-base/lib/typescript/components/primitives/Stack/VStack';
-import AnimatedSlideUp from './components/AnimatedSlideUp';
+import AnimatedSlideUp from './components/animatedComponents/AnimatedSlideUp';
 import {DeviceLightMode} from './types';
+import TextAnimator from './components/animatedComponents/TextAnimator';
+import {enText, links} from './utils/textConstants';
+import {useThemeObject} from './utils/getTheme';
+import {StyleSheet} from 'react-native';
 import LightMode from './components/LightMode';
-import TextAnimator from './components/TextAnimator';
-import {
-  enText,
-  links,
-  malayalamtext1,
-  malayalamText2,
-} from './utils/textConstants';
-
 export const vStackProps: InterfaceVStackProps = {
-  space: 5,
-  alignItems: 'center',
+  space: 1,
+  alignItems: 'flex-start',
   w: '100%',
 };
 
@@ -34,7 +29,6 @@ const animatedSlideUpProps = {style: {width: '100%', height: '100%'}};
 
 export default function InfoScreen({
   onPressCloseBtn,
-  changeAppLightMode,
 }: {
   onPressCloseBtn: () => void;
   changeAppLightMode: (mode: DeviceLightMode) => void;
@@ -43,6 +37,8 @@ export default function InfoScreen({
   const [animDirection, setAnimDirection] = React.useState<
     'forward' | 'reverse'
   >('forward');
+  const [uuid] = React.useState<number>(Date.now());
+
   const handleOnPress = () => {
     setAnimDirection('reverse');
     setIsCloseClicked(true);
@@ -53,87 +49,118 @@ export default function InfoScreen({
       onPressCloseBtn();
     }
   };
+
+  const theme = useThemeObject();
+
   return (
-    <Center bg="#ffa">
+    <Center bg={theme.primaryBG}>
       <AnimatedSlideUp
         {...animatedSlideUpProps}
         animDirection={animDirection}
         onAnimationFinish={onAnimationFinish}>
         <Flex
-          bg="#ffa"
+          bg={theme.primaryBG}
           safeArea={true}
           width={'100%'}
           alignItems="center"
           justifyContent={'space-between'}
           flexDir="row">
-          <Box m={2} borderBottomWidth={2} pt={2} pl={4} pr={4} pb={1}>
+          <Box
+            m={2}
+            borderBottomWidth={2}
+            borderBottomColor={theme.primaryText}
+            pt={2}
+            pl={4}
+            pr={4}
+            pb={1}>
             <Heading>
-              <Text fontSize="3xl">Settings</Text>
+              <Text color={theme.primaryText} fontSize="3xl">
+                Settings
+              </Text>
             </Heading>
           </Box>
+
           <IconButton
             mr={5}
+            accessibilityLabel={'close settings'}
+            accessibilityHint={'close settings goto home screen'}
             borderWidth={2}
-            borderColor="coolGray.800"
             borderRadius={100}
-            shadow="3"
-            accessibilityLabel={'close message and search again'}
-            bg="transparent"
-            icon={<CloseIcon />}
+            borderColor={'transparent'}
+            variant="outline"
+            rounded="full"
+            size="lg"
+            shadow={0}
+            style={[
+              styles.shadowProp,
+              {
+                shadowColor: theme.primaryText,
+                borderColor: `${theme.primaryText}4d`, //0.5 opacity
+              },
+            ]}
             onPress={handleOnPress}
-            _icon={{size: 'xl', color: 'coolGray.800'}}
-            _pressed={{_icon: {color: 'coolGray.900'}, bg: 'white'}}
+            bg={theme.primaryBG}
+            collapsable={true}
+            icon={<CloseIcon key={uuid} />}
+            _icon={{size: 'xl', color: theme.primaryText}}
+            _pressed={{
+              backgroundColor: theme.primaryText,
+              _icon: {color: theme.primaryBG},
+            }}
+            _focus={{
+              backgroundColor: theme.primaryBG,
+              _icon: {color: theme.lightColor1},
+            }}
+            key="open-close-icon"
           />
         </Flex>
         <Flex flexGrow={1} width={'100%'} pl={'5%'} pr={'5%'}>
+          <LightMode />
           <ScrollView horizontal={false} width="100%">
             <VStack {...vStackProps}>
-              {/* <LightMode
-                  currentMode="device"
-                  changeAppLightMode={changeAppLightMode}
-                /> */}
-              <Box mb={1} mt={5} borderWidth={2} pt={2} pl={4} pr={4} pb={2}>
-                <Text fontSize="2xl">About</Text>
+              <Box
+                mb={2}
+                mt={5}
+                borderBottomWidth={2}
+                pt={2}
+                pl={4}
+                pr={4}
+                pb={1}
+                borderColor={theme.primaryText}>
+                <Text color={theme.primaryText} fontSize="2xl" bold>
+                  About
+                </Text>
               </Box>
 
               <TextAnimator
-                content={malayalamtext1}
-                duration={500}
-                // eslint-disable-next-line react-native/no-inline-styles
-                textStyle={{
-                  fontSize: 16,
-                  paddingTop: 8,
-                }}
-                // eslint-disable-next-line react-native/no-inline-styles
-                wrapperStyle={{justifyContent: 'flex-start'}}
-              />
-
-              <TextAnimator
                 content={enText}
-                duration={500}
-                // eslint-disable-next-line react-native/no-inline-styles
-                textStyle={{
-                  fontSize: 16,
-                  paddingTop: 8,
-                }}
-                // eslint-disable-next-line react-native/no-inline-styles
-                wrapperStyle={{justifyContent: 'flex-start'}}
+                duration={200}
+                textStyle={{...styles.text, color: theme.primaryText}}
+                wrapperStyle={styles.wrapper}
               />
-            </VStack>
-            <Text fontSize="lg" bold mt={3}>
-              Links
-            </Text>
-            <VStack>
+              <Box
+                mb={2}
+                mt={3}
+                borderBottomWidth={2}
+                pt={2}
+                pl={4}
+                pr={4}
+                pb={1}
+                borderColor={theme.primaryText}>
+                <Text color={theme.primaryText} fontSize="2xl" bold>
+                  Links
+                </Text>
+              </Box>
               {links.map(i => (
                 <Link
                   key={i.key}
+                  href={`${i.link}`}
                   mb={1}
                   pt={1}
-                  pl={1}
+                  pl={0}
                   pr={1}
                   pb={1}
-                  _text={{fontSize: 'sm', color: 'coolGray.800'}}
-                  href={`${i.link}`}>
+                  _text={{fontSize: 'sm', color: theme.primaryText}}>
                   {i.key}
                 </Link>
               ))}
@@ -145,3 +172,19 @@ export default function InfoScreen({
     </Center>
   );
 }
+
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 16,
+    paddingTop: 8,
+  },
+  wrapper: {
+    justifyContent: 'flex-start',
+  },
+  shadowProp: {
+    shadowOffset: {width: 1, height: 1},
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    borderWidth: 0.5,
+  },
+});

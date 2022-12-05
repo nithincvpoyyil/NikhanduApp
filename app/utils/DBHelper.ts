@@ -1,4 +1,3 @@
-import RNFS from 'react-native-fs';
 import Realm from 'realm';
 import stem from '../stemmer/PorterStemmer';
 import {groupByEnglishWord} from './formatter';
@@ -60,25 +59,32 @@ const mapperFunction = (resultItem: OlamDBItem & Realm.Object<unknown>) => {
   return item;
 };
 
+let bundlePath = 'olamDBNew.realm';
+
 export async function getResultsFromDB(
   queryString: string,
 ): Promise<{exactResults: GroupByDictWord; similarResults: GroupByDictWord}> {
-  Realm.copyBundledRealmFiles();
+  let dbCheck = false;
 
-  let bundlePath = RNFS.MainBundlePath + '/olamDBNew.realm';
-  const check1 = await RNFS.exists(bundlePath);
-
-  let check2 = Realm.exists({
-    path: bundlePath,
-    schema: [OlamDBSchema],
-    schemaVersion: 5,
-  });
+  try {
+    Realm.copyBundledRealmFiles();
+    dbCheck = Realm.exists({
+      path: bundlePath,
+      schema: [OlamDBSchema],
+      schemaVersion: 5,
+    });
+  } catch (error) {
+    return {
+      exactResults: {enList: new Set(), enMap: new Map()},
+      similarResults: {enList: new Set(), enMap: new Map()},
+    };
+  }
 
   let similarResults: Array<OlamDBItem> = [];
   let exactWordResults: Array<OlamDBItem> = [];
 
   try {
-    if (!check1 || !check2) {
+    if (!dbCheck) {
       throw new Error();
     }
     let rdb = await Realm.open({
@@ -108,12 +114,7 @@ export async function getResultsFromDB(
       exactResults: exactResultsGrouped,
       similarResults: similarResultsGrouped,
     };
-  } catch (e) {
-    if (e instanceof Error) {
-      let error = e as Error;
-      console.log(' | message:', error.message, ' | name:', e.name);
-    }
-  }
+  } catch (e) {}
   return {
     exactResults: {enList: new Set(), enMap: new Map()},
     similarResults: {enList: new Set(), enMap: new Map()},
@@ -123,21 +124,23 @@ export async function getResultsFromDB(
 export async function getSuggestions(
   queryString: string,
 ): Promise<Set<string>> {
-  Realm.copyBundledRealmFiles();
+  let dbCheck = false;
 
-  let bundlePath = RNFS.MainBundlePath + '/olamDBNew.realm';
-  const check1 = await RNFS.exists(bundlePath);
-
-  let check2 = Realm.exists({
-    path: bundlePath,
-    schema: [OlamDBSchema],
-    schemaVersion: 5,
-  });
+  try {
+    Realm.copyBundledRealmFiles();
+    dbCheck = Realm.exists({
+      path: bundlePath,
+      schema: [OlamDBSchema],
+      schemaVersion: 5,
+    });
+  } catch (error) {
+    return new Set();
+  }
 
   let similarResults: Array<OlamDBItem> = [];
 
   try {
-    if (!check1 || !check2) {
+    if (!dbCheck) {
       throw new Error();
     }
     let rdb = await Realm.open({
@@ -165,13 +168,57 @@ export async function getSuggestions(
         set.add(enWord);
       }
     }
-
     return set;
-  } catch (e) {
-    if (e instanceof Error) {
-      let error = e as Error;
-      console.log(' | message:', error.message, ' | name:', e.name);
-    }
-  }
+  } catch (e) {}
   return new Set<string>();
+}
+
+export async function healthCheck(): Promise<any> {
+  let dbCheck = false;
+  try {
+    Realm.copyBundledRealmFiles();
+    dbCheck = Realm.exists({
+      path: bundlePath,
+      schema: [OlamDBSchema],
+      schemaVersion: 5,
+    });
+  } catch (error) {
+    return {
+      dbCheck: false,
+      bundlePath,
+      error: true,
+    };
+  }
+
+  try {
+    let rdb = await Realm.open({
+      path: bundlePath,
+      schema: [OlamDBSchema],
+      schemaVersion: 5,
+    });
+    let query = 'cat';
+    let stemWord = stem(query);
+    let olamDB = rdb.objects<OlamDBItem>('OLAM_DB');
+
+    let similarResults = olamDB
+      .filtered(
+        'english_word LIKE[c] $0 || english_word ==[c] $1 LIMIT(20)',
+        `*${stemWord}*`,
+        query,
+      )
+      .map(mapperFunction);
+    rdb.close();
+    const resultsCount = similarResults.length;
+
+    return {
+      bundlePath,
+      dbCheck,
+      resultsCount,
+    };
+  } catch (e) {
+    return {
+      bundlePath,
+      error: true,
+    };
+  }
 }

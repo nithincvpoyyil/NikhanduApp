@@ -1,18 +1,16 @@
 import * as React from 'react';
-import {NativeBaseProvider, Box, Fab} from 'native-base';
+import {NativeBaseProvider, Box} from 'native-base';
 import {MenuList} from './components/MenuList';
 import DictScreen from './DictScreen';
 import InfoScreen from './InfoScreen';
-import {getData} from './utils/DataStore';
-import {DeviceLightMode} from './types';
-
-const DARK_MODE_FLAG = '@dark-mode-flag-value';
+import {ThemeContext, ThemeKey, useStoreTheme} from './utils/getTheme';
 
 export default function NikhanduLandingScreen() {
   const [currentScreen, setCurrentScreen] = React.useState<'info' | 'dict'>(
     'dict',
   );
-  const [_, setIsDeviceMode] = React.useState<DeviceLightMode>('dark');
+  const [theme, setTheme] = React.useState<ThemeKey>('default');
+  const [themeFromStore, setThemeToStore] = useStoreTheme(theme);
 
   const onPressCloseBtn = () => {
     setCurrentScreen('dict');
@@ -22,29 +20,30 @@ export default function NikhanduLandingScreen() {
   };
 
   React.useEffect(() => {
-    getData(DARK_MODE_FLAG).then(
-      mode => {
-        setIsDeviceMode(mode as DeviceLightMode);
-      },
-      () => {
-        setIsDeviceMode('device');
-      },
-    );
-  }, []);
+    setTheme(themeFromStore);
+  }, [themeFromStore]);
+
+  // sync code for both context and store
+  const updateTheme = (themeVal: ThemeKey) => {
+    setTheme(themeVal);
+    setThemeToStore(themeVal);
+  };
 
   return (
     <NativeBaseProvider>
-      <Box zIndex={100}>
-        {currentScreen === 'dict' ? <MenuList onPress={onPressMenu} /> : null}
-      </Box>
-      {currentScreen === 'info' ? (
-        <InfoScreen
-          onPressCloseBtn={onPressCloseBtn}
-          changeAppLightMode={setIsDeviceMode}
-        />
-      ) : (
-        <DictScreen />
-      )}
+      <ThemeContext.Provider value={{theme: theme, setTheme: updateTheme}}>
+        <Box zIndex={100}>
+          {currentScreen === 'dict' ? <MenuList onPress={onPressMenu} /> : null}
+        </Box>
+        {currentScreen === 'info' ? (
+          <InfoScreen
+            onPressCloseBtn={onPressCloseBtn}
+            changeAppLightMode={() => null}
+          />
+        ) : (
+          <DictScreen />
+        )}
+      </ThemeContext.Provider>
     </NativeBaseProvider>
   );
 }

@@ -1,20 +1,6 @@
 import React, {Component, PropsWithChildren} from 'react';
 import {Animated} from 'react-native';
-
-export type animDirection = 'forward' | 'reverse';
-type Props = {
-  style?: Object;
-  duration?: number;
-  startWhen?: boolean;
-  animDirection?: animDirection;
-  outputRange?: number;
-  onAnimationFinish?: () => void;
-};
-type State = {
-  animatedValue: Animated.Value;
-  duration: number;
-  direction: animDirection;
-};
+import {Props, State} from './AnimatedSlideUpProps';
 
 export default class AnimatedSlideUp extends Component<
   PropsWithChildren<Props>,

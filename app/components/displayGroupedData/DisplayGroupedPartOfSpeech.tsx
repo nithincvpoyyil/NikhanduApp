@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {OlamDBItem} from '../utils/DBHelper';
+import {OlamDBItem} from '../../utils/DBHelper';
 import PartOfSpeechCard from './PartOfSpeechCard';
 
 export default function DisplayGroupedPartOfSpeech(props: {
