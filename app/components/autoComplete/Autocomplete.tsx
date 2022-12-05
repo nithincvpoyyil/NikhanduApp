@@ -9,21 +9,22 @@ import {
 } from 'native-base';
 import * as React from 'react';
 import {ListRenderItemInfo, StyleSheet, TouchableOpacity} from 'react-native';
+import {LoadState} from '../../types';
 import {getSuggestions} from '../../utils/DBHelper';
 import debounce from '../../utils/debounce';
 import {useThemeObject} from '../../utils/getTheme';
-
 import {getStyles} from './AutocompleteStyles';
 import SuggestedListItem from './SuggestedListItem';
 
 export default function AutoComplete(props: {
   onSearchTextSelected: (query: string) => void;
   isResultLoading: boolean;
+  resultLoadingState: LoadState;
   onQueryInvalid?: () => void;
   onInputFocus?: () => void;
 }) {
   const {
-    isResultLoading = false,
+    resultLoadingState,
     onSearchTextSelected = () => null,
     onQueryInvalid = () => null,
     onInputFocus = () => null,
@@ -31,13 +32,12 @@ export default function AutoComplete(props: {
 
   const [query, setQuery] = React.useState('');
   const [suggestions, setSuggestions] = React.useState<Array<string>>([]);
-  const [loading, setLoading] = React.useState<boolean>(isResultLoading);
   const [isInputFocused, setIsInputFocused] = React.useState(false);
   const [uuid] = React.useState<number>(Date.now());
   const theme = useThemeObject();
-  React.useEffect(() => {
-    setLoading(isResultLoading);
-  }, [isResultLoading]);
+
+  console.log('log->', resultLoadingState);
+  const isLoading = resultLoadingState === 'loading';
 
   const onFocus = () => {
     onInputFocus();
@@ -93,13 +93,18 @@ export default function AutoComplete(props: {
     inputStyles,
     suggestionListItemStyles,
     suggestionListStyles,
-  } = getStyles({isInputFocused, isResultLoading, ifSuggestionsPresent, theme});
+  } = getStyles({
+    isInputFocused,
+    isResultLoading: resultLoadingState,
+    ifSuggestionsPresent,
+    theme,
+  });
 
   const inputRightLogo = (
     <IconButton
       onPress={onSearchKeyPressHandler}
       icon={<SearchIcon key={uuid} />}
-      isDisabled={isResultLoading}
+      isDisabled={isLoading}
       {...inputIconBtnStyles}
     />
   );
@@ -132,7 +137,7 @@ export default function AutoComplete(props: {
         onFocus={onFocus}
         onBlur={onBlur}
         {...inputStyles}
-        isDisabled={isResultLoading}
+        isDisabled={isLoading}
       />
       {ifSuggestionsPresent ? (
         <PresenceTransition
