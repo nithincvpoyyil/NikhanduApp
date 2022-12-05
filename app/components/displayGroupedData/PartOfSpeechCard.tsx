@@ -54,6 +54,7 @@ export default function PartOfSpeechCard(props: {
       overflow="hidden">
       <HStack mb={2}>
         <Badge
+          accessibilityHint="meanings of the word grouped by part of speech"
           borderWidth={0}
           backgroundColor={theme.lightColor2}
           _text={{

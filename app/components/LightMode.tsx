@@ -30,7 +30,10 @@ export default function LightMode() {
         <Text bold>Change app theme : </Text>
         {theme === 'default' ? 'default blue' : theme}
       </Text>
-      <HStack alignItems={'center'} justifyContent="flex-start">
+      <HStack
+        alignItems={'center'}
+        justifyContent="flex-start"
+        accessibilityHint="Change application theme by setting theme options below">
         {themeList.map(themeItem => {
           const itemTheme = themes[themeItem];
           const isSelected = theme === themeItem;
@@ -43,6 +46,7 @@ export default function LightMode() {
               m={1}
               borderRadius={100}>
               <IconButton
+                accessibilityLabel="tap to select the theme"
                 borderColor={itemTheme.secondryBG}
                 bg={itemTheme.primaryBG}
                 borderRadius={100}

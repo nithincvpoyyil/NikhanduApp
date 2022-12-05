@@ -18,7 +18,6 @@ import SuggestedListItem from './SuggestedListItem';
 
 export default function AutoComplete(props: {
   onSearchTextSelected: (query: string) => void;
-  isResultLoading: boolean;
   resultLoadingState: LoadState;
   onQueryInvalid?: () => void;
   onInputFocus?: () => void;
@@ -126,7 +125,13 @@ export default function AutoComplete(props: {
   return (
     <Container position={'relative'}>
       {ifSuggestionsPresent ? (
-        <TouchableOpacity style={styles.overlay} onPress={onOverlayClick} />
+        <TouchableOpacity
+          style={styles.overlay}
+          onPress={onOverlayClick}
+          accessibilityRole="none"
+          accessibilityHint="overlay button to dismiss auto suggestion of input"
+          accessibilityLabel="tap to dismiss auto suggestion"
+        />
       ) : null}
       <Input
         placeholder="find your word..."
@@ -136,8 +141,10 @@ export default function AutoComplete(props: {
         value={query}
         onFocus={onFocus}
         onBlur={onBlur}
-        {...inputStyles}
         isDisabled={isLoading}
+        accessibilityLabel="search input for english word"
+        accessibilityHint="type search keywords and press search button to find malayalam definition"
+        {...inputStyles}
       />
       {ifSuggestionsPresent ? (
         <PresenceTransition
@@ -155,6 +162,7 @@ export default function AutoComplete(props: {
           }}>
           <Box position={'relative'} w="100%" shadow={0}>
             <FlatList
+              accessibilityLabel="list of auto suggested words based on input"
               scrollEnabled={false}
               data={suggestions}
               renderItem={renderListItem}

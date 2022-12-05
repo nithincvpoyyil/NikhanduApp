@@ -11,8 +11,10 @@ export default function SimilarResultsHeading() {
       marginTop={5}
       padding={1}
       bg={theme.primaryBG}
-      textAlign="center">
-      <Text>സമാനമായ മറ്റ് വാക്കുകൾ</Text>
+      textAlign="center"
+      accessibilityLabel="other similar words & results"
+      accessibilityRole="header">
+      <Text accessibilityLanguage="malayalam">സമാനമായ മറ്റ് വാക്കുകൾ</Text>
       <Spacer />
     </Heading>
   );

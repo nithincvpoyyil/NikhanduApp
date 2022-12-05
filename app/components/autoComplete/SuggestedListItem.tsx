@@ -18,12 +18,16 @@ export default function SuggestedListItem({
     onPressListItem(listItem.item);
   };
   return (
-    <TouchableOpacity onPress={onPressItem}>
+    <TouchableOpacity
+      onPress={onPressItem}
+      accessibilityRole="button"
+      accessibilityLabel={`search ${listItem.item}`}>
       <Box {...listStyle}>
         <SearchIcon
           marginLeft={1}
           marginRight={2}
           color={theme.secondaryText}
+          accessible={false}
         />
         <Text color={theme.secondaryText}>{listItem.item}</Text>
       </Box>

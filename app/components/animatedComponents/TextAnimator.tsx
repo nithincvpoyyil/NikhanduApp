@@ -7,6 +7,7 @@ import {
   ViewStyle,
   TextProps,
   ViewProps,
+  Text,
 } from 'react-native';
 
 type Props = {
@@ -62,9 +63,11 @@ export default class TextAnimator extends React.Component<Props> {
     const {textStyle = {}, wrapperStyle = {}} = this.props;
     return (
       <View style={[styles.textWrapper, wrapperStyle]}>
+        <Text accessibilityLabel={this.props.content} />
         {this.textArr.map((word, index) => {
           return (
             <Animated.Text
+              accessible={false}
               key={`${word}-${index}`}
               style={[
                 textStyle,

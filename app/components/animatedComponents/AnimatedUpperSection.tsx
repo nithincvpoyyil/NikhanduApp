@@ -90,12 +90,13 @@ export default function AnimatedUpperSection(props: Props) {
       <Box {...bgStyle} safeArea={true} />
       <Animated.View {...vStack1Props} style={[bgStyle]}>
         <Animated.Image
-          alt={'nikhandu app logo'}
+          accessibilityRole="image"
+          accessibilityLabel="image logo for the nikhandu app"
           borderRadius={100}
           source={LogoImage}
           resizeMode="contain"
-          style={{...animatedViewStyles}}
           borderWidth={1}
+          style={{...animatedViewStyles}}
         />
         <Animated.Text
           style={[
