@@ -20,8 +20,8 @@ import {useThemeObject} from './utils/getTheme';
 import {StyleSheet} from 'react-native';
 import LightMode from './components/LightMode';
 export const vStackProps: InterfaceVStackProps = {
-  space: 5,
-  alignItems: 'center',
+  space: 1,
+  alignItems: 'flex-start',
   w: '100%',
 };
 
@@ -119,15 +119,15 @@ export default function InfoScreen({
           <ScrollView horizontal={false} width="100%">
             <VStack {...vStackProps}>
               <Box
-                mb={1}
+                mb={2}
                 mt={5}
-                borderWidth={2}
+                borderBottomWidth={2}
                 pt={2}
                 pl={4}
                 pr={4}
-                pb={2}
+                pb={1}
                 borderColor={theme.primaryText}>
-                <Text color={theme.primaryText} fontSize="2xl">
+                <Text color={theme.primaryText} fontSize="2xl" bold>
                   About
                 </Text>
               </Box>
@@ -138,11 +138,19 @@ export default function InfoScreen({
                 textStyle={{...styles.text, color: theme.primaryText}}
                 wrapperStyle={styles.wrapper}
               />
-            </VStack>
-            <Text fontSize="lg" bold mt={10} color={theme.primaryText}>
-              Links
-            </Text>
-            <VStack>
+              <Box
+                mb={2}
+                mt={3}
+                borderBottomWidth={2}
+                pt={2}
+                pl={4}
+                pr={4}
+                pb={1}
+                borderColor={theme.primaryText}>
+                <Text color={theme.primaryText} fontSize="2xl" bold>
+                  Links
+                </Text>
+              </Box>
               {links.map(i => (
                 <Link
                   key={i.key}

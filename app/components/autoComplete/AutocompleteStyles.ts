@@ -1,10 +1,10 @@
 import {IBoxProps, IIconButtonProps, IInputProps} from 'native-base';
 import {IFlatListProps} from 'native-base/lib/typescript/components/basic/FlatList';
-import {Theme} from '../../types';
+import {LoadState, Theme} from '../../types';
 
 type Args = {
   isInputFocused: boolean;
-  isResultLoading: boolean;
+  isResultLoading: LoadState;
   ifSuggestionsPresent: boolean;
   theme: Theme;
 };
