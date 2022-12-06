@@ -10,7 +10,6 @@ import {
   CloseIcon,
   IconButton,
   Link,
-  Switch,
 } from 'native-base';
 import {InterfaceVStackProps} from 'native-base/lib/typescript/components/primitives/Stack/VStack';
 import AnimatedSlideUp from './components/animatedComponents/AnimatedSlideUp';
@@ -20,6 +19,7 @@ import {enText, links} from './utils/textConstants';
 import {useThemeObject} from './utils/getTheme';
 import {StyleSheet} from 'react-native';
 import LightMode from './components/LightMode';
+import AnalyticsSwitch from './components/AnalyticsSwitch';
 export const vStackProps: InterfaceVStackProps = {
   space: 1,
   alignItems: 'flex-start',
@@ -117,10 +117,9 @@ export default function InfoScreen({
         </Flex>
         <Flex flexGrow={1} width={'100%'} pl={'5%'} pr={'5%'}>
           <LightMode />
+          <AnalyticsSwitch />
           <ScrollView horizontal={false} width="100%">
             <VStack {...vStackProps}>
-              <Switch defaultIsChecked colorScheme="primary" />
-
               <Box
                 mb={2}
                 mt={5}

@@ -5,7 +5,7 @@ import DictScreen from './DictScreen';
 import InfoScreen from './InfoScreen';
 import {ThemeContext, useStoreTheme} from './utils/getTheme';
 import {ThemeKey} from './types';
-import {useAnalytics} from './utils/useAnalytics';
+import {useAnalytics, useBlockAnalyticsFlag} from './utils/useAnalytics';
 import {events, MIXPANEL_TOKEN} from './utils/analyticsConstants';
 
 export default function NikhanduLandingScreen() {
@@ -15,18 +15,23 @@ export default function NikhanduLandingScreen() {
   const [theme, setTheme] = React.useState<ThemeKey>('default');
   const [themeFromStore, setThemeToStore] = useStoreTheme(theme);
   const [analyticsTrack] = useAnalytics(MIXPANEL_TOKEN);
+  const analyticsBlockFlag = useBlockAnalyticsFlag();
 
   const onPressCloseBtn = () => {
     setCurrentScreen('dict');
   };
   const onPressMenu = () => {
-    analyticsTrack(events.SETTINGS_SCREEN_OPENED);
+    if (!analyticsBlockFlag) {
+      analyticsTrack(events.SETTINGS_SCREEN_OPENED);
+    }
     setCurrentScreen('info');
   };
 
   React.useEffect(() => {
     setTheme(themeFromStore);
-    analyticsTrack(events.THEME_CHANGE, {theme: themeFromStore});
+    if (!analyticsBlockFlag) {
+      analyticsTrack(events.THEME_CHANGE, {theme: themeFromStore});
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [themeFromStore]);
 

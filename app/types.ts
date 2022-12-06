@@ -22,3 +22,7 @@ export type ThemeKey =
   | 'powersave'
   | 'indigo'
   | 'white';
+
+export const ANALYTICS_FLAG = '@analytics_flag';
+export const USER_ID_KEY = '@userid-info';
+export const THEME_STORE_KEY = '@NikhanduAppTheme';

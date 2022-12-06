@@ -1,10 +1,10 @@
 import {MixpanelProperties} from 'mixpanel-react-native';
 import React, {useCallback, useContext, useEffect, useState} from 'react';
-import {Theme, ThemeKey} from '../types';
+import {Theme, ThemeKey, THEME_STORE_KEY} from '../types';
 import {getData, setData} from './DataStore';
 import {themes} from './themes';
 
-const themeStoreKey = '@NikhanduAppTheme';
+
 
 export function getTheme(themeKey?: ThemeKey): Theme {
   if (themeKey && themes[themeKey].darkColor1) {
@@ -31,7 +31,7 @@ export function useStoreTheme(
 ): [ThemeKey, (key: ThemeKey) => void] {
   const [theme, setTheme] = useState<ThemeKey>(initTheme);
   useEffect(() => {
-    getData(themeStoreKey).then(themeFromStore => {
+    getData(THEME_STORE_KEY).then(themeFromStore => {
       if (themeFromStore) {
         setTheme(themeFromStore as ThemeKey);
       }
@@ -39,7 +39,7 @@ export function useStoreTheme(
   }, []);
 
   const setThemeToStore = useCallback((themeValue: ThemeKey) => {
-    setData(themeStoreKey, themeValue);
+    setData(THEME_STORE_KEY, themeValue);
   }, []);
 
   return [theme, setThemeToStore];

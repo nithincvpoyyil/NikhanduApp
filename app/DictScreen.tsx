@@ -13,7 +13,7 @@ import {NoItemCard} from './components/NoItemCard';
 import {useThemeObject} from './utils/getTheme';
 import AnimatedUpperSection from './components/animatedComponents/AnimatedUpperSection';
 import {LoadState} from './types';
-import {useTrack} from './utils/useAnalytics';
+import {useBlockAnalyticsFlag, useTrack} from './utils/useAnalytics';
 import {events} from './utils/analyticsConstants';
 
 export default function DictScreen() {
@@ -33,6 +33,7 @@ export default function DictScreen() {
 
   const theme = useThemeObject();
   const track = useTrack();
+  const blockAnalytics = useBlockAnalyticsFlag();
 
   const isResultLoaded =
     animationFinished &&
@@ -66,7 +67,9 @@ export default function DictScreen() {
       setSearchKey(key);
     }
     setIsResultLoadingState('loading');
-    track(events.SEARCH, {searchWord: key.toLowerCase()});
+    if (!blockAnalytics) {
+      track(events.SEARCH, {searchWord: key.toLowerCase()});
+    }
     getResultsFromDB(key).then(
       results => {
         setExactResults(results.exactResults);
@@ -77,7 +80,9 @@ export default function DictScreen() {
         setExactResults(getEmptyDictGrouped());
         setSimilarResults(getEmptyDictGrouped());
         setIsResultLoadingState('error');
-        track(events.FAILED_SEARCH, {searchWord: key.toLowerCase()});
+        if (!blockAnalytics) {
+          track(events.FAILED_SEARCH, {searchWord: key.toLowerCase()});
+        }
       },
     );
   };

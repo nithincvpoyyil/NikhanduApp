@@ -3,8 +3,7 @@ import {Mixpanel, MixpanelProperties} from 'mixpanel-react-native';
 import uuid from 'react-native-uuid';
 import {getData, setData} from './DataStore';
 import {ThemeContext} from './getTheme';
-
-const USER_ID_KEY = '@userid-info';
+import {ANALYTICS_FLAG, USER_ID_KEY} from '../types';
 
 export const useAnalytics = (token: string) => {
   const mixpanelRef = React.useRef<Mixpanel>();
@@ -54,4 +53,23 @@ export const useAnalytics = (token: string) => {
 export function useTrack() {
   const {analyticsTrack} = React.useContext(ThemeContext);
   return analyticsTrack;
+}
+export function useBlockAnalyticsFlag() {
+  const [flagValue, setFlagValue] = React.useState(false);
+
+  React.useEffect(() => {
+    getData(ANALYTICS_FLAG).then(
+      flag => {
+        if (flag && flag === 'true') {
+          setFlagValue(true);
+        } else {
+          setFlagValue(false);
+        }
+      },
+      () => {
+        setFlagValue(false);
+      },
+    );
+  }, []);
+  return flagValue;
 }
