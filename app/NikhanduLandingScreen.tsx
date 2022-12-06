@@ -5,7 +5,7 @@ import DictScreen from './DictScreen';
 import InfoScreen from './InfoScreen';
 import {ThemeContext, useStoreTheme} from './utils/getTheme';
 import {ThemeKey} from './types';
-import {useAnalytics, useBlockAnalyticsFlag} from './utils/useAnalytics';
+import {useAnalytics, useAnalyticsFlag} from './utils/useAnalytics';
 import {events, MIXPANEL_TOKEN} from './utils/analyticsConstants';
 
 export default function NikhanduLandingScreen() {
@@ -15,13 +15,13 @@ export default function NikhanduLandingScreen() {
   const [theme, setTheme] = React.useState<ThemeKey>('default');
   const [themeFromStore, setThemeToStore] = useStoreTheme(theme);
   const [analyticsTrack] = useAnalytics(MIXPANEL_TOKEN);
-  const analyticsBlockFlag = useBlockAnalyticsFlag();
+  const analyticsFlag = useAnalyticsFlag();
 
   const onPressCloseBtn = () => {
     setCurrentScreen('dict');
   };
   const onPressMenu = () => {
-    if (!analyticsBlockFlag) {
+    if (analyticsFlag) {
       analyticsTrack(events.SETTINGS_SCREEN_OPENED);
     }
     setCurrentScreen('info');
@@ -29,7 +29,7 @@ export default function NikhanduLandingScreen() {
 
   React.useEffect(() => {
     setTheme(themeFromStore);
-    if (!analyticsBlockFlag) {
+    if (analyticsFlag) {
       analyticsTrack(events.THEME_CHANGE, {theme: themeFromStore});
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -13,7 +13,7 @@ import {NoItemCard} from './components/NoItemCard';
 import {useThemeObject} from './utils/getTheme';
 import AnimatedUpperSection from './components/animatedComponents/AnimatedUpperSection';
 import {LoadState} from './types';
-import {useBlockAnalyticsFlag, useTrack} from './utils/useAnalytics';
+import {useAnalyticsFlag, useTrack} from './utils/useAnalytics';
 import {events} from './utils/analyticsConstants';
 
 export default function DictScreen() {
@@ -33,7 +33,7 @@ export default function DictScreen() {
 
   const theme = useThemeObject();
   const track = useTrack();
-  const blockAnalytics = useBlockAnalyticsFlag();
+  const analyticsFlag = useAnalyticsFlag();
 
   const isResultLoaded =
     animationFinished &&
@@ -67,7 +67,7 @@ export default function DictScreen() {
       setSearchKey(key);
     }
     setIsResultLoadingState('loading');
-    if (!blockAnalytics) {
+    if (analyticsFlag) {
       track(events.SEARCH, {searchWord: key.toLowerCase()});
     }
     getResultsFromDB(key).then(
@@ -80,7 +80,7 @@ export default function DictScreen() {
         setExactResults(getEmptyDictGrouped());
         setSimilarResults(getEmptyDictGrouped());
         setIsResultLoadingState('error');
-        if (!blockAnalytics) {
+        if (analyticsFlag) {
           track(events.FAILED_SEARCH, {searchWord: key.toLowerCase()});
         }
       },

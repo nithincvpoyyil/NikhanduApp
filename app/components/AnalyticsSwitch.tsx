@@ -4,7 +4,7 @@ import {InterfaceVStackProps} from 'native-base/lib/typescript/components/primit
 import {useThemeObject} from '../utils/getTheme';
 import {setData} from '../utils/DataStore';
 import {ANALYTICS_FLAG} from '../types';
-import {useBlockAnalyticsFlag} from '../utils/useAnalytics';
+import {useAnalyticsFlag} from '../utils/useAnalytics';
 
 export const vStackProps: InterfaceVStackProps = {
   space: 5,
@@ -16,7 +16,7 @@ export const vStackProps: InterfaceVStackProps = {
 export default function AnalyticsSwitch() {
   const themeObject = useThemeObject();
   const [selected, setSelected] = React.useState(true);
-  const blockFlag = useBlockAnalyticsFlag();
+  const blockFlag = useAnalyticsFlag();
 
   React.useEffect(() => {
     setSelected(blockFlag);

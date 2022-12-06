@@ -54,7 +54,7 @@ export function useTrack() {
   const {analyticsTrack} = React.useContext(ThemeContext);
   return analyticsTrack;
 }
-export function useBlockAnalyticsFlag() {
+export function useAnalyticsFlag() {
   const [flagValue, setFlagValue] = React.useState(false);
 
   React.useEffect(() => {
