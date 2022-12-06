@@ -27,6 +27,7 @@ export default function NikhanduLandingScreen() {
   React.useEffect(() => {
     setTheme(themeFromStore);
     analyticsTrack(events.THEME_CHANGE, {theme: themeFromStore});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [themeFromStore]);
 
   // sync code for both context and store

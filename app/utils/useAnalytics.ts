@@ -1,18 +1,44 @@
 import React from 'react';
 import {Mixpanel, MixpanelProperties} from 'mixpanel-react-native';
-import {useUserID} from './useUserID';
+import uuid from 'react-native-uuid';
+import {getData, setData} from './DataStore';
+import {ThemeContext} from './getTheme';
+
+const USER_ID_KEY = '@userid-info';
 
 export const useAnalytics = (token: string) => {
-  const [userID] = useUserID();
-  const trackAutomaticEvents = true;
   const mixpanelRef = React.useRef<Mixpanel>();
-  if (!mixpanelRef.current) {
-    mixpanelRef.current = new Mixpanel(token, trackAutomaticEvents);
-    mixpanelRef.current.init();
-    if (userID) {
-      mixpanelRef.current.identify(userID);
+  const [uniqueID, setUniqueID] = React.useState({id: '', done: false});
+
+  React.useEffect(() => {
+    getData(USER_ID_KEY).then(
+      userIDFromStorage => {
+        if (userIDFromStorage) {
+          setUniqueID({id: userIDFromStorage, done: true});
+        } else {
+          const randomUserID = '' + uuid.v4('unique-id');
+          setUniqueID({id: randomUserID, done: true});
+          setData(USER_ID_KEY, randomUserID);
+        }
+      },
+      () => {
+        setUniqueID({id: '', done: true});
+      },
+    );
+  }, []);
+
+  React.useEffect(() => {
+    if (uniqueID.done) {
+      if (!mixpanelRef.current) {
+        mixpanelRef.current = new Mixpanel(token, false);
+        mixpanelRef.current.init();
+        if (uniqueID.id) {
+          mixpanelRef.current.identify(uniqueID.id);
+        }
+      }
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uniqueID.done]);
 
   function track(
     eventName: string,
@@ -24,3 +50,8 @@ export const useAnalytics = (token: string) => {
   }
   return [track];
 };
+
+export function useTrack() {
+  const {analyticsTrack} = React.useContext(ThemeContext);
+  return analyticsTrack;
+}
