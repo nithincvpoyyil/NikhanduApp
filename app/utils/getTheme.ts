@@ -1,3 +1,4 @@
+import {MixpanelProperties} from 'mixpanel-react-native';
 import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {Theme, ThemeKey} from '../types';
 import {getData, setData} from './DataStore';
@@ -15,9 +16,14 @@ export function getTheme(themeKey?: ThemeKey): Theme {
 export const ThemeContext = React.createContext<{
   theme: ThemeKey;
   setTheme: (theme: ThemeKey) => void;
+  analyticsTrack: (
+    eventName: string,
+    properties?: MixpanelProperties | undefined,
+  ) => void;
 }>({
   theme: 'default',
   setTheme: () => null,
+  analyticsTrack: () => null,
 });
 
 export function useStoreTheme(

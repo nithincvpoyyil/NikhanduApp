@@ -10,6 +10,7 @@ import {
   CloseIcon,
   IconButton,
   Link,
+  Switch,
 } from 'native-base';
 import {InterfaceVStackProps} from 'native-base/lib/typescript/components/primitives/Stack/VStack';
 import AnimatedSlideUp from './components/animatedComponents/AnimatedSlideUp';
@@ -118,6 +119,8 @@ export default function InfoScreen({
           <LightMode />
           <ScrollView horizontal={false} width="100%">
             <VStack {...vStackProps}>
+              <Switch defaultIsChecked colorScheme="primary" />
+
               <Box
                 mb={2}
                 mt={5}
