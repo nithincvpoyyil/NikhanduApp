@@ -27,7 +27,7 @@ export default function LightMode() {
   return (
     <VStack alignItems={'flex-start'} justifyContent="flex-start" m={2}>
       <Text color={themeObject.primaryText} fontSize="sm" mt={1} mb={5}>
-        <Text bold>Change {theme === 'default' ? 'blue' : theme} theme :</Text>
+        <Text bold>Change theme :</Text>
       </Text>
       <HStack
         alignItems={'center'}

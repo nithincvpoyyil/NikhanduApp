@@ -11,7 +11,6 @@ import {
   IconButton,
   Link,
 } from 'native-base';
-import {InterfaceVStackProps} from 'native-base/lib/typescript/components/primitives/Stack/VStack';
 import AnimatedSlideUp from './components/animatedComponents/AnimatedSlideUp';
 import {DeviceLightMode} from './types';
 import TextAnimator from './components/animatedComponents/TextAnimator';
@@ -20,11 +19,6 @@ import {useThemeObject} from './utils/getTheme';
 import {StyleSheet} from 'react-native';
 import LightMode from './components/LightMode';
 import AnalyticsSwitch from './components/AnalyticsSwitch';
-export const vStackProps: InterfaceVStackProps = {
-  space: 1,
-  alignItems: 'flex-start',
-  w: '100%',
-};
 
 const animatedSlideUpProps = {style: {width: '100%', height: '100%'}};
 
@@ -80,7 +74,6 @@ export default function InfoScreen({
               </Text>
             </Heading>
           </Box>
-
           <IconButton
             mr={5}
             accessibilityLabel={'close settings'}
@@ -115,49 +108,45 @@ export default function InfoScreen({
             key="open-close-icon"
           />
         </Flex>
-        <Flex flexGrow={1} width={'100%'} pl={'5%'} pr={'5%'}>
+        <Flex width="100%" p={'3%'}>
           <LightMode />
-          <AnalyticsSwitch />
-          <ScrollView horizontal={false} width="100%">
-            <VStack {...vStackProps}>
-              <Box
-                mb={2}
-                mt={5}
-                borderBottomWidth={2}
-                pt={2}
-                pl={4}
-                pr={4}
-                pb={1}
-                borderColor={theme.primaryText}>
-                <Text color={theme.primaryText} fontSize="2xl" bold>
-                  About
-                </Text>
-              </Box>
-
+        </Flex>
+        <ScrollView horizontal={false} width="100%" p={'3%'} flexGrow={1}>
+          <VStack alignItems={'flex-start'} justifyContent="flex-start" m={2}>
+            <AnalyticsSwitch />
+            <Box
+              borderBottomWidth={2}
+              pt={2}
+              pl={2}
+              pr={1}
+              pb={2}
+              borderColor={'transparent'}>
+              <Text color={theme.primaryText} bold pb={3}>
+                About
+              </Text>
               <TextAnimator
                 content={enText}
                 duration={200}
                 textStyle={{...styles.text, color: theme.primaryText}}
                 wrapperStyle={styles.wrapper}
               />
-              <Box
-                mb={2}
-                mt={3}
-                borderBottomWidth={2}
-                pt={2}
-                pl={4}
-                pr={4}
-                pb={1}
-                borderColor={theme.primaryText}>
-                <Text color={theme.primaryText} fontSize="2xl" bold>
-                  Links
-                </Text>
-              </Box>
+            </Box>
+
+            <Box
+              borderBottomWidth={2}
+              pt={2}
+              pl={2}
+              pr={1}
+              pb={2}
+              borderColor={'transparent'}>
+              <Text color={theme.primaryText} bold pb={3}>
+                Links
+              </Text>
               {links.map(i => (
                 <Link
                   key={i.key}
                   href={`${i.link}`}
-                  mb={1}
+                  mb={0}
                   pt={1}
                   pl={0}
                   pr={1}
@@ -166,10 +155,11 @@ export default function InfoScreen({
                   {i.key}
                 </Link>
               ))}
-            </VStack>
-          </ScrollView>
-        </Flex>
-        <Flex safeArea={true} height={5} />
+            </Box>
+          </VStack>
+          <Flex height={50} />
+        </ScrollView>
+        <Flex safeArea={true} height={1} />
       </AnimatedSlideUp>
     </Center>
   );
@@ -177,8 +167,7 @@ export default function InfoScreen({
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 16,
-    paddingTop: 8,
+    paddingTop: 4,
   },
   wrapper: {
     justifyContent: 'flex-start',

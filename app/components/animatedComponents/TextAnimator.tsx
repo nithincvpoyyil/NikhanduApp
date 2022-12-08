@@ -3,8 +3,6 @@ import {
   View,
   StyleSheet,
   Animated,
-  StyleProp,
-  ViewStyle,
   TextProps,
   ViewProps,
   Text,

@@ -1,10 +1,13 @@
 import * as React from 'react';
-import {Text, HStack, Switch} from 'native-base';
+import {Text, HStack, Switch, Flex} from 'native-base';
 import {InterfaceVStackProps} from 'native-base/lib/typescript/components/primitives/Stack/VStack';
 import {useThemeObject} from '../utils/getTheme';
 import {setData} from '../utils/DataStore';
 import {ANALYTICS_FLAG} from '../types';
 import {useAnalyticsFlag} from '../utils/useAnalytics';
+import {analyticsDeclaration} from '../utils/textConstants';
+import TextAnimator from './animatedComponents/TextAnimator';
+import {StyleSheet} from 'react-native';
 
 export const vStackProps: InterfaceVStackProps = {
   space: 5,
@@ -26,6 +29,9 @@ export default function AnalyticsSwitch() {
     setSelected(!selected);
     setData(ANALYTICS_FLAG, `${!selected}`);
   };
+
+  const theme = useThemeObject();
+
   return (
     <>
       <HStack
@@ -39,21 +45,38 @@ export default function AnalyticsSwitch() {
         <Switch
           value={selected}
           onToggle={onToggle}
-          ios_backgroundColor={'transparent'}
-          background={'transparent'}
-          trackColor={{
-            true: themeObject.primaryText,
-            false: 'transparent',
-          }}
           borderColor={themeObject.primaryText}
           borderWidth={1}
+          offTrackColor={themeObject.primaryBG}
+          onTrackColor={`${themeObject.primaryText}80`}
+          offThumbColor={themeObject.primaryText}
+          size="md"
         />
       </HStack>
-      <Text color={themeObject.primaryText} fontSize="sm" m={2}>
-        Please note, we are collecting some information about word searches &
-        failures (no personal identifible information) . If you are not okay
-        with this, please turn-off.
-      </Text>
+
+      <Flex m={2}>
+        <TextAnimator
+          content={analyticsDeclaration}
+          duration={200}
+          textStyle={{...styles.text, color: theme.primaryText}}
+          wrapperStyle={styles.wrapper}
+        />
+      </Flex>
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  text: {
+    paddingTop: 4,
+  },
+  wrapper: {
+    justifyContent: 'flex-start',
+  },
+  shadowProp: {
+    shadowOffset: {width: 1, height: 1},
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    borderWidth: 0.5,
+  },
+});
