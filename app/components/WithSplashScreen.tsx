@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Animated, StyleSheet} from 'react-native';
 import {ThemeKey} from '../types';
+import {getTheme} from '../utils/getTheme';
 
 export function WithSplashScreen({
   children,
@@ -9,7 +10,7 @@ export function WithSplashScreen({
 }: {
   isAppReady: boolean;
   children: React.ReactNode;
-  theme: {primaryBG: string};
+  theme: ThemeKey;
 }) {
   return (
     <>
@@ -36,11 +37,12 @@ const Splash = ({
   theme,
 }: {
   isAppReady: boolean;
-  theme: {primaryBG: string};
+  theme: ThemeKey;
 }) => {
   const containerOpacity = useRef(new Animated.Value(1)).current;
   const imageOpacity = useRef(new Animated.Value(0)).current;
   const [state, setState] = useState<States>(LOADING_IMAGE);
+  const themeObj = getTheme(theme);
 
   useEffect(() => {
     if (state === FADE_IN_IMAGE) {
@@ -85,7 +87,7 @@ const Splash = ({
       style={[
         style.container,
         {opacity: containerOpacity},
-        {backgroundColor: theme.primaryBG},
+        {backgroundColor: themeObj.primaryBG},
       ]}>
       <Animated.Image
         source={require('../assets/images/LandingLogo.png')}
@@ -96,8 +98,9 @@ const Splash = ({
         style={[style.image, {opacity: imageOpacity}]}
         resizeMode="contain"
       />
-      <Animated.Text style={[{opacity: imageOpacity}]}>
-        Made with Love in Kerala
+      <Animated.Text
+        style={[{opacity: imageOpacity}, {color: themeObj.primaryText}]}>
+        Made with ❤️ in Kerala
       </Animated.Text>
     </Animated.View>
   );

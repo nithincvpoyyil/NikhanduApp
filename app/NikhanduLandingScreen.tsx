@@ -7,7 +7,7 @@ import {getTheme, ThemeContext, useStoreTheme} from './utils/getTheme';
 import {ThemeKey} from './types';
 import {useAnalytics, useAnalyticsFlag} from './utils/useAnalytics';
 import {events, MIXPANEL_TOKEN} from './utils/analyticsConstants';
-import {WithSplashScreen} from './components/Keybaord';
+import {WithSplashScreen} from './components/WithSplashScreen';
 
 export default function NikhanduLandingScreen() {
   const [currentScreen, setCurrentScreen] = React.useState<'info' | 'dict'>(
@@ -46,15 +46,11 @@ export default function NikhanduLandingScreen() {
     }
   };
 
-  const primaryBGColor = getTheme(theme).primaryBG;
-
   return (
     <NativeBaseProvider>
       <ThemeContext.Provider
         value={{theme: theme, setTheme: updateTheme, analyticsTrack}}>
-        <WithSplashScreen
-          isAppReady={isAppReady}
-          theme={{primaryBG: primaryBGColor}}>
+        <WithSplashScreen isAppReady={isAppReady} theme={theme}>
           <>
             <Box zIndex={100}>
               {currentScreen === 'dict' ? (
