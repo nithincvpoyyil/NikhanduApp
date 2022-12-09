@@ -4,6 +4,7 @@ import {
   FlatList,
   IconButton,
   Input,
+  MoonIcon,
   PresenceTransition,
   SearchIcon,
 } from 'native-base';
@@ -32,10 +33,9 @@ export default function AutoComplete(props: {
   const [query, setQuery] = React.useState('');
   const [suggestions, setSuggestions] = React.useState<Array<string>>([]);
   const [isInputFocused, setIsInputFocused] = React.useState(false);
-  const [uuid] = React.useState<number>(Date.now());
+  const [showLoading, setLoading] = React.useState(false);
+  const [uuid, setUUID] = React.useState<number>(Date.now());
   const theme = useThemeObject();
-
-  const isLoading = resultLoadingState === 'loading';
 
   const onFocus = () => {
     onInputFocus();
@@ -53,9 +53,18 @@ export default function AutoComplete(props: {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
+  React.useEffect(() => {
+    if (resultLoadingState !== 'loading') {
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+  }, [resultLoadingState]);
+
   const onSearchKeyPressHandler = () => {
     setSuggestions([]);
     onSearchTextSelected(query);
+    setUUID(Date.now());
   };
 
   const onSearchHandler = (text: string) => {
@@ -83,6 +92,7 @@ export default function AutoComplete(props: {
     setSuggestions([]);
     setQuery(suggestion);
     props.onSearchTextSelected(suggestion);
+    setLoading(true);
   };
   const ifSuggestionsPresent = !!suggestions.length;
 
@@ -98,12 +108,11 @@ export default function AutoComplete(props: {
     theme,
   });
 
-  const inputNode = <SearchIcon key={uuid} />;
   const inputRightLogo = (
     <IconButton
       onPress={onSearchKeyPressHandler}
-      icon={inputNode}
-      isDisabled={isLoading}
+      icon={<SearchIcon />}
+      isDisabled={showLoading}
       {...inputIconBtnStyles}
     />
   );
@@ -134,6 +143,7 @@ export default function AutoComplete(props: {
         />
       ) : null}
       <Input
+        key={uuid}
         placeholder="find your word..."
         onChangeText={onSearchHandler}
         variant="unstyled"
@@ -141,9 +151,12 @@ export default function AutoComplete(props: {
         value={query}
         onFocus={onFocus}
         onBlur={onBlur}
-        isDisabled={isLoading}
+        isDisabled={showLoading}
         accessibilityLabel="search input for english word"
         accessibilityHint="type search keywords and press search button to find malayalam definition"
+        returnKeyType="search"
+        returnKeyLabel="search"
+        onSubmitEditing={onSearchKeyPressHandler}
         {...inputStyles}
       />
       {ifSuggestionsPresent ? (
