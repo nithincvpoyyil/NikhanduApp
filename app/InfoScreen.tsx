@@ -12,27 +12,35 @@ import {
   Link,
 } from 'native-base';
 import AnimatedSlideUp from './components/animatedComponents/AnimatedSlideUp';
-import {DeviceLightMode} from './types';
 import TextAnimator from './components/animatedComponents/TextAnimator';
 import {enText, links} from './utils/textConstants';
 import {useThemeObject} from './utils/getTheme';
 import {StyleSheet} from 'react-native';
 import LightMode from './components/LightMode';
 import AnalyticsSwitch from './components/AnalyticsSwitch';
+import {events} from './utils/analyticsConstants';
+import {useAnalyticsFlag, useTrack} from './utils/useAnalytics';
 
 const animatedSlideUpProps = {style: {width: '100%', height: '100%'}};
 
-export default function InfoScreen({
-  onPressCloseBtn,
-}: {
+type Props = {
   onPressCloseBtn: () => void;
-  changeAppLightMode: (mode: DeviceLightMode) => void;
-}) {
+};
+export default function InfoScreen({onPressCloseBtn}: Props) {
   const [isCloseClicked, setIsCloseClicked] = React.useState(false);
   const [animDirection, setAnimDirection] = React.useState<
     'forward' | 'reverse'
   >('forward');
   const [uuid] = React.useState<number>(Date.now());
+
+  const track = useTrack();
+  const analyticsFlag = useAnalyticsFlag();
+
+  React.useEffect(() => {
+    if (analyticsFlag) {
+      track(events.DICT_SCREEN_OPENED);
+    }
+  }, [analyticsFlag, track]);
 
   const handleOnPress = () => {
     setAnimDirection('reverse');

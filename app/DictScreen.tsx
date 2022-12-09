@@ -35,6 +35,12 @@ export default function DictScreen() {
   const track = useTrack();
   const analyticsFlag = useAnalyticsFlag();
 
+  React.useEffect(() => {
+    if (analyticsFlag) {
+      track(events.DICT_SCREEN_OPENED);
+    }
+  }, [analyticsFlag, track]);
+
   const isResultLoaded =
     animationFinished &&
     (similarResults.enList.size || exactResults.enList.size);
