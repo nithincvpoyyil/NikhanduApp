@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {Box, Flex} from 'native-base';
 import {Animated, Easing, StyleSheet} from 'react-native';
-import {useThemeObject} from '../../utils/getTheme';
+import {ThemeContext, useThemeObject} from '../../utils/getTheme';
 import {vStack1Props} from '../../NikhanduLandingScreenStyles';
 import AutoComplete from '../autoComplete/Autocomplete';
 import {LoadState} from '../../types';
+import getLogo from '../../utils/getLogo';
 
-const LogoImage = require('../../assets/images/LandingLogo.png');
 type Props = {
   isResultLoadingState: LoadState;
   searchDictionaryForWord: (query: string) => void;
@@ -30,11 +30,17 @@ export default function AnimatedUpperSection(props: Props) {
 
   const theme = useThemeObject();
   const bgStyle = {backgroundColor: theme.primaryBG};
+  const contextVars = React.useContext(ThemeContext);
+  const isBlack = getLogo(contextVars.theme) === 'black';
+  const LogoImage = isBlack
+    ? require('../../assets/images/LogoBlack.png')
+    : require('../../assets/images/LogoWhite.png');
 
   const animatedViewStyles = {
     height: iconSizeTransition,
     width: iconSizeTransition,
     margin: 1,
+    borderColor: isBlack ? '#000' : '#fff',
     transform: [
       {
         scale: fromZeroTransition.interpolate({
@@ -95,8 +101,7 @@ export default function AnimatedUpperSection(props: Props) {
           borderRadius={100}
           source={LogoImage}
           resizeMode="contain"
-          borderWidth={1}
-          style={{...animatedViewStyles}}
+          style={[{...animatedViewStyles}, {borderWidth: 1}]}
         />
         <Animated.Text
           style={[

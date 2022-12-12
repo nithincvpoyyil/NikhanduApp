@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Animated, StyleSheet} from 'react-native';
 import {ThemeKey} from '../types';
+import getLogo from '../utils/getLogo';
 import {getTheme} from '../utils/getTheme';
 
 export function WithSplashScreen({
@@ -43,6 +44,10 @@ const Splash = ({
   const imageOpacity = useRef(new Animated.Value(0)).current;
   const [state, setState] = useState<States>(LOADING_IMAGE);
   const themeObj = getTheme(theme);
+  const logoSrc =
+    getLogo(theme) === 'white'
+      ? require('../assets/images/LogoWhite.png')
+      : require('../assets/images/LogoBlack.png');
 
   useEffect(() => {
     if (state === FADE_IN_IMAGE) {
@@ -90,7 +95,7 @@ const Splash = ({
         {backgroundColor: themeObj.primaryBG},
       ]}>
       <Animated.Image
-        source={require('../assets/images/LandingLogo.png')}
+        source={logoSrc}
         fadeDuration={0}
         onLoad={() => {
           setState(FADE_IN_IMAGE);

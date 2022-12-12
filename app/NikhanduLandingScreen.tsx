@@ -3,7 +3,7 @@ import {NativeBaseProvider, Box} from 'native-base';
 import {MenuList} from './components/MenuList';
 import DictScreen from './DictScreen';
 import InfoScreen from './InfoScreen';
-import {getTheme, ThemeContext, useStoreTheme} from './utils/getTheme';
+import {ThemeContext, useStoreTheme} from './utils/getTheme';
 import {ThemeKey} from './types';
 import {useAnalytics, useAnalyticsFlag} from './utils/useAnalytics';
 import {events, MIXPANEL_TOKEN} from './utils/analyticsConstants';
