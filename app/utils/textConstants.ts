@@ -6,7 +6,7 @@ const enText =
 const analyticsDeclaration =
   "Our analytics code is only collecting information related to word searches & failures. We acknowledge that we're not collecting any personally identifiable information or sharing information with any 3rd party. If you are not okay with this, please turn it off.";
 const links = [
-  {key: 'Olam data dataset', link: 'https://olam.in/open/enml/'},
+  {key: 'Olam dataset', link: 'https://olam.in/open/enml/'},
   {key: 'Contributors', link: 'https://github.com/nithincvpoyyil'},
   {key: 'Github', link: 'https://github.com/nithincvpoyyil/nikhanduapp'},
 ];
