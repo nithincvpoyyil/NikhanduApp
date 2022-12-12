@@ -1,7 +1,5 @@
-# NikhanduApp
-
 <div align="center">
-  <h3 align="center">Nikhandu Malayalam - English Dictionary</h3>
+  <h1 align="center">Nikhandu Malayalam - English Dictionary</h1>
 </div>
 
 
