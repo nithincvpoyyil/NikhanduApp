@@ -91,7 +91,7 @@ export function getStyles(args: Args) {
   const suggestionListItemStyles: IBoxProps = {
     borderBottomWidth: 1,
     borderRadius: 1,
-    borderWidth: 1,
+
     borderBottomColor: theme.secondryBG,
     bg: theme.secondryBG,
     paddingLeft: 2,

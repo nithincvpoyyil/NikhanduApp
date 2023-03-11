@@ -66,13 +66,21 @@ export default function DictScreen() {
       clearResults();
       return;
     }
-
+    setIsResultLoadingState('loading');
     if (searchKey === key) {
+      const timeOutPromise = new Promise<void>(resolve => {
+        setTimeout(() => {
+          resolve();
+        }, 500);
+      });
+      timeOutPromise.then(() => {
+        setIsResultLoadingState('loaded');
+      });
       return;
     } else {
       setSearchKey(key);
     }
-    setIsResultLoadingState('loading');
+
     if (analyticsFlag) {
       track(events.SEARCH, {searchWord: key.toLowerCase()});
     }

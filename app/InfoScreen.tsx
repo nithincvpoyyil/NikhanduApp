@@ -92,14 +92,6 @@ export default function InfoScreen({onPressCloseBtn}: Props) {
             variant="outline"
             rounded="full"
             size="lg"
-            shadow={0}
-            style={[
-              styles.shadowProp,
-              {
-                shadowColor: theme.primaryText,
-                borderColor: `${theme.primaryText}4d`, //0.5 opacity
-              },
-            ]}
             onPress={handleOnPress}
             bg={theme.primaryBG}
             collapsable={true}

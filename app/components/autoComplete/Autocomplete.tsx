@@ -4,12 +4,16 @@ import {
   FlatList,
   IconButton,
   Input,
-  MoonIcon,
   PresenceTransition,
   SearchIcon,
 } from 'native-base';
 import * as React from 'react';
-import {ListRenderItemInfo, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  ActivityIndicator,
+  ListRenderItemInfo,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import {LoadState} from '../../types';
 import {getSuggestions} from '../../utils/DBHelper';
 import debounce from '../../utils/debounce';
@@ -17,12 +21,14 @@ import {useThemeObject} from '../../utils/getTheme';
 import {getStyles} from './AutocompleteStyles';
 import SuggestedListItem from './SuggestedListItem';
 
-export default function AutoComplete(props: {
+export type AutoCompleteProps = {
   onSearchTextSelected: (query: string) => void;
   resultLoadingState: LoadState;
   onQueryInvalid?: () => void;
   onInputFocus?: () => void;
-}) {
+};
+
+export default function AutoComplete(props: AutoCompleteProps) {
   const {
     resultLoadingState,
     onSearchTextSelected = () => null,
@@ -52,7 +58,6 @@ export default function AutoComplete(props: {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
-
   React.useEffect(() => {
     if (resultLoadingState !== 'loading') {
       setLoading(false);
@@ -65,6 +70,7 @@ export default function AutoComplete(props: {
     setSuggestions([]);
     onSearchTextSelected(query);
     setUUID(Date.now());
+    setLoading(true);
   };
 
   const onSearchHandler = (text: string) => {
@@ -111,19 +117,23 @@ export default function AutoComplete(props: {
   const inputRightLogo = (
     <IconButton
       onPress={onSearchKeyPressHandler}
-      icon={<SearchIcon />}
+      icon={showLoading ? <ActivityIndicator size="small" /> : <SearchIcon />}
       isDisabled={showLoading}
       {...inputIconBtnStyles}
     />
   );
+
   const renderListItem = React.useCallback(
-    (listItem: ListRenderItemInfo<string>) => (
-      <SuggestedListItem
-        listItem={listItem}
-        listStyle={suggestionListItemStyles}
-        onPressListItem={onPressListItem}
-      />
-    ),
+    (listItem: ListRenderItemInfo<string>) => {
+      return (
+        <SuggestedListItem
+          listItem={listItem}
+          listStyle={suggestionListItemStyles}
+          onPressListItem={onPressListItem}
+        />
+      );
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
@@ -144,14 +154,14 @@ export default function AutoComplete(props: {
       ) : null}
       <Input
         key={uuid}
-        placeholder="find your word..."
-        onChangeText={onSearchHandler}
-        variant="unstyled"
         InputRightElement={inputRightLogo}
         value={query}
+        onChangeText={onSearchHandler}
         onFocus={onFocus}
         onBlur={onBlur}
         isDisabled={showLoading}
+        variant="unstyled"
+        placeholder="find your word..."
         accessibilityLabel="search input for english word"
         accessibilityHint="type search keywords and press search button to find malayalam definition"
         returnKeyType="search"
@@ -159,6 +169,7 @@ export default function AutoComplete(props: {
         onSubmitEditing={onSearchKeyPressHandler}
         {...inputStyles}
       />
+
       {ifSuggestionsPresent ? (
         <PresenceTransition
           visible={true}
