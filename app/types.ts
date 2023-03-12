@@ -13,6 +13,7 @@ export type Theme = {
   darkColor2: string;
   lightColor1: string;
   lightColor2: string;
+  custom?: {switch: {thumbColor: string}};
 };
 
 export type ThemeKey =

@@ -1,6 +1,6 @@
 import {Theme, ThemeKey} from '../types';
 
-const defaultTheme = {
+const defaultTheme: Theme = {
   primaryBG: '#376AED',
   primaryText: '#ffffff',
   secondryBG: '#E6EAF1',
@@ -11,9 +11,10 @@ const defaultTheme = {
   darkColor2: '#2151CD',
   lightColor1: '#ffffff',
   lightColor2: '#ffffff',
+  custom: {switch: {thumbColor: '#083D77'}},
 };
 
-const indigo = {
+const indigo: Theme = {
   primaryBG: '#083D77',
   primaryText: '#C8E2F9',
   secondryBG: '#ecf5fd',
@@ -24,9 +25,10 @@ const indigo = {
   darkColor2: '#0C2D48',
   lightColor1: '#ffffff',
   lightColor2: '#ffffff',
+  custom: {switch: {thumbColor: '#376AED'}},
 };
 
-const green = {
+const green: Theme = {
   primaryBG: '#339989',
   primaryText: '#d4f8f4',
   secondryBG: '#D9F8C4',
@@ -37,9 +39,10 @@ const green = {
   darkColor2: '#56B38C',
   lightColor1: '#f1f1f1',
   lightColor2: '#ffffff',
+  custom: {switch: {thumbColor: '#0E4B81'}},
 };
 
-const yellow = {
+const yellow: Theme = {
   primaryBG: '#FFAD0A',
   primaryText: '#1c1c1c',
   secondryBG: '#FFEDC2',
@@ -50,6 +53,7 @@ const yellow = {
   darkColor2: '#063B4B',
   lightColor1: '#ffffff',
   lightColor2: '#ffffff',
+  custom: {switch: {thumbColor: '#ffffff'}},
 };
 
 const white: Theme = {
@@ -65,9 +69,10 @@ const white: Theme = {
   darkColor2: '#0C2D48',
   lightColor1: '#f6f5f5',
   lightColor2: '#FeFeFe',
+  custom: {switch: {thumbColor: '#FFAD0A'}},
 };
 
-const powersave = {
+const powersave: Theme = {
   primaryBG: '#222831',
   primaryText: '#eeeeee',
   secondryBG: '#fbfbfb',
@@ -78,6 +83,7 @@ const powersave = {
   lightColor2: '#3d3d3c',
   darkColor1: '#f9f6f7',
   darkColor2: '#f2f2f2',
+  custom: {switch: {thumbColor: '#FFAD0A'}},
 };
 
 export const themes: Record<ThemeKey, Theme> = {

@@ -33,36 +33,26 @@ export default function AnalyticsSwitch() {
   const theme = useThemeObject();
 
   return (
-    <VStack
-      borderWidth={1}
-      borderColor={themeObject.primaryText}
-      m={2}
-      padding={2}>
+    <VStack padding={2}>
       <HStack
         alignItems={'center'}
         justifyContent="flex-start"
         accessibilityHint="Change application theme by setting theme options below"
         flexWrap="wrap"
         width={'100%'}
-        paddingBottom={2}
+        paddingBottom={4}
         paddingTop={2}>
-        <Text
-          bold
-          color={themeObject.primaryText}
-          fontSize="sm"
-          mr={5}
-          maxWidth={'90%'}
-          flex={1}>
+        <Text bold color={themeObject.primaryText} fontSize="sm" mr={5}>
           Enable analytics
         </Text>
         <Switch
           value={selected}
           onToggle={onToggle}
+          borderWidth={2}
           borderColor={themeObject.primaryText}
-          borderWidth={1}
           offTrackColor={themeObject.primaryBG}
-          onTrackColor={`${themeObject.primaryText}80`}
-          offThumbColor={themeObject.primaryText}
+          onTrackColor={themeObject.primaryText}
+          thumbColor={themeObject.custom?.switch.thumbColor}
           size="md"
           minWidth={'10%'}
         />
@@ -81,7 +71,6 @@ export default function AnalyticsSwitch() {
 const styles = StyleSheet.create({
   text: {
     paddingTop: 4,
-    fontSize: 12,
   },
   wrapper: {
     justifyContent: 'flex-start',
