@@ -25,8 +25,8 @@ export default function LightMode() {
   const themeObject = useThemeObject();
 
   return (
-    <VStack alignItems={'flex-start'} justifyContent="flex-start" m={2}>
-      <Text color={themeObject.primaryText} fontSize="sm" mt={1} mb={5}>
+    <VStack m={2} marginTop={1} marginBottom={1}>
+      <Text color={themeObject.primaryText} fontSize="sm" mt={1} mb={3}>
         <Text bold>Change theme :</Text>
       </Text>
       <HStack

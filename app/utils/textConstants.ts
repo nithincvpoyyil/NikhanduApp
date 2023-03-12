@@ -4,11 +4,14 @@ const enText =
   "Nikhandu app is based on Olam's English-Malayalam dictionary dataset with over 100K+ Malayalam definitions for more than 50k+ English words. Please refer the links below for more information.";
 
 const analyticsDeclaration =
-  "Our analytics code is only collecting information related to word searches & failures. We acknowledge that we're not collecting any personally identifiable information or sharing information with any 3rd party. If you are not okay with this, please turn it off.";
+  'Our analytics code is only collecting information related to word searches & failures for improving the app. If you are not happy with this, please turn it off.';
+
 const links = [
-  {key: 'Olam dataset', link: 'https://olam.in/open/enml/'},
-  {key: 'Contributors', link: 'https://github.com/nithincvpoyyil'},
-  {key: 'Github', link: 'https://github.com/nithincvpoyyil/nikhanduapp'},
+  {key: 'Olam Dataset', link: 'https://olam.in/open/enml/'},
+  {
+    key: 'Author & Source code',
+    link: 'https://github.com/nithincvpoyyil/nikhanduapp',
+  },
 ];
 
 export {malayalamtext1, enText, links, analyticsDeclaration};

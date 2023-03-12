@@ -108,11 +108,11 @@ export default function InfoScreen({onPressCloseBtn}: Props) {
             key="open-close-icon"
           />
         </Flex>
-        <Flex width="100%" p={'3%'}>
+        <Flex width="100%" p="3%">
           <LightMode />
         </Flex>
         <ScrollView horizontal={false} width="100%" p={'3%'} flexGrow={1}>
-          <VStack alignItems={'flex-start'} justifyContent="flex-start" m={2}>
+          <VStack alignItems={'flex-start'} justifyContent="flex-start" m={1}>
             <AnalyticsSwitch />
             <Box
               borderBottomWidth={2}

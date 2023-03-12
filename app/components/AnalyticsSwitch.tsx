@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Text, HStack, Switch, Flex} from 'native-base';
+import {Text, HStack, Switch, Flex, VStack} from 'native-base';
 import {InterfaceVStackProps} from 'native-base/lib/typescript/components/primitives/Stack/VStack';
 import {useThemeObject} from '../utils/getTheme';
 import {setData} from '../utils/DataStore';
@@ -33,14 +33,27 @@ export default function AnalyticsSwitch() {
   const theme = useThemeObject();
 
   return (
-    <>
+    <VStack
+      borderWidth={1}
+      borderColor={themeObject.primaryText}
+      m={2}
+      padding={2}>
       <HStack
         alignItems={'center'}
         justifyContent="flex-start"
         accessibilityHint="Change application theme by setting theme options below"
-        m={2}>
-        <Text color={themeObject.primaryText} fontSize="sm" bold mr={5}>
-          Turn-{selected ? 'off' : 'on'} analytics
+        flexWrap="wrap"
+        width={'100%'}
+        paddingBottom={2}
+        paddingTop={2}>
+        <Text
+          bold
+          color={themeObject.primaryText}
+          fontSize="sm"
+          mr={5}
+          maxWidth={'90%'}
+          flex={1}>
+          Enable analytics
         </Text>
         <Switch
           value={selected}
@@ -51,24 +64,24 @@ export default function AnalyticsSwitch() {
           onTrackColor={`${themeObject.primaryText}80`}
           offThumbColor={themeObject.primaryText}
           size="md"
+          minWidth={'10%'}
         />
       </HStack>
 
-      <Flex m={2}>
-        <TextAnimator
-          content={analyticsDeclaration}
-          duration={200}
-          textStyle={{...styles.text, color: theme.primaryText}}
-          wrapperStyle={styles.wrapper}
-        />
-      </Flex>
-    </>
+      <TextAnimator
+        content={analyticsDeclaration}
+        duration={200}
+        textStyle={{...styles.text, color: theme.primaryText}}
+        wrapperStyle={styles.wrapper}
+      />
+    </VStack>
   );
 }
 
 const styles = StyleSheet.create({
   text: {
     paddingTop: 4,
+    fontSize: 12,
   },
   wrapper: {
     justifyContent: 'flex-start',
