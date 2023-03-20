@@ -1,9 +1,5 @@
-layout: page
-title: "Privacy policy"
-permalink: /NikhanduApp/PrivacyPolicy
 
-
-**Privacy Policy**
+*Privacy Policy*
 
 Nithin Chennichery Valappil built the Nikhandu App app as an Open Source app. This SERVICE is provided by Nithin Chennichery Valappil at no cost and is intended for use as is.
 
@@ -21,7 +17,7 @@ The app does use third-party services  that may collect information used to iden
 
 Link to the privacy policy of third-party service providers used by the app
 
-*   [Mixpanel](https://mixpanel.com/legal/privacy-policy/) - for analytics 
+*   [Mixpanel analytics](https://mixpanel.com/legal/privacy-policy/)
 
 
 **Security**
