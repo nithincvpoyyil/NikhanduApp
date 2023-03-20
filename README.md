@@ -15,9 +15,7 @@ It is completely offline, has the dataset with over 125,000 Malayalam definition
 
  @nithincvpoyyil
 
-## License
-
-Distributed under the MIT License.
+## Distributed under the MIT License
 
 Copyright 2023 Nithin Chennichery Valappil
 
