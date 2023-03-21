@@ -1,8 +1,9 @@
 
 
 # Privacy policy #
+### Last updated 22 March, 2023 ###
 
-Nithin Chennichery Valappil built the Nikhandu app as an Open Source app. This SERVICE is provided by Nithin Chennichery Valappil at no cost and is intended for use as is.
+`Nithin Chennichery Valappil` built the Nikhandu app as an Open Source app. This SERVICE is provided by Nithin Chennichery Valappil at no cost and is intended for use as is.
 
 This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service.
 
@@ -10,39 +11,48 @@ If you choose to use my Service, then you agree to the collection and use of inf
 
 The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, which are accessible at Nikhandu App unless otherwise defined in this Privacy Policy.
 
-## Information Collection and Use ##
+## INFORMATION WE COLLECT ##
 
 For a better experience, while using our Service, I may require you to provide us with certain personal data, including but not limited to Searched words, Device ID, IP address, Operating system, and device details. The collected data is only used to understand the about (but not limited to) word searches, frequently used words and search misses etc. The collected data is not used for any advertising or marketing purposes.
 
-User has full ability to disable the analytics using the `settings` page in the Nikhandu App and by default analytics option is enabled.
+We collect information, including personal data, when you use our Services. We collect this information when you search words or app opened. We also collect this information via certain software designed to interact with your mobile device. We use this information to improve our Services, and to develop new or enhanced versions of the Services.
 
-The app does use third-party services that may collect information used to identify you. Link to the privacy policy of third-party service providers used by the app,
+User has full ability to ** disable ** the analytics using switch button in the `settings` page, by default this option is enabled.
 
-*   [Mixpanel analytics](https://mixpanel.com/legal/privacy-policy/)
+The app does use third-party services that may collect information used for analytics. Link to the privacy policy of third-party service providers used by the app,
 
-List of events tracked by analytics,
-- Word search & status of search results
-- On Screen opened - Main & Settings screen
-- On opening of application
+*  Analytics -  [Mixpanel analytics](https://mixpanel.com/legal/privacy-policy/)
 
-## Security ##
+List of information collected by mixpanel analytics,
+
+- IP Address, Location, and Device Information. When you opened our app, some information is automatically collected. Mixpanel collect information about the type and language of the operating system (“OS”) running on your device, your internet protocol address (“IP Address”), the device type you used during your visit. We also collect information about the duration of users visit.
+- Word search & Search status
+- On screen opened - Search & Settings screen
+- On app opened
+
+
+## SECURITY ##
 
 I value your trust in providing us your Personal Information, thus we are striving to use commercially acceptable means of protecting it. But remember that no method of transmission over the internet, or method of electronic storage is 100% secure and reliable, and I cannot guarantee its absolute security.
 
-## Links to Other Sites ##
+## LINKS TO OTHER SITES ##
 
 This Service may contain links to other sites. If you click on a third-party link, you will be directed to that site. Note that these external sites are not operated by me. Therefore, I strongly advise you to review the Privacy Policy of these websites. I have no control over and assume no responsibility for the content, privacy policies, or practices of any third-party sites or services.
 
-## Children’s Privacy ##
+## CHILDREN’S PRIVACY ##
 
-These Services do not address anyone under the age of 13. I do not knowingly collect personally identifiable information from children under 13 years of age. In the case I discover that a child under 13 has provided me with personal information, I immediately delete this from our servers. If you are a parent or guardian and you are aware that your child has provided us with personal information, please contact me so that I will be able to do the necessary actions.
+These services are not intended for use by anyone under 13 years of age. If you are a parent or guardian of a child from whom you believe we have collected Personal Information in a manner prohibited by law, please contact us. If we learn that we have collected Personal Information through our Services from a child without the consent of the child’s parent or guardian as required by law, we will comply with applicable legal requirements to delete the information.
 
-## Changes to This Privacy Policy ##
+## CHANGES TO THIS PRIVACY POLICY ##
 
-I may update our Privacy Policy from time to time. Thus, you are advised to review this page periodically for any changes. I will notify you of any changes by posting the new Privacy Policy on this page.
+I may change this Privacy Statement from time to time to reflect changes in our offerings, how we collect, use, or disclose personal data, or applicable law. Thus, you are advised to review this page periodically for any changes. If we make any changes to this Privacy Statement, we will change the “Last Updated” date above. If we make any material changes, we will provide notice or obtain consent regarding such modifications as may be required by law.
 
-This policy is effective as of 2023-03-20
 
-## Contact Us ##
 
-If you have any questions or suggestions about my Privacy Policy, do not hesitate to contact me at dev.nithincv1@gmail.com.
+## HOW TO CONTACT US ##
+
+If you have any questions or suggestions about my Privacy Policy, do not hesitate to contact me at dev.nithincv1@gmail.com
+
+
+This policy is effective as of 22/03/2023
+
