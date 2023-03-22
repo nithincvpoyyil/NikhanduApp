@@ -17,7 +17,7 @@ For a better experience, while using our Service, I may require you to provide u
 
 We collect information, including personal data, when you use our Services. We collect this information when you search words or app opened. We also collect this information via certain software designed to interact with your mobile device. We use this information to improve our Services, and to develop new or enhanced versions of the Services.
 
-User has full ability to ** disable ** the analytics using switch button in the `settings` page, by default this option is enabled.
+User has full ability to **disable** the analytics using switch button in the `settings` page, by default this option is enabled.
 
 The app does use third-party services that may collect information used for analytics. Link to the privacy policy of third-party service providers used by the app,
 
