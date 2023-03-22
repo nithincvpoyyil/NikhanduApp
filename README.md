@@ -1,5 +1,5 @@
 <div align="center">
-  <h1 align="center">Nikhandu Malayalam - English Dictionary</h1>
+  <h1 align="center">Nikhandu: Lite English - Malayalam Offline Dictionary</h1>
 </div>
 
 
@@ -13,7 +13,7 @@ It is completely offline, has the dataset with over 125,000 Malayalam definition
 
 ## Contributers 
 
- @nithincvpoyyil
+- [Nithin](https://www.nithincv.in)
 
 ## Distributed under the MIT License
 
